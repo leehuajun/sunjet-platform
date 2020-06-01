@@ -1,0 +1,163 @@
+@import "variables";
+
+.z-tabbox-icon {
+  font-size: $tab-icon-font-size;
+  color: $tab-icon-color;
+  display: none;
+  min-height: $tab-icon-min-height;
+  border: none;
+  line-height: $tab-icon-line-height - 1px;
+  background: $tab-icon-bg;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  cursor: pointer;
+  z-index: 25;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.z-tabbox {
+  position: absolute;
+  top: 0px;
+  background-color: $tabbox-bg;
+  .z-tabbox-icon {
+    margin-top: 2px;
+    border-bottom: 2px solid rgb(73, 91, 121);
+  }
+  .z-tabs-content {
+    border-bottom-color: $tabbox-bg;
+    height: 100%;
+  }
+  .z-tabs {
+    height: 37px;
+    margin-top: 2px;
+    border-bottom: 2px solid $tree-row-selected-bg;
+
+  }
+  .z-tab:first-child {
+    margin-left: 20px;
+    //box-shadow:2px -1px 2px 0 rgba(0,0,0,.2) !important;
+    &.z-tab-selected {
+      border-right: 1px solid $default !important;
+      border-left: 1px solid $default !important;
+      border-top: 1px solid $default !important;
+      //box-shadow:1px -1px 3px 0 rgba(0,0,0,.3) !important;
+      box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12) !important;
+    }
+  }
+  .z-tab {
+
+    height: 38px;
+    border-right: 1px solid #b9c4d5 !important;
+    border-left: 1px solid #b9c4d5 !important;
+    border-top: 1px solid #b9c4d5 !important;
+    //-webkit-transition: all .3s ease;
+    //-moz-transition: all .3s ease;
+    //-o-transition: all .3s ease;
+    //transition: all .3s ease;
+    display: block;
+    padding: 0px;
+    margin-right: 2px;
+    line-height: $tab-line-height;
+    color: $tab-color;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: 0px;
+    //border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    float: left;
+    background: $tab-bg;
+    .z-tab-icon {
+      top: 40%;
+      width: $tab-icon-width;
+      height: $tab-icon-height;
+      color: $tab-color;
+      @include border-radius($tab-button-border-radius);
+      line-height: 15px;
+    }
+    .z-tab-icon:hover {
+      background-color: $tree-row-selected-bg;
+      color: $tab-selected-color;;
+      @include border-radius($tab-button-border-radius);
+    }
+    .z-tab-text {
+      color: $tab-color;
+      //line-height: 32px;
+      //-webkit-transition: all 0s ease;
+      //-moz-transition: all 0s ease;
+      //-o-transition: all 0s ease;
+      //transition: all 0s ease;
+    }
+  }
+
+  .z-tab-selected {
+    color: $tab-selected-color;
+    //font-weight: $tab-selected-font-weight;
+    background-color: $default;
+    //border: none !important;
+    border-right: 1px solid $default !important;
+    border-left: 1px solid $default !important;
+    border-top: 1px solid $default !important;
+    //box-shadow:1px -1px 3px 0 rgba(0,0,0,.3) ;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12) !important;
+    //-webkit-transition: all 0s ease;
+    //-moz-transition: all 0s ease;
+    //-o-transition: all 0s ease;
+    //transition: all 0s ease;
+    .z-tab-text, .z-tab-icon {
+      //font-weight: $tab-selected-font-weight;
+      background-color: $default;
+      color: $tab-selected-color;
+    }
+    .z-tab-icon:hover {
+      background-color: $tab-selected-icon-hover-bg;
+      color: $tab-selected-icon-hover-color;
+    }
+    .z-tab-content:hover {
+      text-decoration: none;
+    }
+  }
+
+  .z-tabpanel {
+    border: none;
+    overflow: hidden;
+    padding: 20px;
+    margin: 0px 0px;
+    background: #ececec;
+  }
+}
+
+.ntabbox {
+  background-color: #ffffff;
+  border-bottom: 1px solid $border-base;
+
+  .z-tabpanel {
+    border: 0;
+    background-color: $body-bg;
+    overflow: hidden;
+    padding: 0px 0px;
+    margin: 0px 0px;
+
+  }
+
+  .z-tab-selected {
+    border-left: 1px solid rgb(207, 207, 207);
+    border-right: 1px solid rgb(207, 207, 207);
+  }
+}
+
+.z-toolbar.z-toolbar-tabs {
+  color: #255359;
+  //font-weight: bold;
+  margin-top: 2px;
+  border-bottom: 2px solid $default;
+  height: 37px;
+}

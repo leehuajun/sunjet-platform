@@ -1,0 +1,948 @@
+<!-- 准入申请表单 -->
+<!--<window title="合作商准入申请" border="normal" width="1000px" height="600px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.agency.AgencyAdmitFormVM')"-->
+<!--onClose="spaceOwner.detach();">-->
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.agency.AgencyAdmitFormVM')"
+                  width="100%" height="100%">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true"
+                style="margin-bottom:15px;margin-right:0px">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <grid hflex="true" sclass="form-grid" oddRowSclass="none" style="margin-bottom:10px">
+                        <columns>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="合作商编号"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.code)"
+                                         readonly="@load(!vm.agencyAdmitRequestInfo.canEditCode)"/>
+                                <label value="合作商名称"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.name)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="电话"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.phone)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="传真"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.fax)"
+                                         readonly="@bind(vm.readonly)"/>
+                            </row>
+                            <row>
+                                <label value="地址"></label>
+                                <!--<cell colspan="3">-->
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.address)"
+                                         readonly="@load(vm.readonly)"/>
+                                <!--</cell>-->
+                                <label value="所在省"></label>
+                                <div>
+                                    <!--<listbox hflex="1" visible="@bind(vm.readonly eq false)"-->
+                                    <!--mold="select" sclass="no_empty"-->
+                                    <!--model="@load(vm.provinceInfos)"-->
+                                    <!--selectedItem="@load(vm.selectedProvince)"-->
+                                    <!--onSelect="@command('selectProvince',event=event)">-->
+                                    <!--<template name="model">-->
+                                    <!--<listitem left="1" label="@load(each.name)" value="@load(each)"-->
+                                    <!--selected="@load(vm.agencyAdmitRequestInfo.agencyInfo.provinceId eq each.objId)"-->
+                                    <!--&gt;</listitem>-->
+                                    <!--</template>-->
+                                    <!--</listbox>-->
+
+                                    <bandbox mold="rounded" autodrop="true" hflex="1" readonly="true"
+                                             buttonVisible="@load(!vm.readonly)"
+                                             value="@load(vm.agencyAdmitRequestInfo.agencyInfo.provinceName)">
+                                        <bandpopup width="150px" height="300px">
+                                            <vlayout hflex="1" vflex="1">
+                                                <grid style="border:none" vflex="1" model="@load(vm.provinceInfos)"
+                                                      emptyMessage="没有数据">
+                                                    <template name="model">
+                                                        <row onClick="@command('selectProvince',model=each)">
+                                                            <label value="@load(each.name)"/>
+                                                        </row>
+                                                    </template>
+                                                </grid>
+                                            </vlayout>
+                                        </bandpopup>
+                                    </bandbox>
+                                    <!--<textbox visible="@load(vm.readonly)" hflex="1" readonly="true" sclass="no_empty"-->
+                                    <!--value="@load(vm.agencyAdmitRequestInfo.agencyInfo.provinceName)"/>-->
+                                </div>
+                                <label value="市"></label>
+                                <div>
+                                    <!--<listbox hflex="1" visible="@bind(vm.readonly eq false)"-->
+                                    <!--mold="select" sclass="no_empty"-->
+                                    <!--model="@load(vm.cityInfos)"-->
+                                    <!--selectedItem="@load(vm.selectedCity)"-->
+                                    <!--onSelect="@command('selectCity',event=event)">-->
+                                    <!--<template name="model">-->
+                                    <!--<listitem left="1" label="@load(each.name)" value="@load(each)"-->
+                                    <!--selected="@load(vm.agencyAdmitRequestInfo.agencyInfo.cityId eq each.objId)"></listitem>-->
+                                    <!--</template>-->
+                                    <!--</listbox>-->
+                                    <bandbox mold="rounded" autodrop="true" hflex="1" readonly="true"
+                                             buttonVisible="@load(!vm.readonly)"
+                                             value="@load(vm.agencyAdmitRequestInfo.agencyInfo.cityName)">
+                                        <bandpopup width="150px" height="300px">
+                                            <vlayout hflex="1" vflex="1">
+                                                <grid style="border:none" vflex="1" model="@load(vm.cityInfos)"
+                                                      emptyMessage="没有数据">
+                                                    <template name="model">
+                                                        <row onClick="@command('selectCity',model=each)">
+                                                            <label value="@load(each.name)"/>
+                                                        </row>
+                                                    </template>
+                                                </grid>
+                                            </vlayout>
+                                        </bandpopup>
+                                    </bandbox>
+                                    <!--<textbox visible="@load(vm.readonly)" hflex="1" readonly="true" sclass="no_empty"/>-->
+                                </div>
+                                <label value="县/区"></label>
+                                <div>
+                                    <!--<listbox hflex="1" visible="@bind(vm.readonly eq false)"-->
+                                    <!--mold="select" sclass="no_empty"-->
+                                    <!--model="@load(vm.countyInfos)"-->
+                                    <!--selectedItem="@save(vm.selectedCounty)"-->
+                                    <!--onSelect="@command('selectCounty',event=event)">-->
+                                    <!--<template name="model">-->
+                                    <!--<listitem left="1" label="@load(each.name)" value="@load(each)"-->
+                                    <!--selected="@load(vm.agencyAdmitRequestInfo.agencyInfo.countyId eq each.objId)">-->
+                                    <!--</listitem>-->
+                                    <!--</template>-->
+                                    <!--</listbox>-->
+                                    <bandbox mold="rounded" autodrop="true" hflex="1" readonly="true"
+                                             buttonVisible="@load(!vm.readonly)"
+                                             value="@load(vm.agencyAdmitRequestInfo.agencyInfo.countyName)">
+                                        <bandpopup width="150px" height="300px">
+                                            <vlayout hflex="1" vflex="1">
+                                                <grid style="border:none" vflex="1" model="@load(vm.countyInfos)"
+                                                      emptyMessage="没有数据">
+                                                    <template name="model">
+                                                        <row onClick="@command('selectCounty',model=each)">
+                                                            <label value="@load(each.name)"/>
+                                                        </row>
+                                                    </template>
+                                                </grid>
+                                            </vlayout>
+                                        </bandpopup>
+                                    </bandbox>
+                                    <!--<textbox visible="@load(vm.readonly)" hflex="1" readonly="true"-->
+                                    <!--value="@load(vm.agencyAdmitRequestInfo.agencyInfo.countyName)"/>-->
+                                </div>
+                            </row>
+                            <row>
+                                <label value="营业执照号"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.businessLicenseCode)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="纳税人识别号"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.taxpayerCode)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="开户行"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.bank)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="银行帐号"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.bankAccount)"
+                                         readonly="@bind(vm.readonly)"/>
+                            </row>
+                            <row>
+                                <label value="组织机构代码"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.orgCode)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="税率"></label>
+                                <decimalbox value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.taxRate)"
+                                            hflex="1"
+                                            readonly="@bind(vm.readonly)"
+                                            sclass="no_empty"></decimalbox>
+                                <!--<label value="覆盖省份"></label>-->
+                                <!--<textbox value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.coverProvinces)" hflex="1"-->
+                                <!--readonly="@load(!vm.readonly)"-->
+                                <!--sclass="no_empty"></textbox>-->
+                                <label value="培训资料"></label>
+                                <div align="left">
+                                    <a target="_blank"
+                                       href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileTrain))"
+                                       label="查看"
+                                       visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileTrain)"/>
+                                    <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                            sclass="btn-default inner-button" upload="true,maxsize=10240"
+                                            onUpload="@command('doUploadFile',event=event,t='file23')"
+                                            visible="@load(vm.agencyAdmitRequestInfo.canUpload)"/>
+                                    <button iconSclass="@load(iconVariable.icon_delete)"
+                                            sclass="btn-danger inner-button" label=""
+                                            tooltiptext="删除" visible="@load(vm.agencyAdmitRequestInfo.canUpload)"
+                                            onClick="@command('delUploadFile',t='file23')"
+                                            style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                </div>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <tabbox sclass="ntabbox" hflex="true" vflex="true">
+                    <tabs>
+                        <tab label="人员信息"/>
+                        <tab label="场地信息(平方米)"/>
+                        <tab label="资质信息"/>
+                        <tab label="图片信息(附件)"/>
+                    </tabs>
+                    <tabpanels style="border-bottom:1px solid green">
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="true" sclass="form-grid" style="margin:5px;padding:5px">
+                                <columns>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="法人代表"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.legalPerson)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="法人电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.legalPersonPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="店长"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.shopManager)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="店长电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.shopManagerPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+
+                                    </row>
+                                    <row>
+                                        <label value="技术主管"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.technicalDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="技术主管电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.technicalDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="计划主管"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.planDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="计划主管电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.planDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+
+                                    </row>
+                                    <row>
+                                        <label value="配件主管"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.partDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="配件主管电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.partDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="财务经理"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.financeDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="财务经理电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.financeDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row>
+                                        <label value="员工总数(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.employeeCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="接待员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.receptionistCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="物流员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.logisticsClerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="库管员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.storeKeeperCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row>
+                                        <label value="开票制单员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.invoiceClerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="结算员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.clerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="true" sclass="form-grid" style="margin:5px;padding:5px;">
+                                <columns>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="办公室面积(m2)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.officeArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="配件库房面积(m2)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.storageArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="接待室面积(m2)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.receptionArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="液压叉车(台)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.forkliftCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row>
+                                        <label value="料架数量"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.shelfArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="库房结构"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.buildingStructure)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row>
+                                        <cell colspan="1">
+                                            <label value="拟供应我公司产品系列*"></label>
+                                        </cell>
+                                        <cell colspan="3">
+                                            <textbox hflex="1"
+                                                     readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                     value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.productsOfSupply)"/>
+                                        </cell>
+                                        <cell colspan="1">
+                                            <label value="还兼做哪些品牌的配件"></label>
+                                        </cell>
+                                        <cell colspan="3">
+                                            <textbox hflex="1"
+                                                     readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                     value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.otherBrand)"/>
+                                        </cell>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <columns>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="105px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="105px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="105px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="105px" label="图片" align="center"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="1" sclass="label-index"/>
+                                        <label value="维修资质"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileQualification))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileQualification)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t01')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t01')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="4" sclass="label-index"/>
+                                        <label value="企业组织架构及设置书"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileOrgChart))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileOrgChart)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t02')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t02')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                        </div>
+                                        <label value="7" sclass="label-index"/>
+                                        <label value="营业执照"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileBusinessLicense))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileBusinessLicense)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t03')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t03')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                        </div>
+                                        <label value="10" sclass="label-index"/>
+                                        <label value="合作商全貌图片"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileGlobal))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileGlobal)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t04')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t04')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="2" sclass="label-index"/>
+                                        <label value="税务登记证"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileTaxCertificate))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileTaxCertificate)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t05')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t05')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="5" sclass="label-index"/>
+                                        <label value="办公区图片"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileOffice))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileOffice)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t06')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t06')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="8" sclass="label-index"/>
+                                        <label value="银行开户许可证"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileBankAccountOpeningPermit))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileBankAccountOpeningPermit)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t07')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t07')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="11" sclass="label-index"/>
+                                        <label value="接待室图片"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileReceptionOffice))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileReceptionOffice)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t08')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t08')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="3" sclass="label-index"/>
+                                        <label value="开票信息"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileInvoiceInfo))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileInvoiceInfo)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t09')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t09')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="6" sclass="label-index"/>
+                                        <label value="配件库房图片"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.filePartStoreage))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.filePartStoreage)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t10')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t10')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="9" sclass="label-index"/>
+                                        <label value="人员登记证书"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.filePersonnelCertificate))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.filePersonnelCertificate)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t11')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t11')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="12" sclass="label-index"/>
+                                        <label value="地图位置"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileMap))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileMap)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t12')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t12')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <columns>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="设备名称" align="left"/>
+                                    <column width="60px" label="要求数量" align="center"/>
+                                    <column width="60px" label="实际数量" align="center"/>
+                                    <column width="70px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="设备名称" align="left"/>
+                                    <column width="60px" label="要求数量" align="center"/>
+                                    <column width="60px" label="实际数量" align="center"/>
+                                    <column width="70px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="设备名称" align="left"/>
+                                    <column width="60px" label="要求数量" align="center"/>
+                                    <column width="60px" label="实际数量" align="center"/>
+                                    <column width="70px" label="图片" align="center"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="1" sclass="label-index"/>
+                                        <label value="标准货架(1700*800*200)"/>
+                                        <label value="10" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.shelfCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileShelf))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileShelf)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t13')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t13')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="6" sclass="label-index"/>
+                                        <label value="定制货柜"/>
+                                        <label value="3" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.containerCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileContainer))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileContainer)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t15')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t15')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="10" sclass="label-index"/>
+                                        <label value="电脑(有网络)"/>
+                                        <label value="2" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.computerCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileComputer))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileComputer)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t14')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t14')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="2" sclass="label-index"/>
+                                        <label value="登高车(1200*600*1500)"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.ladderTruckCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileLadderTruck))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileLadderTruck)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t17')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t17')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="7" sclass="label-index"/>
+                                        <label value="堆高车"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.forkTruckCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileForkTruck))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileForkTruck)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t19')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t19')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="11" sclass="label-index"/>
+                                        <label value="电话"/>
+                                        <label value="2" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.telephoneCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileTelephone))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileTelephone)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t16')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t16')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="3" sclass="label-index"/>
+                                        <label value="小件容器(300*200*150)"/>
+                                        <label value="10" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.littleContainerCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileLittleContainer))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileLittleContainer)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t21')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t21')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="8" sclass="label-index"/>
+                                        <label value="零件铭牌"/>
+                                        <label value="400" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.partNameplateCount)"/>
+                                        <div align="left">
+                                            <!--<a target="_blank" href="@load('upload').concat(vm.agencyAdmitRequestInfo.agencyInfo.partNameplateCount)"-->
+                                            <!--label="查看" visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.partNameplateCount)"/>-->
+                                            <!--<button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)" sclass="btn-default inner-button"-->
+                                            <!--upload="true,maxsize=5120" onUpload="@command('doUploadFile',event=event,t='t23')"-->
+                                            <!--visible="@bind(!vm.readonly)"/>-->
+                                        </div>
+
+                                        <label value="12" sclass="label-index"/>
+                                        <label value="传真"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.faxCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileFax))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileFax)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t18')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t18')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="4" sclass="label-index"/>
+                                        <label value="手动打包机"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.packerCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.filePacker))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.filePacker)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t22')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t22')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="9" sclass="label-index"/>
+                                        <label value="货物标签卡"/>
+                                        <label value="1000" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.tagCardCount)"/>
+                                        <div align="left">
+                                            <!--<a target="_blank" href="@load('upload').concat(vm.agencyAdmitRequestInfo.agencyInfo.tagCardCount)"-->
+                                            <!--label="查看" visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.tagCardCount)"/>-->
+                                            <!--<button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)" sclass="btn-default inner-button"-->
+                                            <!--upload="true,maxsize=5120" onUpload="@command('doUploadFile',event=event,t='t25')"-->
+                                            <!--visible="@bind(!vm.readonly)"/>-->
+                                        </div>
+                                        <label value="13" sclass="label-index"/>
+                                        <label value="数码相机"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.cameraCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAdmitRequestInfo.agencyInfo.fileCamera))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.fileCamera)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t20')"
+                                                    visible="@bind(!vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t20')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="5" sclass="label-index"/>
+                                        <label value="库房灯光"/>
+                                        <label value="6" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyAdmitRequestInfo.agencyInfo.storeLampCount)"/>
+                                        <div align="left">
+                                            <!--<a target="_blank" href="@load('upload').concat(vm.agencyAdmitRequestInfo.agencyInfo.storeLampCount)"-->
+                                            <!--label="查看" visible="@bind(not empty vm.agencyAdmitRequestInfo.agencyInfo.storeLampCount)"/>-->
+                                            <!--<button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)" sclass="btn-default inner-button"-->
+                                            <!--upload="true,maxsize=5120" onUpload="@command('doUploadFile',event=event,t='t24')"-->
+                                            <!--visible="@bind(!vm.readonly)"/>-->
+                                        </div>
+                                        <label value="" sclass="label-index"/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+                <label style="color:red" hflex="1"
+                       value="*拟维修我公司产品系列是指维修我公司的产品系列：观光车系列、客车系列、校车系列、(柴油车需注明)货改车系列，如维修多种系列，请全部注明"/>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>
+        <!--</window>-->

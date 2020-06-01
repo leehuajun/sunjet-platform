@@ -1,0 +1,69 @@
+<!--
+系统管理>>数据字典
+-->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.DictionaryListVM')">
+
+    <center sclass="form-center">
+        <!--<vlayout width="100%" height="100%">-->
+        <!--<vlayout style="background:#FFF;height:100%;overflow-y:auto;border:0px solid black;">-->
+        <!--"z-tree","z-dottree","z-filetree","z-vfiletree"-->
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/list_toolbar.zul"/>
+            <tree
+                    model="@bind(vm.treeModel)"
+                    style="margin-bottom:10px;overflow-y:auto;border:1px solid rgb(220,220,220);border-top:2px solid #678cb1;"
+                    hflex="true" vflex="true">
+                <treecols>
+                    <treecol width="260px" label="名称" align="left"/>
+                    <treecol width="150px" label="代码" align="center"/>
+                    <treecol hflex="1" label="值" align="left"/>
+                    <treecol width="80px" label="状态" align="center"/>
+                    <treecol width="60px" label="操作" align="center"/>
+                </treecols>
+                <template name="model">
+                    <treeitem open="true" value="@load(each.data)">
+                        <treerow height="25px" style="border-bottom:1px solid rgb(248,248,248)">
+                            <treecell label="@load(each.data.name)"/>
+                            <!--<label value="${each.childCount}" class="badge badge-grey pull-right"-->
+                            <!--style="${'visibility:'.concat(each.childCount>0?'visible':'hidden')}"/>-->
+                            <!--</treecell>-->
+                            <treecell label="@load(each.data.code)"/>
+                            <treecell label="@load(each.data.value)"/>
+                            <treecell>
+                                <div hflex="1">
+                                    <label value="@load(each.data.enabled eq true ? '启用':'禁用' )"
+                                           style="@load(each.data.enabled eq true ? 'color:green;font-weight:700':'color:red;font-weight:700' )"/>
+                                </div>
+                            </treecell>
+                            <treecell>
+                                <!--<include src="/views/commons/grid_toolbar.zul"/>-->
+                                <hlayout>
+                                    <button iconSclass="@load(iconVariable.icon_edit)"
+                                            sclass="btn-success"
+                                            label=""
+                                            tooltiptext="修改"
+                                            onClick="@command('openForm',objId=each.data.objId,url=vm.formUrl,title=vm.title)"
+                                            style="align:right;padding-left:5px;padding-right:5px;"/>
+                                    <button iconSclass="@load(iconVariable.icon_delete)"
+                                            sclass="btn-danger"
+                                            label=""
+                                            tooltiptext="删除"
+                                            onClick="@command('deleteEntity',objId=each.data.objId)"
+                                            style="padding-left:5px;padding-right:5px;"/>
+                                </hlayout>
+                            </treecell>
+                        </treerow>
+                    </treeitem>
+                </template>
+
+                <!--<foot>-->
+                <!--<footer span="5">test</footer>-->
+                <!--</foot>-->
+            </tree>
+            <!--<label value="test" style="color:rgb(60,63,65)"></label>-->
+        </vlayout>
+
+    </center>
+</borderlayout>

@@ -1,0 +1,46 @@
+<!--
+基础管理 >>严寒省份设置列表
+-->
+<borderlayout apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.ProvinceListVM')">
+    <north sclass="c-north" style="padding-top:20px">
+        <div align="center">
+            <label value="说明:双击左右两列表的省份，增加或移除严寒省份" style="font-size:16px;color:red;text-align:center"/>
+        </div>
+    </north>
+    <center sclass="c-center"
+            style="padding-left:150px;padding-right:150px;padding-bottom:30px;padding-top:10px;background:#FFFFFF !important;">
+        <hlayout vflex="1" style="margin-top:10px">
+            <listbox hflex="true" vflex="true" sclass="list-grid"
+                     model="@load(vm.coldProvinces)"
+                     selectedItem="@bind(vm.coldProvince)">
+                <listhead>
+                    <listheader label="严寒省份" style="font-weight:700;font-size:18px;color:red"/>
+                </listhead>
+                <template name="model">
+                    <listitem label="@load(each.name)" value="@load(each)"
+                              onDoubleClick="@command('removeColdProvince')"/>
+                </template>
+            </listbox>
+            <vbox width="40px" style="margin-left: 7px;" vflex="true" align="center">
+                <button iconSclass="@load(iconVariable.icon_arrow_left)" sclass="btn-default " label=""
+                        if="${vm.enableAdd}"
+                        onClick="@command('addColdProvince')" style="font-size:20px"/>
+                <button iconSclass="@load(iconVariable.icon_arrow_right)" sclass="btn-default " label=""
+                        if="${vm.enableAdd}"
+                        onClick="@command('removeColdProvince')" style="font-size:20px"/>
+            </vbox>
+            <listbox hflex="true" vflex="true" sclass="list-grid"
+                     model="@load(vm.normalProvinces)"
+                     selectedItem="@bind(vm.normalProvince)">
+                <listhead>
+                    <listheader label="常规省份" style="font-weight:700;font-size:18px;color:green"/>
+                </listhead>
+                <template name="model">
+                    <listitem label="@load(each.name)" value="@load(each)"
+                              onDoubleClick="@command('addColdProvince')"/>
+                </template>
+            </listbox>
+        </hlayout>
+    </center>
+</borderlayout>

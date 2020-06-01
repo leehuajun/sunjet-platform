@@ -1,0 +1,131 @@
+<!--
+基础管理 >>配件查询
+-->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.PartSearchListVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <div sclass="form-grid">
+                <label value="查询条件:"></label>
+                <combobox width="160px" value="@bind(vm.selectCondition)"
+                          readonly="true"
+                          onSelect="@command('changeCondition')"
+                          model="@load(vm.selectConditionList )"
+                          style="margin-left: 19px;"
+                >
+                    <template name="model">
+                        <comboitem label="@load(each)" value="@load(each)"/>
+                    </template>
+                </combobox>
+            </div>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none" visible="@load(vm.showSelectOne)">
+                        <label value="配件名称:" visible="@load(vm.showSelectOne)"/>
+                        <textbox hflex="1" value="@bind(vm.partSearchInfo.partName)"/>
+                        <label value="配件代号:" visible="@load(vm.showSelectOne)"/>
+                        <textbox hflex="1" value="@bind(vm.partSearchInfo.partCode)"/>
+                        <label value="平台代号:" visible="@load(vm.showSelectOne)"/>
+                        <textbox hflex="1" value="@bind(vm.partSearchInfo.partCategoryPlatformCode)"/>
+                        <label value="车型代号:" visible="@load(vm.showSelectOne)"/>
+                        <textbox hflex="1" value="@bind(vm.partSearchInfo.vehicleModel)"/>
+                    </row>
+                    <row visible="@load(vm.showSelectTwo)">
+                        <label value="VIN:"/>
+                        <textbox hflex="1" value="@bind(vm.partSearchInfo.vin)"/>
+                    </row>
+                    <row visible="@load(vm.showSelectThree)">
+                        <label value="VSN:"/>
+                        <textbox hflex="1" value="@bind(vm.partSearchInfo.vsn)"/>
+                        <label value="生产时间:" visible="@load(vm.showSelectThree)"/>
+                        <datebox hflex="1" style="" readonly="true" value="@bind(vm.partSearchInfo.productionDate)"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <div sclass="include">
+                <div sclass="ctoolbars" xmlns="http://www.zkoss.org/2005/zul">
+                    <div sclass="ctoolbar" style="float:right">
+                        <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"
+                                label="查询"
+                                onClick="@command('refreshData')"></button>
+                        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                label="重置"
+                                onClick="@command('reset')"></button>
+                    </div>
+                </div>
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+                  mold="paging"
+                  pageSize="15"
+                  model="@load(vm.partSearchInfoList)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"></column>
+                    <column width="180px" label="配件名称" align="center"/>
+                    <column width="180px" label="配件代号" align="center"/>
+                    <column width="120px" label="车型" align="center"/>
+                    <column width="120px" label="配件分类-平台名称" align="center"/>
+                    <column width="120px" label="配件分类-平台代号" align="center"/>
+                    <column width="120px" label="配件分类-平台分类" align="center"/>
+                    <column width="120px" label="三包期-平台名称" align="center"/>
+                    <column width="120px" label="三包期-平台代号" align="center"/>
+                    <column width="120px" label="三包里程" align="center"/>
+                    <column width="120px" label="三包时间" align="center"/>
+                    <column width="120px" label="生效日期" align="center"/>
+                    <column width="120px" label="失效日期" align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <div align="left">
+                            <label value="@load(each.partName)" tooltiptext="@load(each.partName)"
+                                   style="color:rgb(78,116,149);font-weight:700"/>
+                        </div>
+                        <div align="left">
+                            <label value="@load(each.partCode)" tooltiptext="@load(each.partCode)"
+                                   style="color:rgb(78,116,149);font-weight:700"/>
+                        </div>
+                        <label value="@load(each.vehicleModel)" tooltiptext="@load(each.vehicleModel)"/>
+                        <label value="@load(each.partType)" tooltiptext="@load(each.partType)"/>
+                        <label value="@load(each.partCategoryPlatformName)"
+                               tooltiptext="@load(each.partCategoryPlatformName)"/>
+                        <label value="@load(each.partCategoryPlatformCode)"
+                               tooltiptext="@load(each.partCategoryPlatformCode)"/>
+                        <label value="@load(each.partCategoryPlatformCategory)"
+                               tooltiptext="@load(each.partCategoryPlatformCategory)"/>
+                        <label value="@load(each.platformName)" tooltiptext="@load(each.platformName)"/>
+                        <label value="@load(each.platformCode)" tooltiptext="@load(each.platformCode)"/>
+                        <label value="@load(each.warrantyTime)" tooltiptext="@load(each.warrantyTime)"/>
+                        <label value="@load(each.warrantyMileage)" tooltiptext="@load(each.warrantyMileage)"/>
+                        <label value="@load(each.effectiveDate)" tooltiptext="@load(each.effectiveDate)"/>
+                        <label value="@load(each.expirationDate)" tooltiptext="@load(each.expirationDate)"/>
+                    </row>
+                </template>
+
+            </grid>
+            <!--<paging-->
+            <!--pageSize="@bind(vm.pageResult.pageSize)"-->
+            <!--totalSize="@bind(vm.pageResult.total)"-->
+            <!--pageIncrement="1"-->
+            <!--detailed="true"-->
+            <!--activePage="@bind(vm.pageResult.page)"-->
+            <!--onPaging="@command('gotoPageNo',e=event)"-->
+            <!--style="border:0px"-->
+            <!--/>-->
+        </vlayout>
+    </center>
+</borderlayout>

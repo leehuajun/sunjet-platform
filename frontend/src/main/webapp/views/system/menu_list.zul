@@ -1,0 +1,99 @@
+<!-- 菜单管理 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.MenuListVM')">
+    <center hflex="true" vflex="true" sclass="form-center">
+        <!--<vlayout width="100%" height="100%">-->
+        <!--<vlayout style="background:#FFF;height:100%;overflow-y:auto;border:0px solid black;">-->
+        <!--"z-tree","z-dottree","z-filetree","z-vfiletree"-->
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/list_toolbar.zul"/>
+            <tree id="menuTree"
+                  model="@bind(vm.treeModel)"
+                  style="margin-bottom:10px;overflow-y:auto;border:1px solid rgb(220,220,220);border-top:2px solid #678cb1;"
+                  hflex="true" vflex="true">
+                <treecols>
+                    <treecol width="200px" label="名称"/>
+                    <!--<treecol hflex="2" label="图标" />-->
+                    <treecol width="60px" label="排序号" align="center"/>
+                    <treecol hflex="1" label="URL"/>
+                    <!--<treecol hflex="2" label="模块" align="center"/>-->
+                    <!--<treecol hflex="2" label="权限" align="center"/>-->
+                    <treecol width="200px" label="权限要求" align="center"/>
+                    <!--<treecol width="80px" label="展开/折叠" align="center"/>-->
+                    <treecol width="80px" label="启用/禁用" align="center"/>
+                    <treecol width="60px" label="操作" align="center"/>
+                </treecols>
+                <template name="model">
+                    <treeitem open="true" value="@load(each.data)">
+                        <treerow style="height:25px;border-bottom:1px solid rgb(248,248,248)">
+                            <treecell label="@load(each.data.name)" iconSclass="@load(each.data.icon)"/>
+                            <!--<treecell>-->
+                            <!--<div hflex="1" align="center">-->
+                            <!--<label value="@load(each.data.icon)"/>-->
+                            <!--</div>-->
+                            <!--</treecell>-->
+                            <treecell>
+                                <div hflex="1" align="center">
+                                    <label value="@load(each.data.seq)"/>
+                                </div>
+                            </treecell>
+                            <treecell label="@load(each.data.url)"/>
+                            <!--<treecell>-->
+                            <!--<div hflex="1" align="center"><label value="@load(each.data.moduleEntity.name)"/></div>-->
+                            <!--</treecell>-->
+                            <treecell>
+                                <div hflex="1" style="height:35px" align="center">
+                                    <label value="@load(each.data.permissionName)"/>
+                                </div>
+                            </treecell>
+                            <!--<treecell>-->
+                            <!--<div hflex="1" align="center">-->
+                            <!--<label value="@load(each.data.open eq true ? '展开':'折叠' )"-->
+                            <!--style="@load(each.data.open eq true ? 'color:green;font-weight:700':'color:red;font-weight:700' )"/>-->
+                            <!--</div>-->
+                            <!--</treecell>-->
+                            <treecell>
+                                <div hflex="1" align="center">
+                                    <label value="@load(each.data.enabled eq true ? '启用':'禁用' )"
+                                           style="@load(each.data.enabled eq true ? 'color:green;font-weight:700':'color:red;font-weight:700' )"/>
+                                </div>
+                            </treecell>
+                            <treecell>
+                                <!--<div align="center" width="100%">-->
+                                <!--<hbox>-->
+                                <!--<span style="color:green;font-size:16px" class="z-icon-edit" tooltiptext="编辑"-->
+                                <!--onClick="@command('editEntity',model=each.data)"/>-->
+                                <!--<separator spacing="5px"/>-->
+                                <!--<span  style="color:red;font-size:16px" class="z-icon-trash-o"-->
+                                <!--tooltiptext="删除" onClick="@command('deleteEntity',model=each)"/>-->
+                                <!--</hbox>-->
+                                <!--&lt;!&ndash;<a style="color:green" id="update_${each.objId}" iconSclass="z-icon-edit" tooltiptext="编辑" href="#" onClick='alert(self.iconSclass)'/>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<a style="color:red" id="delete_${each.objId}" iconSclass="z-icon-trash-o" tooltiptext="删除" href="#" onClick='alert(self.id)'/>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<image src="images/toolbar/${vm.themeName}/edit.png" onClick='alert(self.src)'/>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<image src="images/toolbar/${vm.themeName}/delete.png" onClick='alert(self.src)'/>&ndash;&gt;-->
+                                <!--</div>-->
+                                <hlayout>
+                                    <button iconSclass="@load(iconVariable.icon_edit)"
+                                            sclass="btn-success"
+                                            label="" tooltiptext="修改"
+                                            onClick="@command('openForm',objId=each.data.objId,url=vm.formUrl,title=vm.title)"
+                                            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                                    <button iconSclass="@load(iconVariable.icon_delete)"
+                                            sclass="btn-danger" label="" tooltiptext="删除"
+                                            onClick="@command('deleteEntity',objId=each.data.objId)"
+                                            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                                </hlayout>
+                                <!--<include src="/views/macros/tree_toolbar.zul"/>-->
+                            </treecell>
+
+
+                            <!--image="${each.data.icon eq ''?'':'images/menu/'.concat(vm.getThemeName()).concat('/').concat(each.data.icon)}"-->
+                            <!--/>-->
+                        </treerow>
+                    </treeitem>
+                </template>
+            </tree>
+        </vlayout>
+    </center>
+</borderlayout>

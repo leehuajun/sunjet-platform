@@ -1,0 +1,22 @@
+.error_code {
+    color: #F00;
+    font-size: 150px;
+}
+
+.error_label {
+    color: #505050
+}
+
+.mtop {
+    margin-top: 150px
+}
+
+a:link {
+    color: #06C;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #06C;
+    text-decoration: none;
+}

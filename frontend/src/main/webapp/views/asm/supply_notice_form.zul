@@ -1,0 +1,296 @@
+<!-- 调拨申请单 表单 -->
+<!--<window title="调拨通知单" border="normal" width="0px" height="0px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.supply.SupplyNoticeFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--onClientInfo="@command('checkClientInfo',evt=event)">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.supply.SupplyNoticeFormVM')">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout width="100%" height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin:0;padding:0">
+                        <columns>
+                            <column width="90px"></column>
+                            <column hflex="1"></column>
+                            <column width="90px"></column>
+                            <column hflex="1"></column>
+                            <column width="100px"></column>
+                            <column hflex="1"></column>
+                            <column width="90px"></column>
+                            <column hflex="1"></column>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="单据类型"/>
+                                <textbox value="调拨通知" hflex="1" tabindex="1" readonly="true"/>
+                                <label value="单据编号"/>
+                                <textbox value="@load(vm.supplyNoticeRequest.docNo)" hflex="1" tabindex="4"
+                                         readonly="true"/>
+                                <label value="状态"/>
+                                <textbox value="@load(vm.getStatusName(vm.supplyNoticeRequest.status))" hflex="1"
+                                         tabindex="4" readonly="true"/>
+                                <label value="创建时间"/>
+                                <textbox value="@bind(vm.supplyNoticeRequest.createdTime)" hflex="1" tabindex="4"
+                                         readonly="true"/>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="服务站编号"></label>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         buttonVisible="@load(!vm.readonly)"
+                                         value="@load(vm.supplyNoticeRequest.dealerCode)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="清除" sclass="btn-warning"
+                                                        onClick="@command('clearSelectedDealer')"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="服务站编号"/>
+                                                    <column hflex="2" label="服务站名称"/>
+                                                    <!--<column hflex="1" label="省份"/>-->
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectDealer',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="服务站名称"></label>
+                                <textbox value="@bind(vm.supplyNoticeRequest.dealerName)" hflex="1" readonly="true"/>
+                                <label value="省份"/>
+                                <textbox value="@bind(vm.supplyNoticeRequest.provinceName)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="经办人"/>
+                                <textbox value="@bind(vm.supplyNoticeRequest.submitterName)" hflex="1" tabindex="6"
+                                         readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="收货人"/>
+                                <textbox value="@bind(vm.supplyNoticeRequest.receive)" hflex="1" tabindex="5"
+                                         readonly="vm.readonly"/>
+                                <label value="联系电话"/>
+                                <textbox value="@bind(vm.supplyNoticeRequest.operatorPhone)" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="来源类型"/>
+                                <textbox value="@bind(vm.supplyNoticeRequest.srcDocType)" hflex="1" tabindex="5"
+                                         readonly="true"/>
+                                <label value="来源单号"/>
+                                <div>
+                                    <textbox value="@bind(vm.supplyNoticeRequest.srcDocNo)" hflex="1" tabindex="5"
+                                             readonly="true"/>
+                                    <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-success" label=""
+                                            visible="@load(vm.supplyNoticeRequest.srcDocNo eq null ? false:true)"
+                                            tooltiptext="查看来源单据详情"
+                                            onClick="@command('openSrcDocForm')"
+                                            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                                </div>
+
+
+                            </row>
+                            <row>
+                                <label value="质量速报编号"/>
+                                <div>
+                                    <textbox value="@bind(vm.warrantyMaintenanceInfo.qualityReportDocNo)" hflex="1"
+                                             tabindex="5"
+                                             readonly="true"/>
+                                    <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-success" label=""
+                                            visible="@load(vm.warrantyMaintenanceInfo.qualityReportDocNo eq null ? false:true)"
+                                            tooltiptext="查看来源单据详情"
+                                            onClick="@command('openSrcQualityReportForm')"
+                                            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                                </div>
+
+                                <label value="费用速报编号"/>
+                                <div>
+                                    <textbox value="@bind(vm.warrantyMaintenanceInfo.expenseReportDocNo)" hflex="1"
+                                             tabindex="5"
+                                             readonly="true"/>
+                                    <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-success" label=""
+                                            visible="@load(vm.warrantyMaintenanceInfo.expenseReportDocNo eq null ? false:true)"
+                                            tooltiptext="查看来源单据详情"
+                                            onClick="@command('openSrcExpenseReportForm')"
+                                            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                                </div>
+
+                                <label value="收货地址" hflex="1"></label>
+                                <cell colspan="1">
+                                    <textbox hflex="1"
+                                             value="@bind(vm.supplyNoticeRequest.dealerAdderss)"></textbox>
+                                </cell>
+                                <label value="质保经销商" hflex="1"></label>
+                                <textbox hflex="1"
+                                         readonly="true"
+                                         value="@bind(vm.supplyNoticeRequest.agencyName)"></textbox>
+                            </row>
+                            <row>
+                                <label value="备注" hflex="1"></label>
+                                <cell colspan="7">
+                                    <textbox maxlength="200" hflex="1" rows="2"
+                                             value="@bind(vm.supplyNoticeRequest.comment)"></textbox>
+                                </cell>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <groupbox>
+                    <grid oddRowSclass="none" sclass="form-grid" style="margin-top:0px">
+                        <columns>
+                            <column width="90px"></column>
+                            <column hflex="1"></column>
+                            <column width="90px"></column>
+                            <column hflex="1"></column>
+                            <column width="100px"></column>
+                            <column hflex="1"></column>
+                            <column width="90px"></column>
+                            <column hflex="1"></column>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="VIN"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.vin)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="VSN"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.vsn)" hflex="1"
+                                         tabindex="6"
+                                         readonly="true"/>
+                                <label value="经销商"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.seller)" hflex="1"
+                                         tabindex="7"
+                                         readonly="true"/>
+                                <label value="车型型号"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.vehicleModel)"
+                                         hflex="1"
+                                         tabindex="8"
+                                         readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="生产日期"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.manufactureDate)"
+                                         hflex="1"
+                                         tabindex="7"
+                                         readonly="true"/>
+                                <label value="购买日期"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.purchaseDate)"
+                                         hflex="1"
+                                         tabindex="7"
+                                         readonly="true"/>
+                                <label value="发动机型号"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.engineModel)"
+                                         hflex="1"
+                                         tabindex="7"
+                                         readonly="true"/>
+                                <label value="出厂日期"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.productDate)"
+                                         hflex="1"
+                                         tabindex="7"
+                                         readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="行驶里程"/>
+                                <textbox value="@bind(vm.warrantyMaintenanceVehicle.mileage)" hflex="1"
+                                         tabindex="5"
+                                         readonly="true"/>
+                                <label value="车牌号"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.plate)" hflex="1"
+                                         tabindex="7"
+                                         readonly="true"/>
+                                <label value="发动机/电动机号"/>
+                                <textbox value="@load(vm.warrantyMaintenanceVehicle.engineNo)" hflex="1"
+                                         tabindex="6"
+                                         readonly="true"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <toolbar sclass="nav_toolbar" style="background:#fff;">
+                    <button sclass="btn-default" label="添加物料" onClick="@command('addItemModel')"
+                            if="${vm.supplyNoticeRequest.srcDocNo eq null?true:false}"/>
+                </toolbar>
+                <grid hflex="true" vflex="true" sclass="list-grid"
+                      model="@bind(vm.supplyNoticeRequest.supplyNoticeItemInfos)">
+                    <columns sizable="true">
+                        <column width="30px" label="行号" align="center"/>
+                        <column hflex="2" label="配件件号" align="center"/>
+                        <column hflex="3" label="配件名称" align="center"/>
+                        <column hflex="1" label="单位" align="center"/>
+                        <column hflex="1" label="三包时间" align="center"/>
+                        <column hflex="1" label="三包里程" align="center"/>
+                        <column width="80px" label="需求数量" align="center"/>
+                        <column width="120px" label="要求到货时间" align="center"/>
+                        <column width="80px" label="已分配数量" align="center"/>
+                        <column hflex="3" label="备注" align="center"/>
+                        <column width="40px" label="操作" align="center"/>
+                    </columns>
+                    <template name="model">
+                        <row onClick="@command('selectSupplyNoticePart',model=each)">
+                            <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                            <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                     buttonVisible="vm.readonly"
+                                     value="@load(each.partCode)">
+                                <bandpopup width="300px" height="300px">
+                                    <vlayout hflex="1" vflex="1">
+                                        <textbox value="@bind(vm.keyword)" hflex="1"
+                                                 placeholder="输入关键字..回车搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchParts')"/>
+                                        <grid style="border:none" vflex="1" model="@load(vm.parts)"
+                                              emptyMessage="没有数据">
+                                            <columns>
+                                                <column hflex="1" label="零件编号"/>
+                                                <column hflex="1" label="零件名称"/>
+                                                <column width="80px" label="计量单位"/>
+                                            </columns>
+                                            <template name="model">
+                                                <row onClick="@command('selectPart',model=each)">
+                                                    <label value="@load(each.code)"/>
+                                                    <label value="@load(each.name)"/>
+                                                    <label value="@load(each.unit)"/>
+                                                </row>
+                                            </template>
+                                        </grid>
+                                    </vlayout>
+                                </bandpopup>
+                            </bandbox>
+                            <label value="@load(each.partName)"/>
+                            <label value="@load(each.part.unit)"/>
+                            <label value="@load(each.warrantyTime)"/>
+                            <label value="@load(each.warrantyMileage)"/>
+                            <decimalbox format="###.##" width="76px" value="@bind(each.requestAmount)"
+                                        readonly="true"/>
+                            <datebox hflex="1" value="@bind(each.arrivalTime)" readonly="true"
+                                     buttonVisible="@load(!vm.readonly)" format="medium"/>
+                            <label value="@load(each.sentAmount)"/>
+                            <textbox hflex="1" value="@bind(each.comment)" readonly="@load(vm.readonly)"></textbox>
+                            <button width="50px" iconSclass="@load(iconVariable.icon_delete)"
+                                    sclass="btn-danger inner-button"
+                                    if="${vm.supplyNoticeRequest.srcDocNo eq null?true:false}"
+                                    onClick="@command('deleteItem',model=each)">
+                            </button>
+
+                        </row>
+                    </template>
+                </grid>
+
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

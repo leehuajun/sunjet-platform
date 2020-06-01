@@ -1,0 +1,197 @@
+<!-- 用户项编辑页面 -->
+<!--<window title="@load('用户信息')" border="normal" width="600px" height="500px"-->
+<!--sizable="false"-->
+<!--style="margin:20px;padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.UserFormVM')"-->
+<!--validationMessages="@id('vmsgs')">-->
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.UserFormVM')"
+                  validationMessages="@id('vmsgs')"
+                  width="100%" height="100%">
+        <center sclass="form-center">
+            <vlayout height="100%" style="position:relative">
+                <div sclass="include">
+                    <button label="保存" iconSclass="@load(iconVariable.icon_save)" tabindex="10"
+                            sclass="btn-default "
+                            onClick="@command('submit')"/>
+                    <!--<button label="重置" iconSclass="z-icon-refresh" style="width:80px;height:25px;" tabindex="8"-->
+                    <!--sclass="btn-default "-->
+                    <!--onClick="alert(self.sclass)"/>-->
+                </div>
+                <hlayout hflex="1" vflex="1">
+                    <groupbox vflex="1">
+                        <grid oddRowSclass="none" width="300px" sclass="form-grid" style="margin-right:20px">
+                            <columns>
+                                <column hflex="1"></column>
+                                <column hflex="2"></column>
+                            </columns>
+                            <rows>
+                                <row style="border:none;height:40px">
+                                    <label value="姓名" style="text-align:left;align:center;pack:left"/>
+                                    <!--</vbox>-->
+                                    <!--<vbox align="start" pack="center">-->
+                                    <textbox value="@bind(vm.userInfo.name)"
+                                             hflex="1" tabindex="1"
+                                             style="align:center;pack:left"
+                                             placeholder="姓名不少于2个字"/>
+                                </row>
+                                <row style="border:none;height:40px">
+                                    <label value="登录名" style="text-align:left;align:center;pack:left"/>
+                                    <textbox value="@bind(vm.userInfo.logId)"
+                                             hflex="1" tabindex="2" readonly="@load(vm.readonly)"
+                                             style="align:center;pack:left"
+                                             placeholder="登录名不少于四个字"/>
+                                </row>
+                                <row style="border:none;height:40px" if="${!vm.readonly}">
+                                    <label value="密码" style="text-align:left;align:center;pack:left"/>
+                                    <textbox value="@bind(vm.userInfo.password)"
+                                             type="password"
+                                             hflex="1" tabindex="3" style="align:center;pack:left"/>
+                                </row>
+                                <row if="${!vm.readonly}">
+                                    <!--<div></div>-->
+                                    <!--<div style="font-size:8px; color:red;">-->
+
+                                    <!--</div>-->
+                                    <cell colspan="2">
+                                        <label style="font-size:9px; color:red;"
+                                               value="提示:6 -16字符组成， 应包含字母大、小写、数字或特殊字符（_!@#%）"></label>
+                                    </cell>
+                                    <!--<label style="font-size:9px; color:red;">包含字母大、小写、数字或特殊字符（_!@#%）</label>-->
+
+                                </row>
+                                <!--<row>-->
+                                <!--<label></label>-->
+                                <!--<label style="font-size:10px; color:red;">、数字或特殊字符（_!@#%）</label>-->
+                                <!--</row>-->
+                                <row style="border:none;height:40px" if="${!vm.readonly}">
+                                    <label value="密码确认" style="text-align:left;align:center;pack:left"/>
+                                    <textbox value="@bind(vm.passwordConfirm)" type="password"
+                                             hflex="1" tabindex="4" style="align:center;pack:left"/>
+                                </row>
+                                <row/>
+                                <row style="border:none;height:40px">
+                                    <label value="电话" style="text-align:left;align:center;pack:left"/>
+                                    <textbox value="@bind(vm.userInfo.phone)"
+                                             hflex="1" maxlength="15" tabindex="5"
+                                             style="align:center;pack:left"/>
+                                </row>
+                                <row style="border:none;height:40px">
+                                    <label value="E-mail" style="text-align:left;align:center;pack:left"/>
+                                    <textbox value="@bind(vm.userInfo.email)"
+                                             hflex="1" maxlength="35" tabindex="5"
+                                             style="align:center;pack:left"/>
+                                </row>
+                                <row style="border:none;height:40px">
+                                    <label value="用户类型" style="text-align:left;align:center;pack:left"/>
+                                    <listbox mold="select" hflex="1" tabindex="6"
+                                             disabled="@load(vm.readonly)"
+                                             selectedItem="@bind(vm.userInfo.userType)"
+                                             onSelect="@command('checkUserType')">
+                                        <listitem label="五菱工业公司用户" value="wuling" selected="true"
+                                                  if="${vm.wulinType}"></listitem>
+                                        <listitem label="服务站用户" value="dealer" if="${vm.dealerType}"></listitem>
+                                        <listitem label="合作商用户" value="agency" if="${vm.agencyType}"></listitem>
+                                    </listbox>
+                                </row>
+                                <row style="border:none;height:40px">
+                                    <label value="所属服务站" style="text-align:left;align:center;pack:left"/>
+                                    <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true" tabindex="7"
+                                             buttonVisible="@load(vm.userInfo.userType eq 'dealer')"
+                                             value="@load(vm.userInfo.dealer.name)">
+                                        <bandpopup width="300px" height="300px">
+                                            <vlayout hflex="1" vflex="1">
+                                                <hlayout>
+                                                    <textbox value="@bind(vm.keywordDealer)" hflex="1"
+                                                             placeholder="输入关键字..按Enter键搜索" sclass="input-prepend"
+                                                             onOK="@command('searchDealer')" style="margin-bottom:2px"/>
+                                                    <button label="查询" sclass="btn-default"
+                                                            onClick="@command('searchDealer')"/>
+                                                </hlayout>
+                                                <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                      emptyMessage="没有数据">
+                                                    <columns>
+                                                        <column hflex="1" label="服务站编码"/>
+                                                        <column hflex="2" label="服务站名称"/>
+                                                    </columns>
+                                                    <template name="model">
+                                                        <row onClick="@command('selectDealer',model=each)">
+                                                            <label value="@load(each.code)"/>
+                                                            <label value="@load(each.name)"/>
+                                                        </row>
+                                                    </template>
+                                                </grid>
+                                            </vlayout>
+                                        </bandpopup>
+                                    </bandbox>
+                                </row>
+                                <row style="border:none;height:40px">
+                                    <label value="所属合作商" style="text-align:left;align:center;pack:left"/>
+                                    <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true" tabindex="8"
+                                             buttonVisible="@load(vm.userInfo.userType eq 'agency')"
+                                             value="@load(vm.userInfo.agency.name)">
+                                        <bandpopup width="300px" height="300px">
+                                            <vlayout hflex="1" vflex="1">
+                                                <hlayout>
+                                                    <textbox value="@bind(vm.keywordAgency)" hflex="1"
+                                                             placeholder="输入关键字..按Enter键搜索" sclass="input-prepend"
+                                                             onOK="@command('searchAgence')" style="margin-bottom:2px"/>
+                                                    <button label="查询" sclass="btn-default"
+                                                            onClick="@command('searchAgence')"/>
+                                                </hlayout>
+                                                <grid style="border:none" vflex="1" model="@load(vm.agencies)"
+                                                      emptyMessage="没有数据">
+                                                    <columns>
+                                                        <column hflex="1" label="合作商编码"/>
+                                                        <column hflex="2" label="合作商名称"/>
+                                                    </columns>
+                                                    <template name="model">
+                                                        <row onClick="@command('selectAgency',model=each)">
+                                                            <label value="@load(each.code)"/>
+                                                            <label value="@load(each.name)"/>
+                                                        </row>
+                                                    </template>
+                                                </grid>
+                                            </vlayout>
+                                        </bandpopup>
+                                    </bandbox>
+                                </row>
+                                <row style="border:none;height:30px">
+                                    <label value="" style="text-align:left;align:center;pack:left"/>
+                                    <label value="" style="text-align:left;align:center;pack:left"/>
+                                </row>
+                                <row style="border:none;height:40px">
+                                    <label value="状态:" style="text-align:left;align:center;pack:left"/>
+                                    <!--<checkbox id="chk_enabled" checked="@bind(vm.userInfo.enabled)" tabindex="4" style="color:darkblue"/>-->
+                                    <!--<label  style="color:rgb(78,116,149);font-weight:700;cursor:hand" value="启用"/>-->
+                                    <vlayout>
+                                        <checkbox label="启用" checked="@bind(vm.userInfo.enabled)"
+                                                  tabindex="9"/>
+                                    </vlayout>
+                                </row>
+                            </rows>
+                        </grid>
+                    </groupbox>
+                    <listbox tabindex="6" hflex="1" vflex="1" style="background:#fff;position:absolute"
+                             model="@load(vm.entityWrappers)"
+                             multiple="true"
+                             checkmark="true"
+                             selectedItems="@bind(vm.entityWrapperSelectedItems)">
+                        <listhead>
+                            <listheader label="角色" style="font-weight:700"/>
+                        </listhead>
+                        <template name="model">
+                            <listitem label="@load(vm.formatRoles(each.entity))"
+                                      value="@load(vm.formatRoles(each.entity))"
+                                      selected="@bind(each.selected)">
+                                <!--<listcell label="@load(each.roleEntity)" />-->
+                            </listitem>
+                        </template>
+                    </listbox>
+                </hlayout>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

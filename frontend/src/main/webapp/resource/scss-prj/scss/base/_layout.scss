@@ -1,0 +1,263 @@
+@import "variables";
+
+.custom-borderlayout {
+  //min-width: 1000px;
+  //min-height: 600px;
+}
+
+.z-borderlayout-icon {
+  font-size: 20px;
+  width: 30px;
+  color: #666;
+  height: 38px;
+  line-height: 38px;
+}
+
+.z-east-splitter, .z-west-splitter, .z-north-splitter, .z-south-splitter {
+  width: $layout-splitter-width;
+  height: $layout-splitter-height;
+  background: $layout-splitter-bg;
+  /*background: rgb(227,227,227);*/
+  position: absolute;
+  overflow: hidden;
+  cursor: e-resize;
+}
+
+.z-north-noborder, .z-south-noborder, .z-west-noborder, .z-center-noborder, .z-east-noborder {
+  border: 0;
+}
+
+.z-west-header {
+  line-height: $layout-region-header-height !important;
+  position: relative !important;
+  text-align: center !important;
+  //background: #ebeff2 !important;
+  background: $siderbar !important;
+  color: $tree-row-selected-bg !important;
+
+}
+
+.z-north-header, .z-south-header, .z-west-header, .z-center-header, .z-east-header {
+  //font-family: 'Helvetica Neue",Helvetica,Arial,sans-serif';
+  font-size: $layout-region-header-font-size;
+  font-weight: $layout-region-header-font-weight;
+  font-style: $layout-region-header-font-style;
+  color: $layout-region-header-color;
+  height: $layout-region-header-height;
+  border-bottom: 1px solid $layout-region-header-border;
+  padding: 1px 5px 1px;
+  //line-height: $layout-region-header-height;
+  background: #e3e3e3;
+  overflow: hidden;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.z-north-header, .z-south-header, .z-center-header, .z-east-header {
+  //line-height: 25px;
+  height: 25px;
+}
+
+//.z-north-header, .z-south-header, .z-west-header, .z-center-header, .z-east-header {
+//    font-size: 15px;
+//    font-weight: bold;
+//    font-style: normal;
+//    color: #555555;
+//    height: 30px;
+//    border-bottom: 1px solid #e3e3e3;
+//    padding: 5px 4px 3px;
+//    line-height: 38px;
+//    background: #e3e3e3;
+//    overflow: hidden;
+//    cursor: default;
+//    white-space: nowrap;
+
+.index-north {
+  border: none;
+  height: $layout-index-north-height;
+  background-color: $layout-index-north-bg;
+}
+
+.c-north {
+  margin: 0;
+  border: none;
+  padding: 0px 8px 0px 8px;
+  //box-shadow:0px 2px 3px 0 rgba(0,0,0,.3);
+}
+
+.c-center {
+  margin: 0;
+  border: none;
+  padding-top: 10px;
+  background: none;
+  //box-shadow:0px 2px 3px 0 rgba(0,0,0,.3);
+}
+
+.c-south, .c-east {
+  margin: 0;
+  border: none;
+  padding: 0px 8px 0px 8px;
+  background: #ececec;
+}
+
+.z-window-header {
+  background-color: $window-header-bg;
+  color: $window-header-color;
+  font-size: $font-size-large;
+  padding: $window-header-padding;
+}
+
+.z-vlayout {
+  padding: 0px;
+}
+
+.z-window {
+  border: none;
+  //background: lighten($default,5%);
+  background: #FFFFFF;
+}
+
+.z-window-content {
+  //padding: $window-content-padding;
+  border: none;
+}
+
+.z-vlayout-inner {
+  margin: 0px;
+  padding: 0px !important;
+}
+
+/* busy等待窗口 设置 */
+.z-loading-indicator {
+  padding: $loading-padding;
+  color: $loading-color;
+  font-size: $loading-font-size;
+  //width:$loading-win-width;
+  //height:$loading-win-height;
+  border: 1px solid $loading-border;
+  background: $loading-bg;
+  white-space: pre-wrap;
+  //vertical-align: bottom;
+  //text-align: center;
+}
+
+.z-apply-loading-indicator {
+  color: $loading-color;
+  border: 1px solid $loading-border;
+  background: $loading-bg;
+  white-space: pre-wrap;
+}
+
+.z-apply-loading-icon, .z-loading-icon {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.z-apply-loading-icon, .z-loading-icon, .z-renderdefer {
+  width: $loading-icon-width;
+  height: $loading-icon-height;
+
+  margin-right: $loading-icon-margin-right;
+  background: transparent url($loading-image-url) no-repeat center;
+}
+
+.z-window-modal.z-window-shadow, .z-window-highlighted.z-window-shadow {
+  @include border-radius(3px);
+  padding: 0px !important;
+  -moz-box-shadow: inset 0px 1px 1px #FFFFFF, 0 0 4px rgba(0, 0, 0, 0.7);
+}
+
+.z-window-icon {
+  @include border-radius(2px);
+}
+
+.z-borderlayout {
+  background: none !important;
+  padding: 0px;
+  overflow: unset;
+}
+
+.z-borderlayout-icon {
+  color: $default;
+}
+
+.z-grid-body {
+  background: $fff;
+}
+
+.z-groupbox > .z-groupbox-header {
+  border: none;
+  background: $fff;
+}
+
+.z-groupbox-content {
+  background: $fff;
+  border: none !important;
+  padding: 10px;
+}
+
+.include {
+  padding-bottom: 10px;
+}
+
+.form-center {
+  margin: 0;
+  border: none;
+  background: none;
+}
+
+//.z-tabpanel .z-tabbox .z-tab:first-child {
+//    margin-left: 0px;
+//}
+.c-button {
+  margin: 5px 0 5px 0;
+}
+
+.z-hbox-separator {
+  width: 0;
+}
+
+.z-west-collapsed {
+  top: 53px !important;
+}
+
+.sidebar {
+  text-indent: 10px;
+  background: $siderbar;
+  box-shadow: 2px 0 3px 0 rgba(0, 0, 0, .3)
+}
+
+.gallery {
+  margin: 20px 40px;
+}
+
+.imageDiv {
+  display: inline-block;
+  background: #FFFFFF;
+  position: relative;
+  width: 180px;
+  height: 100px;
+  margin: 10px 10px 0 0;
+  border: 1px solid #DDDDDD;
+  box-shadow: 1px 2px 3px 0 rgba(0, 0, 0, .3);
+}
+
+.z-window-modal {
+  background: #ececec;
+}
+
+.z-window-modal > .z-window-content {
+  border: none;
+  overflow: hidden;
+  padding: 10px;
+  margin: 0px 0px;
+  background: #ececec;
+}
+
+.z-messagebox-icon {
+  width: 50px !important;
+}
+
+//.z-messagebox-exclamation {
+//    background-image: url(/asms/zkau/web/14aa69ba/zul/img/msgbox/warning-btn.png);
+//}

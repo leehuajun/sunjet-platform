@@ -1,0 +1,62 @@
+server:
+  port: 9000
+spring:
+  rabbitmq:
+    host: 47.104.80.236
+    username: asms
+    password: WLwl50!Sunjet
+    virtual-host: asms
+#    host: 192.168.1.208
+#    username: test
+#    password: test
+#    virtual-host: test
+    port: 5672
+    publisher-confirms: true
+    publisher-returns: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://192.168.1.205:3306/asms-test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#    url: jdbc:mysql://192.168.1.223:3306/asms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/asms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#    url: jdbc:mysql://120.78.130.20:3306/dms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#    url: jdbc:mysql://192.168.1.200:3306/dms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+#    password: lzw719
+#    password: Sunjet&2016
+#    password: 585868588a
+    password: WLwl50!Sunjet
+#    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  activiti:
+    check-process-definitions: false
+    db-identity-used: false
+#   邮箱配置
+  mail:
+      host: smtp.163.com
+      username: liuzhouwldms@163.com
+      password: WLwl504682
+      protocol: smtp
+#     阿里云服务器默认禁用25端口,需要配置ssl使用465端口才可以发送邮件
+      properties:
+              mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+              mail.smtp.socketFactory.port: 465
+              mail.smtp.port: 465
+              mail.smtp.auth: true
+access:
+  auth: false
+swagger:
+  title: 整车售后服务后端应用API
+  description: 整车售后服务后端应用API
+  version: 1.0.0.RELEASE
+  contact:
+    name: MengYun.Chen
+    email: cmy@3jtech.com.cn
+  base-path: /**
+  base-package: com.sunjet.backend
+
+
+
+

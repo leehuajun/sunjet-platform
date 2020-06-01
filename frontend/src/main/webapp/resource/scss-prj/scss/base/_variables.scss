@@ -1,0 +1,330 @@
+//
+// Variables
+// --------------------------------------------------
+
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+
+$gray-base: #000;
+$gray-darker: lighten($gray-base, 13.5%); // #222
+$gray-dark: lighten($gray-base, 20%); // #333
+$gray: lighten($gray-base, 33.5%); // #555
+$gray-light: lighten($gray-base, 46.7%); // #777
+$gray-lighter: lighten($gray-base, 93.5%); // #eee
+
+$brand-primary: darken(#428bca, 6.5%); // #337ab7
+$brand-inverse: #555555;
+$brand-pink: #D6487E;
+$brand-yellow: #FEE188;
+
+// 默认颜色
+//$default:             #255359;     //rgb(78,116,149);
+$default: #1c999f; //rgb(78,116,149);
+//$default:             #0099CC;     //rgb(78,116,149);
+//$default:             #333366;     //rgb(78,116,149);
+//$default:             #0099CC;     //rgb(78,116,149);
+//$default:             #666666;     //rgb(78,116,149);
+//$default:             #996633;     //rgb(78,116,149);
+//$default:             #339933;     //rgb(78,116,149);
+//$default:             #376ad3;     //rgb(78,116,149);
+
+// 白色
+$fff: #ffffff;
+
+//左边浅灰色
+//$siderbar:             #ebeff2;
+$siderbar: #ececec;
+
+//边框样式
+//$border:             1px solid #b9c4d5;
+$border: 1px solid #F9F9F9;
+
+// main窗体 颜色
+$background-color: rgb(217, 224, 231);
+
+// 灰色体系
+$border-base: #f5f5f5;
+
+//** Background color for `<body>`.
+$body-bg: #fff;
+//** Global text color on `<body>`.
+$text-color: $gray-dark;
+$text-disabled-color: $gray-light;
+//** Global textual link color.
+$link-color: $brand-primary;
+//** Link hover color set via `darken()` function.
+$link-hover-color: darken($link-color, 15%);
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-serif: Georgia, "Times New Roman", Times, serif;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+$font-family-base: $font-family-sans-serif;
+
+$font-size-base: 12px;
+$font-size-large: ceil(($font-size-base * 1.2)); // ~18px
+$font-size-small: ceil(($font-size-base * 0.9)); // ~12px
+
+$btn-default-color: #ffffff;
+//$btn-default-bg:                 #2399e5;
+$btn-default-bg: darken($default, 4%);
+$btn-default-border: $btn-default-bg;
+
+$btn-danger-color: #ffffff;
+$btn-danger-bg: #d9534f;
+$btn-danger-border: $btn-danger-bg;
+
+$btn-success-color: #ffffff;
+$btn-success-bg: #5cb85c;
+$btn-success-border: $btn-success-bg;
+
+$btn-warn-color: #FFFFFF;
+$btn-warn-bg: #ff9600;
+$btn-warn-border: $btn-warn-bg;
+
+//$btn-info-color:              #ffffff;
+//$btn-info-bg:                 darken($default,4%);
+//$btn-info-border:             $btn-info-bg;
+//$btn-default-bg:                 #2399e5;
+$btn-md-color: #ffffff;
+$btn-md-bg: #3f51b5;
+$btn-md-border: $btn-md-bg;
+
+//== Forms
+//
+$input-border: #ccc;
+$input-disabled-border: lighten($gray-light, 30%);
+$input-active-border: lighten($brand-primary, 20%);
+
+//== Grid
+//$grid-border-core:                $border-core;
+$grid-border-top: lighten($default, 10%);
+$grid-border-base: $border-base;
+$grid-color: $text-color;
+$gird-header-font-size: $font-size-base;
+$grid-font-size: $font-size-small;
+$grid-header-bg: $grid-border-base;
+//$grid-header-bg:                  $default;
+$grid-row-bg: $body-bg;
+$grid-line-height: 24px;
+$grid-header-height: $grid-line-height;
+$grid-cell-padding: 1px;
+$grid-cell-margin: 0px;
+$grid-row-odd-bg: lighten($grid-border-base, 8%);
+
+$grid-row-hover-bg: $border-base;
+$grid-row-hover-border-buttom: lighten($default, 10%);
+
+//== Listbox
+$listbox-border-base: $border-base;
+$listbox-border-top: lighten($default, 10%);
+$listbox-color: $text-color;
+$listbox-header-font-size: $font-size-base;
+$listbox-font-size: $font-size-small;
+$listbox-header-bg: $grid-border-base;
+$listbox-row-bg: $body-bg;
+$listbox-line-height: 24px;
+$listbox-header-height: $grid-line-height;
+$listbox-cell-padding: 4px;
+$listbox-row-odd-bg: lighten($grid-border-base, 8%);
+$listbox-checkbox-border-radius: 3px;
+$listbox-checkbox-width: 14px;
+$listbox-checkbox-height: 14px;
+$listbox-checkbox-border: $gray-light;
+$listbox-checkbox-bg: $gray-lighter;
+
+//== Layout
+$layout-splitter-bg: darken($body-bg, 15%); // #F0F0F0
+$layout-splitter-width: 8px;
+$layout-splitter-height: 8px;
+$layout-region-header-font-size: $font-size-large;
+$layout-region-header-font-weight: bold;
+$layout-region-header-font-style: normal;
+$layout-region-header-color: $gray;
+$layout-region-header-height: 38px;
+$layout-region-header-border: $border-base;
+
+$layout-index-north-height: 49px;
+$layout-index-north-bg: #2C4052;
+
+//== Window
+$window-padding: 2px;
+$window-header-bg: $default;
+$window-header-color: $body-bg;
+$window-header-font-size: $font-size-base;
+$window-header-padding: $window-padding;
+$window-content-padding: $window-padding;
+
+//== Loading
+$loading-image-url: "/asms/resource/images/busy_20x20.gif";
+$loading-padding: 6px;
+$loading-color: #333;
+$loading-border: #ccc;
+$loading-bg: $body-bg;
+$loading-icon-width: 20px;
+$loading-icon-height: 20px;
+$loading-icon-margin-right: 10px;
+$loading-win-height: 40px;
+$loading-win-width: 200px;
+$loading-font-size: $font-size-large;
+
+//== Navbar
+$navbar-height: 49px;
+$navbar-padding: 0;
+$navbar-margin: 0;
+$navbar-bg: $default;
+$navbar-color: $body-bg;
+$navbar-brand-font-size: 20px;
+$navbar-brand-text-shadow: 2px 2px 4px #000000;
+$navbar-brand-padding-top: 15px;
+$navbar-brand-padding-bottom: 5px;
+$navbar-logo-float: left;
+$navbar-logo-width: 59px;
+$navbar-logo-height: 30px;
+$navbar-logo-margin-top: 10px;
+$navbar-logo-margin-left: 5px;
+$nav-bg: $navbar-bg;
+$nav-color: $navbar-color;
+$nav-height: $navbar-height;
+$nav-line-height: $navbar-height;
+$nav-min-width: 50px;
+$nav-padding: 8px;
+$menubar-border: #2c4052;
+$menu-text-max-width: 80px;
+$menu-text-line-height: 15px;
+$menu-text-top: 6px;
+$menu-text-color: $navbar-color;
+$menu-text-font-size: $font-size-base;
+$nav-badge-color: $navbar-color;
+$nav-badge-padding: 5px;
+$nav-border-left: $layout-index-north-bg;
+$nav-hover-bg: #2c5976;
+$nav-icon-font-size: 16px;
+$nav-icon-width: 20px;
+
+//== Paging
+$paging-height: 32px;
+$paging-border: $border-base;
+$paging-border-bottom: lighten($default, 10%);
+$paging-padding: 1px;
+$paging-margin: 0;
+$paging-bg: $border-base;
+$paging-icon-size: 17px;
+$paging-icon-weight: bold;
+$paging-icon-color: $default;
+
+$paging-button-font-size: $font-size-small;
+$paging-button-font-weight: bold;
+$paging-button-font-style: normal;
+$paging-button-color: #bababa;
+$paging-button-bg: $body-bg;
+$paging-button-min-width: 24px;
+$paging-button-height: 26px;
+$paging-button-line-height: 20px;
+
+$paging-button-margin-right: 6px;
+$paging-button-padding: 3px;
+$paging-button-bg-hover: #5989a9;
+$paging-button-border-hover: $paging-button-bg-hover;
+$paging-button-border-bottom-hover: #385878;
+$paging-button-color-hover: $body-bg;
+
+$paging-input-font-size: $font-size-base;
+$paging-input-font-weight: bold;
+$paging-input-font-style: normal;
+$paging-input-color: $gray;
+$paging-input-height: 26px;
+$paging-input-line-height: 24px;
+$paging-input-padding: 3px;
+$paging-input-border: $border-base;
+$paging-input-text-align: center;
+
+$paging-text-font-size: $font-size-base;
+$paging-text-font-weight: bold;
+$paging-text-font-style: normal;
+$paging-text-color: $paging-input-color;
+$paging-text-margin-right: 8px;
+
+$paging-info-font-size: $font-size-base;
+$paging-info-font-weight: bold;
+$paging-info-font-style: normal;
+$paging-info-color: $paging-input-color;
+$paging-info-right: 5px;
+
+//== Tabbox & Tab
+$tabbox-bg: $border-base;
+
+$tab-bg: #f5f5f5;
+$tab-border: lighten($default, 5%);
+$tab-border-left: $tab-border;
+$tab-border-right: $tab-border;
+$tab-border-top: $tab-border;
+//$tab-border:                $border-core;
+$tab-line-height: 32px;
+$tab-color: darken($default, 10%);
+$tab-border-radius: 0px;
+$tab-bg-hover: $tab-bg;
+$tab-color-hover: $tab-color;
+$tab-icon-width: 15px;
+$tab-icon-height: 15px;
+
+$tab-hover-bg: $tab-bg;
+$tab-hover-color: lighten($default, 15%);
+
+$tab-selected-color: $body-bg;
+$tab-selected-font-weight: normal;
+
+$tab-button-color: $default;
+$tab-button-border-radius: 50%;
+
+$tab-icon-font-size: $font-size-base;
+$tab-icon-color: $tab-color;
+$tab-icon-border: $border-base;
+$tab-icon-bg: $tab-bg;
+$tab-icon-min-height: 28px;
+$tab-icon-line-height: $tab-icon-min-height;
+
+$tab-icon-hover-bg: $body-bg;
+$tab-icon-hover-color: $default;
+$tab-selected-icon-hover-bg: $body-bg;
+$tab-selected-icon-hover-color: $default;
+
+$n-tab-selected-border-left: $border-base;
+$n-tab-selected-border-right: $border-base;
+
+//== Tree
+//$tree-row-height:       24px;
+$tree-row-height: 35px;
+//$tree-bg:               $body-bg;
+$tree-bg: $siderbar;
+$tree-border: $border-base;
+
+//$tree-header-bg:        $tree-border;
+$tree-header-bg: $siderbar;
+$tree-header-height: $tree-row-height;
+$tree-header-color: $text-color;
+$tree-header-font-size: $font-size-small;
+
+//$tree-body-bg:          $tree-bg;
+$tree-body-bg: $siderbar;
+$tree-body-height: $tree-row-height;
+$tree-body-color: $default;
+$tree-body-font-size: $font-size-small;
+$tree-icon-size: 20px;
+$tree-icon-margin-right: 5px;
+
+$tree-row-hover-color: $body-bg;
+$tree-row-selected-bg: $default;
+$tree-row-selected-color: $tree-row-hover-color;
+
+$tree-sidebar-row-bg: rgb(230, 230, 230);
+$tree-sidebar-row-border: rgb(248, 248, 248);
+
+$tree-footer-border: $border-base;
+
+

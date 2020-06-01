@@ -1,0 +1,7 @@
+<div sclass="ctoolbar">
+    <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default" label="新增"
+            if="${vm.enableAdd}"
+            onClick="@command('openForm',objId=null,url=vm.formUrl,title=vm.title)"/>
+    <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default" label="刷新"
+            onClick="@command('refreshData')"/>
+</div>

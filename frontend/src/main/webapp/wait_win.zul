@@ -1,0 +1,3 @@
+<window id="win" border="normal" width="350px" minheight="350" visible="false" closable="true" title="提示">
+    <label value="执行中，请稍后..."/>
+</window>

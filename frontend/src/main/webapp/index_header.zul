@@ -1,0 +1,54 @@
+<hbox hflex="true" style="width:100%; height:45px;">
+    <div style="height:45px;  float:left; width:50px;  min-width:400px; overflow:hidden; ">
+        <div style="float:left;  overflow:hidden; ">
+            <image src="images/system/logo2.png" height="45"/>
+        </div>
+    </div>
+
+    <div style="float:right;  width:100%;  min-width:300px;  position:absolute; right:0; text-align:right;">
+        <div style="float:right;  overflow:hidden; ">
+            <menubar style="height:45px;border:0px solid black;background:none">
+                <menu label="模块列表" image="images/system/list.png" style="vertical-align:text-center">
+                    <menupopup style="border:1px solid #5687A8">
+                        <!--image="@load(vm.moduleIdSelected eq self.id?'images/icon/tick.png':'')"-->
+                        <menuitem label="${each.name}"
+                                  id="${each.objId}"
+                                  image="images/system/${each.icon}"
+                                  onClick="@command('changeModule',moduleId=self.id)"
+                                  forEach="${vm.moduleVOList}"
+                                  style="color:#fff"/>
+                    </menupopup>
+                </menu>
+                <menuitem label="系统消息(2)"
+                          tooltiptext="进入系统消息"
+                          onClick="@command('showModalWindow')"
+                          image="images/system/quit2.png" visible="true"/>
+                <!--<menuitem label="修改密码" image="images/icon/lock.png" onClick="showModal()"/>-->
+                <menu id="themeStyle" label="界面风格" image="images/icon/style.png">
+                    <menupopup>
+                        <menuitem label="Breeze(默认)"
+                                  image="@load(vm.themeStyle eq 'breeze'?'images/icon/tick.png':'')"
+                                  onClick="@command('changeTheme',themeName='breeze')"/>
+                        <menuitem label="Sapphire"
+                                  image="@load(vm.themeStyle eq 'sapphire'?'images/icon/tick.png':'')"
+                                  onClick="@command('changeTheme',themeName='sapphire')"/>
+                        <menuitem label="Silvertail"
+                                  image="@load(vm.themeStyle eq 'silvertail'?'images/icon/tick.png':'')"
+                                  onClick="@command('changeTheme',themeName='silvertail')"/>
+                        <menuitem label="Atlantic"
+                                  image="@load(vm.themeStyle eq 'atlantic'?'images/icon/tick.png':'')"
+                                  onClick="@command('changeTheme',themeName='atlantic')"/>
+                    </menupopup>
+                </menu>
+                <menuitem label="帮助"
+                          tooltiptext="进入帮助页面"
+                          image="images/icon/help.png"
+                          onClick="@command('showMessageBox')"/>
+                <menuitem label="${vm.currentUser.username}(${vm.currentUser.logId})"
+                          tooltiptext="注销"
+                          image="images/system/quit.png"
+                          onClick="@command('logout')"/>
+            </menubar>
+        </div>
+    </div>
+</hbox>

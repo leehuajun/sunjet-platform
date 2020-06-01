@@ -1,0 +1,202 @@
+<!--
+基础管理 >>维修项目及工时定额列表
+-->
+<borderlayout width="100%" height="100%" apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.MaintainListVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="项目编号"/>
+                        <textbox value="@bind(vm.maintainInfo.code)" hflex="1" tabindex="1"/>
+                        <label value="项目名称"/>
+                        <textbox value="@bind(vm.maintainInfo.name)" hflex="1" tabindex="1"/>
+                        <label value="车型平台"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@bind(vm.maintainInfo.vehicleModelName)">
+                            <bandpopup width="200px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keywordPlatform)" hflex="1"
+                                                 placeholder="输入关键字..回车搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchVehiclePlatform')"/>
+                                        <button label="查询" sclass="btn-default"
+                                                onClick="@command('searchVehiclePlatform')"/>
+                                        <button label="清除" sclass="btn-warn"
+                                                onClick="@command('clearVehiclePlatform')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.tmpVehiclePlatformInfos)"
+                                          emptyMessage="没有数据">
+                                        <template name="model">
+                                            <row onClick="@command('selectVehiclePlatform',model=each)">
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="车辆系统"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@bind(vm.maintainInfo.vehicleSystemName)">
+                            <bandpopup width="200px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keywordSystem)" hflex="1"
+                                                 placeholder="输入关键字..回车搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchVehicleSystem')"/>
+                                        <button label="清除" sclass="btn-default"
+                                                onClick="@command('clearVehicleSystem')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.tmpVehicleSystems)"
+                                          emptyMessage="没有数据">
+                                        <!--<columns>-->
+                                        <!--<column hflex="1" label="Vin"/>-->
+                                        <!--&lt;!&ndash;<column hflex="2" label="Vin"/>&ndash;&gt;-->
+                                        <!--</columns>-->
+                                        <template name="model">
+                                            <row onClick="@command('selectVehicleSystem',model=each)">
+                                                <label value="@load(each.name)"/>
+                                                <!--<label value="@load(each.vsn)"/>-->
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="子系统"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@bind(vm.maintainInfo.vehicleSubSystemName)">
+                            <bandpopup width="200px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keywordSubSystem)" hflex="1"
+                                                 placeholder="输入关键字..回车搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchVehicleSubSystem')"/>
+                                        <button label="清除" sclass="btn-default"
+                                                onClick="@command('clearVehicleSubSystem')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.tmpVehicleSubSystems)"
+                                          emptyMessage="没有数据">
+                                        <!--<columns>-->
+                                        <!--<column hflex="1" label="Vin"/>-->
+                                        <!--&lt;!&ndash;<column hflex="2" label="Vin"/>&ndash;&gt;-->
+                                        <!--</columns>-->
+                                        <template name="model">
+                                            <row onClick="@command('selectVehicleSubSystem',model=each)">
+                                                <label value="@load(each.name)"/>
+                                                <!--<label value="@load(each.vsn)"/>-->
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" vflex="1">
+            <div sclass="include">
+                <!--<include src="/views/commons/basic_list_toolbar.zul"/>-->
+                <div sclass="ctoolbars" xmlns="http://www.zkoss.org/2005/zul">
+                    <div sclass="ctoolbar">
+                        <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="新增"
+                                onClick="@command('openForm',objId=null,url=vm.formUrl,title=vm.title)"
+                                if="${vm.enableAdd}"/>
+                        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="导入"
+                                onClick="@command('openForm',objId=null,url='/views/basic/maintain_import_form.zul',title='导入维修项目')"
+                                if="${vm.enableImportMaintains}"/>
+                    </div>
+                    <div sclass="ctoolbar" style="float:right">
+                        <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"
+                                label="查询"
+                                onClick="@command('refreshData')"></button>
+                        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                label="重置"
+                                onClick="@command('reset')"></button>
+                    </div>
+                </div>
+            </div>
+            <!--<hlayout width="100%" vflex="1">-->
+            <!--<tree width="300px" model="@bind(vm.treeModel)" vflex="1"-->
+            <!--style="overflow-y:auto;border:1px solid rgb(220,220,220)">-->
+            <!--<treecols>-->
+            <!--<treecol label="车型系统导航"/>-->
+            <!--</treecols>-->
+            <!--<template name="model">-->
+            <!--<treeitem open="true" value="@load(each.data)">-->
+            <!--<treerow style="height:20px">-->
+            <!--<treecell label="@load(each.data.name)"/>-->
+            <!--</treerow>-->
+            <!--</treeitem>-->
+            <!--</template>-->
+            <!--</tree>-->
+            <!--<vlayout hflex="1" vflex="1">-->
+            <grid hflex="true" vflex="true" sclass="list-grid"
+                  model="@bind(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"></column>
+                    <column width="120px" label="项目编号" align="center"></column>
+                    <column width="200px" label="项目名称" align="center"></column>
+                    <column width="120px" label="工时定额" align="center"></column>
+                    <column width="100px" label="车型平台" align="center"></column>
+                    <column width="100px" label="车辆系统" align="center"></column>
+                    <column width="100px" label="子系统" align="center"></column>
+                    <column hflex="1" label="备注" align="center"></column>
+                    <column width="60px" label="是否索赔" align="center"></column>
+                    <column width="60px" label="操作" align="center"></column>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)">
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.code)"/>
+                        <!--<label value="@load(each.objId)" tooltiptext="@load(each.objId)"/>-->
+                        <div align="left" tooltiptext="@load(each.name)">
+                            <label value="@load(each.name)"/>
+                        </div>
+                        <label value="@load(each.workTime)" tooltiptext="@load(each.workTime)"/>
+                        <label value="@load(each.vehicleModelName)" tooltiptext="@load(each.vehicleModelName)"/>
+                        <label value="@load(each.vehicleSystemName)" tooltiptext="@load(each.vehicleSystemName)"/>
+                        <label value="@load(each.vehicleSubSystemName)" tooltiptext="@load(each.vehicleSubSystemName)"/>
+                        <div align="left" tooltiptext="@load(each.comment)">
+                            <label value="@load(each.comment)"/>
+                        </div>
+                        <label value="@load(each.claim eq true?'是':'否')"/>
+                        <include src="/views/commons/flow_grid_toolbar.zul"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+            <!--</vlayout>-->
+            <!--</hlayout>-->
+
+        </vlayout>
+    </center>
+</borderlayout>

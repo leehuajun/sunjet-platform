@@ -1,0 +1,33 @@
+<grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+      style="margin-bottom: 0px;"
+      model="@load(vm.comments)">
+    <!--<grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"-->
+    <!--style="margin-bottom: 10px;"-->
+    <!--model="${arg.data}">-->
+    <columns sizable="true">
+        <column width="115px" label="办理时间" align="left"/>
+        <column width="100px" label="办理人" align="left"/>
+        <column width="55px" label="审批结果" align="center"/>
+        <column hflex="1" label="审批意见" align="left"/>
+    </columns>
+    <template name="model">
+        <row>
+            <label hflex="1" value="@load(each.time)"/>
+            <label hflex="1" value="@load(vm.users.get(each.userId))"/>
+
+            <cell style="wrap:wrap">
+                <label hflex="1" value="@load(each.type)" if="${vm.checkComments(each.type)}"/>
+                <label hflex="1" value="@load(vm.getBeanFromJson(each.fullMessage).result)"
+                       if="${!vm.checkComments(each.type)}"/>
+            </cell>
+            <cell style="wrap:wrap">
+                <label hflex="1" value="@load(each.fullMessage)" if="${vm.checkComments(each.type)}"
+                       style="word-wrap:break-word;"/>
+                <label hflex="1" value="@load(vm.getBeanFromJson(each.fullMessage).message)"
+                       if="${!vm.checkComments(each.type)}" style="word-wrap:break-word;"/>
+            </cell>
+
+            <!--<label hflex="1" value="@load(com.sunjet.utils.common.JsonHelper.json2Bean(each.fullMessage).message)"/>-->
+        </row>
+    </template>
+</grid>

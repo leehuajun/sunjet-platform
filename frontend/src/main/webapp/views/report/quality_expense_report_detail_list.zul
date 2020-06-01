@@ -1,0 +1,159 @@
+<!-- 质量费用速报明细 列表 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.report.QualityExpenseReportDetailVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="费用类型"/>
+                        <textbox value="@bind(vm.qualityExpenseReportDetailItem.costType)" hflex="1"/>
+                        <label value="服务经理"/>
+                        <textbox value="@bind(vm.qualityExpenseReportDetailItem.serviceManager)" hflex="1"/>
+                        <label value="申请日期从"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.qualityExpenseReportDetailItem.startDate)"
+                                 readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.qualityExpenseReportDetailItem.endDate)"
+                                 readonly="true"/>
+                    </row>
+                    <row>
+                        <label value="速报级别"/>
+                        <textbox value="@bind(vm.qualityExpenseReportDetailItem.reportType)" hflex="1"/>
+                        <label value="速报类型"/>
+                        <listbox mold="select"
+                                 hflex="1"
+                                 selectedItem="@bind(vm.qualityExpenseReportDetailItem.type)"
+                        >
+                            <listitem label="所有速报" value="" selected="true"></listitem>
+                            <listitem label="质量速报" value="质量速报" selected="true"></listitem>
+                            <listitem label="费用速报" value="费用速报"></listitem>
+                        </listbox>
+                        <label value="服务站编号"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@load(vm.qualityExpenseReportDetailItem.dealerCode)">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keyword)" hflex="1"
+                                                 placeholder="输入关键字..按Enter键搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                 style="margin-bottom:2px"/>
+                                        <button label="清除" sclass="btn-default"
+                                                onClick="@command('clearSelectedDealer')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                          emptyMessage="没有数据">
+                                        <columns>
+                                            <column hflex="1" label="服务站编号"/>
+                                            <column hflex="2" label="服务站名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectDealer',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="服务站名称"/>
+                        <textbox value="@bind(vm.qualityExpenseReportDetailItem.dealerName)" hflex="1" tabindex="1"
+                                 readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>
+            <grid hflex="true" vflex="true"
+                  sclass="list-grid"
+                  oddRowSclass="none"
+                  style="margin:0;padding:0"
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="160px" label="速报标题" align="left"/>
+                    <column width="130px" label="单据编号" align="center"/>
+                    <column width="75px" label="状态" align="center"/>
+                    <column width="75px" label="服务站编号" align="center"/>
+                    <column width="75px" label="服务站名称" align="center"/>
+                    <column width="100px" label="车辆分类" align="center"/>
+                    <column width="160px" label="费用类型" align="center"/>
+                    <column width="160px" label="速报类型" align="center"/>
+                    <column width="120px" label="申请人 " align="center"/>
+                    <column width="120px" label="申请人电话 " align="center"/>
+                    <column width="120px" label="服务经理 " align="center"/>
+                    <column width="120px" label="服务经理电话 " align="center"/>
+                    <column width="120px" label="备注 " align="center"/>
+                    <column width="120px" label="故障时行驶状态 " align="center"/>
+                    <column width="120px" label="故障时路面情况 " align="center"/>
+                    <column width="120px" label="故障发生地点 " align="center"/>
+                    <column width="120px" label="初步原因分析 " align="center"/>
+                    <column width="120px" label="处理意见 " align="center"/>
+                    <column width="120px" label="预计费用 " align="center"/>
+                    <column width="120px" label="VIN " align="center"/>
+                    <column width="120px" label="车主 " align="center"/>
+                    <column width="120px" label="车主电话 " align="center"/>
+                    <column width="120px" label="购车日期 " align="center"/>
+                    <column width="120px" label="行驶里程 " align="center"/>
+                    <column width="120px" label="申请时间 " align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.title)"/>
+                        <label value="@load(each.docNo)"/>
+                        <label value="@load(each.status)"/>
+                        <label value="@load(each.dealerCode)"/>
+                        <label value="@load(each.dealerName)"/>
+                        <label value="@load(each.typeName)"/>
+                        <label value="@load(each.costType)"/>
+                        <label value="@load(each.reportType)"/>
+                        <label value="@load(each.submitterName)"/>
+                        <label value="@load(each.submitterPhone)"/>
+                        <label value="@load(each.serviceManager)"/>
+                        <label value="@load(each.serviceManagerPhone)"/>
+                        <label value="@load(each.comment)"/>
+                        <label value="@load(each.faultStatus)"/>
+                        <label value="@load(each.faultRoad)"/>
+                        <label value="@load(each.faultAddress)"/>
+                        <label value="@load(each.initialReason)"/>
+                        <label value="@load(each.decisions)"/>
+                        <label value="@load(each.estimatedCost)"/>
+                        <label value="@load(each.vin)"/>
+                        <label value="@load(each.ownerName)"/>
+                        <label value="@load(each.mobile)"/>
+                        <label value="@load(each.purchaseDate)"/>
+                        <label value="@load(each.mileage)"/>
+                        <label value="@load(each.createdTime)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

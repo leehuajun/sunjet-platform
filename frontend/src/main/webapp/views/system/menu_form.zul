@@ -1,0 +1,91 @@
+<!-- 菜单项编辑页面 -->
+<!--<window title="@load(vm.menuInfo eq null?'创建菜单':'修改菜单')" border="normal"-->
+<!--width="550px" height="360px" sizable="false"-->
+<!--style="padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach()"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.MenuFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--form="@id('fx') @load(vm.menuInfo) @save(vm.menuInfo, before='submit')">-->
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.MenuFormVM')"
+                  validationMessages="@id('vmsgs')"
+                  form="@id('fx') @load(vm.menuInfo) @save(vm.menuInfo, before='submit')"
+                  width="100%" height="100%">
+        <center sclass="c-center">
+            <vlayout>
+                <div sclass="include">
+                    <button label="保存" iconSclass="@load(iconVariable.icon_save)" tabindex="7"
+                            sclass="btn-default "
+                            onClick="@command('submit')"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" sclass="form-grid">
+                        <columns>
+                            <column hflex="1"></column>
+                            <column hflex="3"></column>
+                            <column hflex="1"></column>
+                            <column hflex="3"></column>
+                        </columns>
+                        <rows style="line-height:50px">
+                            <row>
+                                <label value="菜单名称"/>
+                                <textbox width="100%" constraint="no empty" value="@bind(fx.name)" tabindex="1"/>
+                                <label value="图标"/>
+                                <textbox width="100%" value="@bind(fx.icon)" tabindex="2"/>
+                            </row>
+                            <row style="border:none;height:50px">
+                                <label value="排序号"/>
+                                <textbox width="100%" constraint="no empty" value="@bind(fx.seq)" tabindex="1"/>
+                                <label value="URL"/>
+                                <textbox width="100%" value="@bind(fx.url)" tabindex="2"/>
+                            </row>
+                            <row style="border:none;">
+                                <label value="父级菜单"/>
+                                <!--<textbox constraint="no empty" value="@bind(fx.parent.name)"-->
+                                <!--width="150px" tabindex="2"/>-->
+                                <bandbox width="100%" style="position:relative;" mold="rounded" autodrop="false"
+                                         value="@load(vm.parentMenu.name)"
+                                         readonly="true">
+                                    <bandpopup>
+                                        <tree model="@load(vm.treeModel)"
+                                              style="overflow-y:auto;border:1px solid rgb(220,220,220);"
+                                              width="100%" height="300px">
+                                            <template name="model">
+                                                <treeitem value="@load(each.data)">
+                                                    <treerow
+                                                            style="height:25px;border-bottom:1px solid rgb(248,248,248)">
+                                                        <treecell label="@load(each.data.name)"
+                                                                  iconSclass="@load(each.data.icon)"
+                                                                  onClick="@command('changeParent',parent=each.data)"/>
+                                                        <!--onClick="vm.parent=each.data;bd_menu.close();" />-->
+                                                    </treerow>
+                                                </treeitem>
+                                            </template>
+                                        </tree>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="权限要求"/>
+                                <combobox width="100%" value="@load(vm.permissionInfo)" readonly="true"
+                                          model="@load(vm.permissionInfoList)" selectedItem="@bind(vm.permissionInfo)">
+                                    <template name="model">
+                                        <comboitem label="@load(each)" value="@load(each)"/>
+                                    </template>
+                                </combobox>
+                            </row>
+                            <row style="border:none;height:50px">
+                                <label value="状态"/>
+                                <div>
+                                    <checkbox checked="@bind(fx.enabled)" tabindex="3" label="启用"/>
+                                    <!--<label style="color:rgb(78,116,149);font-weight:700;cursor:hand" value="启用"/>-->
+                                    <space spacing="10px"/>
+                                    <!--<checkbox checked="@bind(fx.open)" tabindex="3" label="展开"/>-->
+                                </div>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>
+        <!--</window>-->

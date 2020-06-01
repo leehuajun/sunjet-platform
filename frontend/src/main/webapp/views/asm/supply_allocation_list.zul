@@ -1,0 +1,182 @@
+<!-- 调拨分配 列表 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.supply.SupplyAllocationListVM')">
+    <north sclass="c-north">
+        <vlayout>
+
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="80px"></column>
+                    <column hflex="1"></column>
+                    <column width="80px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="来源单据编号"/>
+                        <textbox value="@bind(vm.supplyAllocationItem.srcDocNo)" hflex="1"/>
+                        <label value="调拨通知编号"/>
+                        <textbox value="@bind(vm.supplyAllocationItem.docNo)" hflex="1"/>
+                        <!--<label value="VIN"/>-->
+                        <!--<textbox value="@bind(vm.vin)" hflex="1"/>-->
+                        <label value="物料"/>
+                        <textbox value="@bind(vm.supplyAllocationItem.partCode)" hflex="1"/>
+                    </row>
+                    <row style="border:none;height:30px">
+                        <label value="分配状态"></label>
+                        <listbox mold="select"
+                                 hflex="1"
+                                 selectedItem="@bind(vm.supplyAllocationItem.allocatedStatus)"
+                        >
+                            <listitem label="所有状态" value="" selected="true"></listitem>
+                            <listitem label="已分配" value="finishAllocated" selected="true"></listitem>
+                            <listitem label="待分配" value="allocated"></listitem>
+                            <listitem label="分配中" value="assigning"></listitem>
+                        </listbox>
+
+                        <label value="业务日期从"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.supplyAllocationItem.startDate)"
+                                 readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.supplyAllocationItem.endDate)"
+                                 readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <div sclass="include">
+                <div sclass="ctoolbar">
+                    <button onClick="@command('createSupplyAllocation')"
+                            sclass="btn-default" label="保存"
+                            if="${vm.enableSaveAllocation}"
+                    ></button>
+                </div>
+
+                <div sclass="ctoolbar" style="float:right">
+                    <button label="查询" sclass="btn-default " onClick="@command('refreshData')"></button>
+                    <button label="重置" sclass="btn-default " onClick="@command('reset')"></button>
+                </div>
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid" mold="paging" pageSize="1000"
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="35px" label="行号" align="center"/>
+                    <column width="46px" label="状态" align="center"/>
+                    <column width="80px" label="来源单据类型" align="center"/>
+                    <column width="130px" label="来源单据编号" align="center"/>
+                    <column width="70px" label="服务站编号" align="center"/>
+                    <column width="180px" label="服务站名称" align="left"/>
+                    <column width="70px" label="省份" align="center"/>
+                    <column width="100px" label="零件件号" align="left"/>
+                    <column width="100px" label="零件名称" align="left"/>
+                    <column width="60px" label="需求数量" align="center"/>
+                    <column width="60px" label="可分配数量" align="center"/>
+                    <column width="105px" label="要求到货时间" align="center"/>
+                    <column width="60px" label="二次分配" align="center"/>
+                    <column width="200px" label="经销商" align="center"/>
+                    <column width="60px" label="本次分配" align="center"/>
+                    <column width="250px" label="备注" align="center"/>
+
+
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+
+                        <label hflex="1" value="@load(vm.allocationStatus(each.allocatedStatus))"
+                               style="@load(vm.getAllocationStatusColor(each.allocatedStatus))"
+                               tooltiptext="@load(vm.allocationStatus(each.allocatedStatus))"/>
+
+                        <label hflex="1" value="@load(each.supplyNotice.srcDocType)"
+                               tooltiptext="@load(each.supplyNotice.srcDocType)"/>
+
+                        <label hflex="1" value="@load(each.supplyNotice.srcDocNo)"
+                               tooltiptext="@load(each.supplyNotice.srcDocNo)"/>
+
+                        <label hflex="1" value="@load(each.supplyNotice.dealerCode)"
+                               tooltiptext="@load(each.supplyNotice.dealerCode)"/>
+
+                        <label hflex="1" value="@load(each.supplyNotice.dealerName)"
+                               tooltiptext="@load(each.supplyNotice.dealerName)"/>
+
+                        <label hflex="1" value="@load(each.supplyNotice.provinceName)"
+                               tooltiptext="@load(each.supplyNotice.provinceName)"/>
+
+                        <label hflex="1" value="@load(each.partCode)" tooltiptext="@load(each.partCode)"/>
+                        <label hflex="1" value="@load(each.partName)" tooltiptext="@load(each.partName)"/>
+                        <label hflex="1" value="@load(each.requestAmount)" tooltiptext="@load(each.requestAmount)"/>
+                        <label hflex="1" value="@load(each.surplusAmount)" tooltiptext="@load(each.surplusAmount)"/>
+
+                        <datebox hflex="1" value="@bind(each.arrivalTime)" tooltiptext="@bind(each.arrivalTime)"
+
+                                 readonly="true"
+                                 buttonVisible="@load(vm.canAllocation(each.surplusAmount))"/>
+
+                        <checkbox hflex="1" value="@bind(each.secondaryDistribution)"
+                                  checked="@bind(each.secondaryDistribution)"
+                                  onCheck="@command('secondAllocation',model=each)"
+                                  visible="@load(vm.canAllocation(each.surplusAmount))"/>
+
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 onClick="@command('selectSupplyNoticeItem',model=each)"
+                                 value="@bind(each.agencyName)"
+                                 buttonVisible="@load(vm.canAllocation(each.surplusAmount))">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keyword)" hflex="1"
+                                                 placeholder="输入关键字..按Enter键搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchAgencies',model=vm.keyword)"
+                                                 style="margin-bottom:2px"/>
+                                        <button label="查询" sclass="btn-default"
+                                                onClick="@command('searchAgencies',model=vm.keyword)"/>
+                                        <button label="清除" sclass="btn-warn"
+                                                onClick="@command('clearSelectedAgencyByItem',model=each)"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.agencies)"
+                                          emptyMessage="没有数据">
+                                        <columns sizable="true">
+                                            <column hflex="1" label="合作商编号"/>
+                                            <column hflex="2" label="合作商名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectAgencyByItem',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+
+                        <decimalbox hflex="1" value="@bind(each.distributionAmount)"
+                                    constraint="no negative"
+                                    readonly="@load(!vm.canAllocation(each.surplusAmount))"
+                                    onChange="@command('sentAmountChange',model=each)"></decimalbox>
+
+                        <label hflex="2" value="@load(each.comment)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

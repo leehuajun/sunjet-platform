@@ -1,0 +1,220 @@
+// 默认常量
+$baseFontSize: 12px; // 基础字体大小
+$baseFontFamily: 'Helvetica Neue",Helvetica,Arial,sans-serif'; // 基础字体名称
+$baseColor: #3d3d3d; // 基础字体颜色
+$baseColor2: whitesmoke; // 基础字体颜色2
+$basePadding: 2px; // 基础Padding
+$baseLineHeight: 20px; // 基础行高
+$baseBorderColor: #678cb1; // 基础边框颜色
+$baseBorderColor2: #6fb3e0; // 基础边框颜色2
+$baseBorderColor3: rgb(221, 221, 221); // 基础边框颜色3
+$baseBgColor: rgb(240, 240, 240); // 基础背景颜色
+//$baseBgColor2:RGB(78, 116, 149);  // 基础背景颜色2
+$baseBgColor2: RGB(34, 79, 146); // 基础背景颜色2
+$baseBgColor3: RGB(255, 255, 255); // 基础背景颜色3
+$baseBgColor4: rgb(227, 227, 227); // 基础背景颜色4
+$baseDisabledColor: #669FC7; // 基础禁用组件的颜色
+//$defaultBoxBorderColor:rgb(221, 221, 221);
+$baseBorderRadius: 2px; // 基础边框圆弧大小
+// 颜色
+$blue: #478FCA;
+$green: #69AA46;
+$grey: #777;
+$purple: #A069C3;
+$red: #DD5A43;
+$orange: #FF892A;
+//
+//$black:                 #000 !default;
+//$grayDarker:            #333 !default;
+//$grayDark:              #999 !default;
+//$gray:                  #ccc !default;
+//$grayLight:             #f5f5f5 !default;
+//$white:                 #fff !default;
+//
+//$red:                   #cc3300 !default;
+//$blue:                  #00A3CF !default;
+//$blueDark:              #0064cd !default;
+//$orange:                #F47837 !default;
+//$green:                 #51B148 !default;
+//$yellow:                #ffc40d !default;
+//$pink:                  #c3325f !default;
+//$purple:                #7a43b6 !default;
+//
+//$primary:               #0078E7 !default;//主色
+
+// region设置
+$regionHeaderFontSize: $baseFontSize * 1.2;
+$regionHeaderPadding: 5px 4px 3px;
+$regionHeaderHeight: 38px;
+$regionHeaderLineHeight: 35px;
+$regionHeaderBorderBottom: 1px solid $baseBgColor4;
+$regionHeaderBackgroundColor: $baseBgColor4;
+$regionSplitterWidth: 8px;
+$regionSplitterHeight: 8px;
+$regionSplitterBackgroundColor: $baseBgColor;
+
+// logo-text
+$logoTextColor: #ffffff;
+$logoTextShadow: 2px 2px 4px #000000;
+
+// navbar常量设置
+$navbarHeight: 45px;
+$navbarBackgroundColor: $baseBgColor2;
+$navbarBrandFontSize: 20px;
+$navbarBrandColor: $baseColor2;
+$navbarBrandTextShadow: 2px 2px 4px #000000;
+$navbarBrandPaddingTop: 15px;
+$navbarBrandPaddingBottom: 5px;
+$navbarLogoWidth: 59px;
+$navbarLogoMarginHeight: 30px;
+$navbarLogoMarginTop: 10px;
+$navbarLogoMarginLeft: 5px;
+$navbarMenuColor: $baseColor2;
+$navbarMenuBorderLeft: 1px solid rgb(44, 64, 82);
+$navbarMenuMinWidth: 50px;
+$navbarMenuPadding: 8px;
+
+// checkbox的常量设置
+$checkboxFontSize: $baseFontSize;
+
+// window的常量设置
+$windowHeaderFontSize: $baseFontSize;
+$windowHeaderColor: $baseColor2;
+$windowHeaderPadding: $basePadding;
+$windowContentPadding: $basePadding;
+
+// listbox的常量设置
+$listboxFontSize: $baseFontSize;
+$listboxHeaderHeight: $listboxFontSize * 2;
+$listboxContentHeight: $listboxFontSize * 1.8;
+$listboxCellPadding: 0 $basePadding 0 $basePadding;
+$listboxCheckboxSize: 14px;
+$listboxCheckboxBorderColor: #adadad;
+$listboxCheckboxBackgroundColor: #f5f5f5;
+
+// grid的常量设置
+$gridFontSize: $baseFontSize * 1.0;
+$gridHeaderHeight: $gridFontSize * 2;
+$gridContentHeight: $gridFontSize * 2;
+$gridLineHeight: $gridFontSize * 2;
+$gridCellPadding: $basePadding;
+//$gridBorderColor: $baseBorderColor3;
+$gridBorderColor: $baseBgColor4;
+$gridRowOddBackgroundColor: rgb(249, 249, 249);
+$gridFormBackgroundColor: rgb(255, 255, 255);
+$gridFormBorderColor: rgb(255, 255, 255);
+
+// toolbar的常量设置
+$toolbarHeight: 24px;
+$toolbarFontSize: $baseFontSize;
+$toolbarBorderColor: rgb(255, 255, 255);
+$toolbarBackgroundColor: rgb(255, 255, 255);
+$toolbarSearchWidth: 160px;
+$toolbarSearchHeight: 28px;
+$toolbarSearchPaddingRight: 6px;
+$toolbarSearchPaddingLeft: 24px;
+$toolbarSearchBorderRadius: 2px;
+//$toolbarButtonFontSize:14px;
+//$toolbarButtonFontColor:#6fb3e0;
+$toolbarSearchButtonHeight: 24px;
+
+// button常量设置
+$toolbarButtonWidth: 80px;
+$toolbarButtonHeight: 25px;
+$toolbarButtonFontSize: $baseFontSize;
+$toolbarButtonColor: #6fb3e0;
+$innerButtonWidth: 20px;
+$innerButtonHeight: 18px;
+$innerButtonPadding: 2px 4px;
+$innerButtonFontSize: 14px;
+
+$btnPrimaryBgColor: $baseBgColor2;
+$btnPrimaryBorderColor: $baseBgColor2;
+$btnPrimaryHoverBgColor: #1b6aaa;
+$btnPrimaryHoverBorderColor: #428bca;
+
+$btnInfoBgColor: #6fb3e0;
+$btnInfoBorderColor: #6fb3e0;
+$btnInfoHoverBgColor: #4f99c6;
+$btnInfoHoverBorderColor: #6fb3e0;
+
+$btnSuccessBgColor: #87b87f;
+$btnSuccessBorderColor: #87b87f;
+$btnSuccessHoverBgColor: #629b58;
+$btnSuccessHoverBorderColor: #87b87f;
+
+$btnWarningBgColor: #ffb752;
+$btnWarningBorderColor: #ffb752;
+$btnWarningHoverBgColor: #e59729;
+$btnWarningHoverBorderColor: #ffb752;
+
+$btnDangerBgColor: #d15b47;
+$btnDangerBorderColor: #d15b47;
+$btnDangerHoverBgColor: #b74635;
+$btnDangerHoverBorderColor: #d15b47;
+
+$btnInverseBgColor: #555555;
+$btnInverseBorderColor: #555555;
+$btnInverseHoverBgColor: #303030;
+$btnInverseHoverBorderColor: #555555;
+
+$btnPinkBgColor: #d6487e;
+$btnPinkBorderColor: #d6487e;
+$btnPinkHoverBgColor: #b73766;
+$btnPinkHoverBorderColor: #d6487e;
+
+$btnYellowBgColor: #fee188;
+$btnYellowBorderColor: #fee188;
+$btnYellowHoverBgColor: #f7d05b;
+$btnYellowHoverBorderColor: #fee188;
+
+// breadcrumbs常量设置
+//$breadcrumbsBorderBottomColor: $defalut-border-color3;
+//$breadcrumbsBackgroundColor:rgb(255, 255, 255);
+//$breadcrumbsLineHeight:32px;
+//$breadcrumbsPadding:5px;
+//$breadcrumbLineHeight:24px;
+//$breadcrumbsPadding:11px;
+//$breadcrumbFontColor:#4C8FBD;
+//$breadcrumbLabelPaddingRight:4px;
+//$breadcrumbLabelFontFamily:FontAwesome;
+//$breadcrumbLabelFontSize: $default-font-size;
+//$breadcrumbLabelFontColor:#b2b6bf;
+
+@mixin button-style($bg_color,$border_color,$hover_bg_color,$hover_border_color) {
+  background-color: $bg_color !important;
+  border-color: $border_color;
+  &:focus {
+    background-color: $bg_color !important;
+    border-color: $border_color;
+  }
+  &:hover {
+    background-color: $hover_bg_color !important;
+    border-color: $hover_border_color;
+  }
+  &.open {
+    background-color: $hover_bg_color !important;
+    border-color: $hover_border_color;
+  }
+}
+
+// 设置区域padding属性
+@mixin region-padding($border,$pading_top,$padding_right,$padding_bottom,$padding_left) {
+  border: $border;
+  padding: $pading_top $padding_right $padding_bottom $padding_left;
+  //margin: 0 $margin_right 0 $margin_left;
+}
+
+// 变量区别
+//$color:red;
+//.abc{
+//  $color:blue;
+//  color:$color;//blue
+//}
+//.abcd{
+//  color:$color;//blue  --> red
+//}
+
+//.abcd {
+//  color:lighten($red,10%);
+//}

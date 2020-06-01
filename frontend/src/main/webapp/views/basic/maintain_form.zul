@@ -1,0 +1,106 @@
+<!--
+基础管理 >>维修项目及定时金额表单
+-->
+<!--<window title="维修项目编辑" border="normal" width="500px" height="350px"-->
+<!--sizable="false"-->
+<!--style="margin:20px;padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.MaintainFormVM')"-->
+<!--validationMessages="@id('vmsgs')">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.MaintainFormVM')">
+        <center sclass="c-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout>
+                <div sclass="ctoolbars" style="padding-top:2px">
+                    <div sclass="ctoolbar">
+                        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default "
+                                label="保存"
+                                if="${vm.enableUpdate}"
+                                onClick="@command('submit')"/>
+                    </div>
+                </div>
+                <grid oddRowSclass="none" sclass="form-grid" style="margin-top:10px">
+                    <columns>
+                        <column width="60px"></column>
+                        <column hflex="1"></column>
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="项目编号"/>
+                            <textbox value="@bind(vm.maintainInfo.code)" hflex="1" tabindex="1"/>
+                        </row>
+                        <row>
+                            <label value="项目名称"/>
+                            <textbox value="@bind(vm.maintainInfo.name)" hflex="1" tabindex="1"/>
+                        </row>
+                        <row>
+                            <label value="工时定额"/>
+                            <decimalbox value="@bind(vm.maintainInfo.workTime)" hflex="1" tabindex="1" format="####.##"
+                                        style="text-align:left"
+                                        constraint="no empty,no negative"/>
+                        </row>
+                        <row>
+                            <label value="备注"/>
+                            <textbox value="@bind(vm.maintainInfo.comment)" hflex="1" tabindex="1"/>
+                        </row>
+                        <row>
+                            <label value="车型平台"/>
+                            <bandbox mold="rounded" autodrop="true" hflex="1" readonly="true"
+                                     value="@bind(vm.maintainInfo.vehicleModelName)">
+                                <bandpopup width="300px" height="300px">
+                                    <vlayout hflex="1" vflex="1">
+                                        <grid style="border:none" vflex="1" model="@load(vm.vehiclePlatformInfos)"
+                                              emptyMessage="没有数据">
+                                            <template name="model">
+                                                <row onClick="@command('selectVehiclePlatform',model=each)">
+                                                    <label value="@load(each.name)"/>
+                                                </row>
+                                            </template>
+                                        </grid>
+                                    </vlayout>
+                                </bandpopup>
+                            </bandbox>
+                        </row>
+                        <row>
+                            <label value="车辆系统"/>
+                            <bandbox mold="rounded" autodrop="true" hflex="1" readonly="true"
+                                     value="@bind(vm.maintainInfo.vehicleSystemName)">
+                                <bandpopup width="300px" height="300px">
+                                    <vlayout hflex="1" vflex="1">
+                                        <grid style="border:none" vflex="1" model="@load(vm.vehicleSystems)"
+                                              emptyMessage="没有数据">
+                                            <template name="model">
+                                                <row onClick="@command('selectVehicleSystem',model=each)">
+                                                    <label value="@load(each.name)"/>
+                                                </row>
+                                            </template>
+                                        </grid>
+                                    </vlayout>
+                                </bandpopup>
+                            </bandbox>
+                        </row>
+                        <row>
+                            <label value="子系统"/>
+
+                            <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                     value="@bind(vm.maintainInfo.vehicleSubSystemName)">
+                                <bandpopup width="300px" height="300px">
+                                    <grid style="border:none" vflex="1" model="@load(vm.vehicleSubSystems)"
+                                          emptyMessage="没有数据">
+                                        <template name="model">
+                                            <row onClick="@command('selectVehicleSubSystem',model=each)">
+                                                <label value="@load(each.name)"/>
+                                                <!--<label value="@load(each.vsn)"/>-->
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </bandpopup>
+                            </bandbox>
+                        </row>
+                    </rows>
+                </grid>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>

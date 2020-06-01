@@ -1,0 +1,96 @@
+<!--
+基础管理 >>维修项目及定时金额表单
+-->
+<!--<window title="维修项目编辑" border="normal" width="500px" height="350px"-->
+<!--sizable="false"-->
+<!--style="margin:20px;padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.MaintainFormVM')"-->
+<!--validationMessages="@id('vmsgs')">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.MaintainImportFormVM')">
+        <north sclass="c-north">
+            <hlayout>
+                <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                    <columns>
+                        <column width="100px"></column>
+                        <column hflex="1"></column>
+                    </columns>
+                    <rows>
+                        <row>
+                            <button label="选择文件" iconSclass="@load(iconVariable.icon_search)"
+                                    sclass="btn-default"
+                                    upload="true,maxsize=5120"
+                                    onUpload="@command('doUploadFile',event=event)"/>
+                            <textbox hflex="1" value="@load(vm.uploadFilename)"/>
+                        </row>
+                    </rows>
+                </grid>
+            </hlayout>
+        </north>
+        <center sclass="c-center" hflex="1" vflex="1">
+            <vlayout width="100%" vflex="1">
+                <div sclass="include">
+                    <div sclass="ctoolbars" xmlns="http://www.zkoss.org/2005/zul">
+                        <div sclass="ctoolbar">
+                            <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="导入"
+                                    onClick="@command('importMaintains')"/>
+                        </div>
+                        <div sclass="ctoolbar" style="float:right">
+                            <!--<button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"-->
+                            <!--label="查询"-->
+                            <!--onClick="@command('refreshData')"></button>-->
+                            <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                    label="重置"
+                                    onClick="@command('reset')"></button>
+                        </div>
+                    </div>
+                </div>
+                <grid hflex="true" vflex="true" sclass="list-grid" model="@load(vm.infos)" mold="paging"
+                      pageSize="@load(vm.pageSize)">
+                    <columns>
+                        <column width="30px" label="行号" align="center"></column>
+                        <column width="120px" label="项目编号" align="center"></column>
+                        <column width="200px" label="项目名称" align="center"></column>
+                        <column width="120px" label="工时定额" align="center"></column>
+                        <column width="100px" label="车型平台" align="center"></column>
+                        <column width="100px" label="车辆系统" align="center"></column>
+                        <column width="100px" label="子系统" align="center"></column>
+                        <column hflex="1" label="维修内容" align="center"></column>
+                    </columns>
+                    <template name="model">
+                        <row style="border:none">
+                            <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                            <!--<label value="@load(each.code)"-->
+                            <!--style="@load(each.err eq 4?'background:yellow':'')"/>-->
+                            <textbox value="@bind(each.code)" hflex="1"
+                                     style="@load(each.err eq 4?'background:yellow':'')"
+                                     tooltiptext="@load((each.err eq 4)?'项目编号重复!':'')"/>
+                            <div align="left">
+                                <textbox value="@bind(each.name)" hflex="1"/>
+                            </div>
+                            <textbox value="@bind(each.workTime)" hflex="1"/>
+                            <textbox value="@bind(each.vehicleModelName)" hflex="1"
+                                     tooltiptext="@load(each.err eq 1?'车型平台有误!':'')"
+                                     style="@load((each.err eq 1)?'background:yellow':'')"/>
+                            <textbox value="@bind(each.vehicleSystemName)" hflex="1"
+                                     tooltiptext="@load(each.err eq 2?'车辆系统有误!':'')"
+                                     style="@load((each.err eq 2)?'background:yellow':'')"/>
+                            <textbox value="@bind(each.vehicleSubSystemName)" hflex="1"
+                                     tooltiptext="@load(each.err eq 3?'子系统有误!':'')"
+                                     style="@load((each.err eq 3)?'background:yellow':'')"/>
+                            <div align="left">
+                                <textbox value="@bind(each.comment)" hflex="1"/>
+                            </div>
+                        </row>
+                    </template>
+                </grid>
+                <hlayout>
+                    <label value="记录数:"/>
+                    <label value="@load(vm.infos.size())"/>
+                </hlayout>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>

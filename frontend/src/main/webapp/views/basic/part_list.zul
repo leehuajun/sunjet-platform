@@ -1,0 +1,105 @@
+<!--
+基础管理 >>配件目录
+-->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.PartListVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none">
+                        <label value="配件号:"/>
+                        <textbox hflex="1" value="@bind(vm.partInfo.code)"/>
+                        <label value="配件名称:"/>
+                        <textbox hflex="1" value="@bind(vm.partInfo.name)"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <div sclass="include">
+                <div sclass="ctoolbars" xmlns="http://www.zkoss.org/2005/zul">
+                    <div sclass="ctoolbar">
+                        <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="新增"
+                                onClick="@command('openForm',objId=null,url=vm.formUrl,title=vm.title)"
+                                if="${vm.enableAdd}"/>
+                        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="批量增加"
+                                onClick="@command('openForm',objId=null,url='/views/basic/part_import_add_list.zul',title='批量增加配件')"
+                                if="${vm.enableImportAddParts}"/>
+                        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="批量修改"
+                                onClick="@command('openForm',objId=null,url='/views/basic/part_import_modify_list.zul',title='批量修改配件')"
+                                if="${vm.enableImportModifyParts}"/>
+                    </div>
+                    <div sclass="ctoolbar" style="float:right">
+                        <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"
+                                label="查询"
+                                onClick="@command('refreshData')"></button>
+                        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                label="重置"
+                                onClick="@command('reset')"></button>
+                    </div>
+                </div>
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"></column>
+                    <column hflex="1" label="配件号" align="center"/>
+                    <column hflex="1" label="配件名称" align="center"/>
+                    <column hflex="1" label="计量单位" align="center"/>
+                    <column hflex="1" label="价格(元)" align="center"/>
+                    <column hflex="1" label="配件分类" align="center"/>
+                    <column hflex="1" label="类型" align="center"/>
+                    <column hflex="1" label="三包时间(月)" align="center"/>
+                    <column hflex="1" label="三包里程(公里)" align="center"/>
+                    <column hflex="1" label="状态" align="center"/>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('openForm',url=vm.formUrl,objId=each.objId,title=vm.title)">
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <div align="left">
+                            <label value="@load(each.code)" tooltiptext="@load(each.code)"
+                                   style="color:rgb(78,116,149);font-weight:700"/>
+                        </div>
+                        <div align="left">
+                            <label value="@load(each.name)" tooltiptext="@load(each.name)"/>
+                        </div>
+                        <label value="@load(each.unit)" tooltiptext="@load(each.unit)"/>
+                        <div align="right" style="padding-right:10px">
+                            <label value="@load(each.price)" tooltiptext="@load(each.price)"/>
+                        </div>
+                        <label value="@load(each.partClassify)" tooltiptext="@load(each.partClassify)"/>
+                        <label value="@load(each.partType)" tooltiptext="@load(each.partType)"/>
+                        <label value="@load(each.warrantyTime)" tooltiptext="@load(each.warrantyTime)"/>
+                        <label value="@load(each.warrantyMileage)" tooltiptext="@load(each.warrantyMileage)"/>
+                        <label value="@bind(each.enabled eq true ? '启用':'禁用')"
+                               style="@load(each.enabled eq true ? 'color:green':'color:red' )"></label>
+                    </row>
+                </template>
+
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

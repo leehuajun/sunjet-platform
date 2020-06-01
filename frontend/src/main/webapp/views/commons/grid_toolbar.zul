@@ -1,0 +1,22 @@
+<hlayout>
+    <!--<button iconSclass="@load(iconVariable.icon_edit)" sclass="btn-default inner-button" label=""-->
+    <!--tooltiptext="修改"-->
+    <!--onClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)"-->
+    <!--style="align:right;padding-left:5px;font-weight:700;font-size:14px;"/>-->
+    <a href="#" tooltiptext="修改密码" sclass="btn-success" style="text-align:center;padding:3px 4.5px;font-weight:700;"
+       iconSclass="@load(iconVariable.icon_icon_key)"
+       onClick="@command('changePassword',objId=each.objId)"
+       if="${vm.enableUpdate}"></a>
+    <a href="#" tooltiptext="修改用户信息" sclass="btn-success" style="text-align:center;padding:3px 4.5px;font-weight:700;"
+       if="${vm.enableUpdate}"
+       iconSclass="@load(iconVariable.icon_edit)"
+       onClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)"></a>
+    <!--<button iconSclass="@load(iconVariable.icon_delete)" sclass="btn-default inner-button" label=""-->
+    <!--tooltiptext="删除"-->
+    <!--onClick="@command('deleteEntity',objId=each.objId)"-->
+    <!--style="padding-left:5px;font-weight:700;font-size:14px;"/>-->
+    <a href="#" tooltiptext="删除" sclass="btn-danger" style="text-align:center;padding:3px 4.5px;font-weight:700;"
+       if="${vm.enableDelete}"
+       iconSclass="@load(iconVariable.icon_delete)" onClick="@command('deleteEntity',objId=each.objId)"></a>
+
+</hlayout>

@@ -1,0 +1,134 @@
+<!-- 服务站退出申请 -->
+<!--<window title="服务站退出申请" border="normal" width="1000px" height="450px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.dealer.DealerQuitFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClose="spaceOwner.detach();">-->
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.dealer.DealerQuitFormVM')"
+                  width="100%" height="100%">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <!--<caption>基本信息</caption>-->
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                        <columns>
+                            <column width="65px"/>
+                            <column hflex="1"/>
+                            <column width="65px"/>
+                            <column hflex="1"/>
+                            <column width="65px"/>
+                            <column hflex="1"/>
+                            <column width="65px"/>
+                            <column hflex="1"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="服务站编号"></label>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         buttonVisible="@load(!vm.readonly)"
+                                         value="@load(vm.dealerInfo.code)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox hflex="1" value="@bind(vm.keyword)"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchDealers',keyword=vm.keyword)"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="服务站编号"/>
+                                                    <column hflex="2" label="服务站名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectDealer',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="服务站名称"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.name)" readonly="true"/>
+                                <label value="电话"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.phone)" readonly="true"/>
+                                <label value="地址"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.address)" readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="所在省"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.provinceName)" readonly="true"/>
+                                <label value="市"></label>
+                                <textbox hflex="1" value="@bind(vm.city.name)" readonly="true"/>
+                                <label value="服务站级别"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.level)" readonly="true"/>
+                                <label value="父级服务站"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.parentName)" readonly="true"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <groupbox>
+                    <!--<caption>人员信息</caption>-->
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                        <columns>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="法人代表"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.legalPerson)" readonly="true"/>
+                                <label value="法人电话"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.legalPersonPhone)" readonly="true"/>
+                                <label value="站长"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.stationMaster)" readonly="true"/>
+                                <label value="站长电话"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.stationMasterPhone)" readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="技术主管"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.technicalDirector)" readonly="true"/>
+                                <label value="技术主管电话"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.technicalDirectorPhone)" readonly="true"/>
+                                <label value="索赔主管"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.claimDirector)" readonly="true"/>
+                                <label value="索赔主管电话"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.claimDirectorPhone)" readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="配件主管"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.partDirector)" readonly="true"/>
+                                <label value="配件主管电话"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.partDirectorPhone)" readonly="true"/>
+                                <label value="财务经理"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.financeDirector)" readonly="true"/>
+                                <label value="财务经理电话"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.financeDirectorPhone)" readonly="true"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <label value="=== 退出原因说明 ===" style="color:green;font-weight:700"/>
+                <textbox hflex="1" value="@bind(vm.dealerQuitRequest.reason)" rows="6" readonly="@load(vm.readonly)"/>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

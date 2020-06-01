@@ -1,0 +1,45 @@
+<vlayout hflex="1" vflex="1" style="padding-bottom:0px">
+    <include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>
+    <!--<div style="box-shadow:0 2px 3px 0 rgba(0,0,0,.3)" hflex="1" vflex="1">-->
+    <grid hflex="true" vflex="true" sclass="list-grid" model="@load(vm.pageResult.rows)">
+        <columns sizable="true">
+            <column width="30px" label="行号" align="center"/>
+            <column width="150px" label="单据编号" align="center" sort="auto(docNo)"/>
+            <column width="120px" label="服务站编号" align="center" sort="auto(code)"/>
+            <column hflex="1" label="服务站名称" align="left" sort="auto(name)"/>
+            <column width="120px" label="申请日期" align="center" sort="auto(createdTime)"/>
+            <column width="100px" label="申请人" align="center" sort="auto(submitterName)"/>
+            <column width="150px" label="当前处理" align="center"/>
+            <column width="60px" label="状态" align="center" sort="auto(status)"/>
+            <column width="60px" label="操作" align="center"/>
+        </columns>
+        <template name="model">
+            <row onDoubleClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)">
+                <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                <label hflex="1" value="@load(each.docNo)" tooltiptext="@load(each.docNo)"/>
+                <label hflex="1" value="@load(each.code)" tooltiptext="@load(each.code)"/>
+                <label hflex="1" value="@load(each.name)" tooltiptext="@load(each.name)"/>
+                <label hflex="1" value="@load(vm.dateToString(each.createdTime))"
+                       tooltiptext="@load(each.createdTime)"/>
+                <label hflex="1" value="@load(each.submitterName)" tooltiptext="@load(each.submitterName)"/>
+                <label hflex="1" value="@load(vm.getCurrentNode(each.processInstanceId))"
+                       tooltiptext="@load(vm.getCurrentNode(each.processInstanceId))"/>
+                <label hflex="1" value="@load(vm.getStatusName(each.status))"
+                       tooltiptext="@load(vm.getStatusName(each.status))" style="@load(vm.getColor(each.status))"/>
+                <!--<label hflex="1" value="1"/>-->
+
+                <include src="/views/commons/flow_grid_toolbar.zul"/>
+            </row>
+        </template>
+    </grid>
+    <paging
+            pageSize="@bind(vm.pageResult.pageSize)"
+            totalSize="@bind(vm.pageResult.total)"
+            pageIncrement="1"
+            detailed="true"
+            activePage="@bind(vm.pageResult.page)"
+            onPaging="@command('gotoPageNo',e=event)"
+            style="border:0px"
+    />
+    <!--</div>-->
+</vlayout>

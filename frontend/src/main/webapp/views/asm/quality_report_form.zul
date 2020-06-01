@@ -1,0 +1,310 @@
+<!--售后质量速报单-->
+<!--<window title="质量速报" border="normal" width="0px" height="0px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.asm.QualityReportFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--onClientInfo="@command('checkClientInfo',evt=event)">-->
+
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.asm.QualityReportFormVM')" width="100%"
+                  height="100%">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout width="100%" height="@load(vm.windowHeight)">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                    <include src="/views/asm/checkResult.zul"/>
+                    <include src="/views/asm/select_vehicle_form.zul"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin:0;padding:0">
+                        <columns>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="速报标题"/>
+                                <cell colspan="3">
+                                    <textbox value="@bind(vm.qualityReportInfo.title)" hflex="1" tabindex="1"
+                                             readonly="@load(vm.readonly)"/>
+                                </cell>
+                                <label value="申请单编号"/>
+                                <textbox value="@bind(vm.qualityReportInfo.docNo)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="状态"/>
+                                <textbox value="@bind(vm.getStatusName(vm.qualityReportInfo.status))" hflex="1"
+                                         tabindex="4"
+                                         readonly="true"/>
+                            </row>
+                            <row style="border:none;height:30px">
+
+                                <label value="服务站编号"/>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@load(vm.qualityReportInfo.dealerCode)"
+                                         buttonVisible="@bind(!vm.readonly)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                                <button label="清除" sclass="btn-warn"
+                                                        onClick="@command('clearSelectedDealer')"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="服务站编号"/>
+                                                    <column hflex="2" label="服务站名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectDealer',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="服务站名称:"/>
+                                <textbox value="@bind(vm.qualityReportInfo.dealerName)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <!--<label value="车辆分类"/>-->
+                                <!--<listbox mold="select" disabled="@load(vm.manager)"-->
+                                <!--model="@load(vm.fmvehicleTypes)"-->
+                                <!--hflex="1"-->
+                                <!--selectedItem="@bind(vm.selectedVehicleType)"-->
+                                <!--onSelect="@command('changevehicleType',model=each)">-->
+                                <!--<template name="model">-->
+                                <!--<listitem label="@load(each.getName())"-->
+                                <!--value="@load(each)">-->
+                                <!--</listitem>-->
+                                <!--</template>-->
+                                <!--</listbox>-->
+                                <label value="速报级别"/>
+                                <div>
+                                    <combobox hflex="1" tabindex="1" value="@bind(vm.qualityReportInfo.reportType)"
+                                              readonly="true" disabled="@load(vm.manager)">
+                                        <comboitem label="普通"></comboitem>
+                                        <comboitem label="严重"></comboitem>
+                                    </combobox>
+                                </div>
+
+
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="申请人"/>
+                                <textbox value="@bind(vm.qualityReportInfo.submitterName)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="申请人电话"/>
+                                <textbox value="@bind(vm.qualityReportInfo.submitterPhone)" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="服务经理"/>
+                                <textbox value="@bind(vm.qualityReportInfo.serviceManager)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="服务电话"/>
+                                <textbox value="@bind(vm.qualityReportInfo.serviceManagerPhone)" hflex="1"
+                                         tabindex="1" readonly="@load(vm.readonly)"/>
+                            </row>
+
+                        </rows>
+                    </grid>
+                </groupbox>
+                <groupbox>
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin:0;padding:0">
+                        <columns>
+                            <column hflex="1"></column>
+                            <column hflex="4"></column>
+                            <column hflex="1"></column>
+                            <column hflex="4"></column>
+                        </columns>
+                        <rows>
+                            <row style="border:none;height:30px">
+                                <label value="故障时行驶状态"/>
+                                <textbox value="@bind(vm.qualityReportInfo.faultStatus)" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="故障时路面情况"/>
+                                <textbox value="@bind(vm.qualityReportInfo.faultRoad)" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="故障发生地点"/>
+                                <textbox value="@bind(vm.qualityReportInfo.faultAddress)" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="上传附件"/>
+                                <div align="left">
+                                    <a target="_blank"
+                                       href="@load(vm.getFilePath(vm.qualityReportInfo.file))"
+                                       label="查看"
+                                       visible="@bind(not empty vm.qualityReportInfo.file)"/>
+                                    <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                            sclass="btn-default inner-button" upload="true,maxsize=10240"
+                                            onUpload="@command('doUploadFile',event=event)"
+                                            disabled="@bind(vm.readonly)"/>
+                                    <button iconSclass="@load(iconVariable.icon_delete)"
+                                            sclass="btn-danger inner-button" label=""
+                                            tooltiptext="删除" visible="@load(!vm.readonly)"
+                                            onClick="@command('delUploadFile',event=event)"
+                                            style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                </div>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="故障描述"/>
+                                <cell colspan="3">
+                                    <textbox value="@bind(vm.qualityReportInfo.faultDesc)" hflex="1" tabindex="1"
+                                             readonly="@load(vm.readonly)" rows="2"/>
+                                </cell>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="初步原因分析"/>
+                                <cell colspan="3">
+                                    <textbox value="@bind(vm.qualityReportInfo.initialReason)" hflex="1" tabindex="1"
+                                             readonly="@load(vm.readonly)" rows="2"/>
+                                </cell>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="处置意见"/>
+                                <cell colspan="3">
+                                    <textbox value="@bind(vm.qualityReportInfo.decisions)" hflex="1" tabindex="1"
+                                             readonly="@load(vm.readonly)" rows="2"/>
+                                </cell>
+                            </row>
+                            <row>
+                                <label value="备注"></label>
+                                <cell colspan="7">
+                                    <textbox rows="2" maxlength="200" hflex="7"
+                                             value="@bind(vm.qualityReportInfo.comment)"></textbox>
+                                </cell>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <tabbox sclass="ntabbox" vflex="true" hflex="true">
+                    <tabs>
+                        <tab label="车辆信息"/>
+                        <tab label="配件信息"/>
+                    </tabs>
+                    <tabpanels style="border-bottom:1px solid green">
+                        <tabpanel style="padding:0">
+                            <vlayout width="100%" height="100%">
+                                <button label="增加车辆" onClick="@command('selectVehicles')" sclass="btn-default c-button"
+                                        visible="@load(!vm.readonly)"/>
+                                <grid hflex="true" vflex="true" sclass="list-grid"
+                                      autopaging="true"
+                                      mold="paging"
+                                      oddRowSclass="none" style="padding:0"
+                                      model="@bind(vm.qualityReportInfo.reportVehicleInfos)">
+                                    <columns sizable="true">
+                                        <column width="30px" label="行号" align="center"/>
+                                        <column width="150px" label="VIN" align="center"/>
+                                        <column width="150px" label="VSN" align="center"/>
+                                        <column width="120px" label="车型型号" align="center"/>
+                                        <column width="120px" label="发动机号" align="center"/>
+                                        <column width="120px" label="车辆类别" align="center"/>
+                                        <column width="220px" label="车主" align="center"/>
+                                        <column width="100px" label="手机" align="center"/>
+                                        <column width="100px" label="行驶里程" align="center"/>
+                                        <column width="120px" label="报修日期" align="center"/>
+                                        <column width="120px" label="购买日期" align="center"/>
+                                        <column width="120px" label="出厂日期" align="center"/>
+                                        <column hflex="1" label="备注" align="center"/>
+                                        <column width="30px" label="操作" align="center"/>
+
+                                    </columns>
+                                    <template name="model">
+                                        <row>
+                                            <label value="${forEachStatus.index + 1}" sclass="label-index"/>
+                                            <label value="@bind(each.vehicle.vin)"/>
+                                            <label value="@bind(each.vehicle.vsn)"/>
+                                            <label value="@bind(each.vehicle.vehicleModel)"/>
+                                            <label value="@bind(each.vehicle.engineNo)"/>
+                                            <label value="@bind(each.vehicle.typeName)"/>
+                                            <label value="@bind(each.vehicle.ownerName)"/>
+                                            <label value="@bind(each.vehicle.mobile)"/>
+                                            <textbox hflex="1" value="@bind(each.mileage)"
+                                                     readonly="@load(vm.readonly)"></textbox>
+                                            <datebox hflex="1" value="@bind(each.repairDate)" readonly="true"
+                                                     buttonVisible="@load(!vm.readonly)"></datebox>
+                                            <datebox hflex="1" value="@bind(each.vehicle.purchaseDate)" readonly="true"
+                                                     buttonVisible="@load(!vm.readonly)"></datebox>
+                                            <datebox hflex="1" value="@bind(each.vehicle.productDate)" readonly="true"
+                                                     buttonVisible="@load(!vm.readonly)"></datebox>
+                                            <textbox hflex="1" value="@bind(each.comment)"
+                                                     readonly="@load(vm.readonly)"></textbox>
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button"
+                                                    onClick="@command('deleteVehicle',model=each)"
+                                                    visible="@load(!vm.readonly)"/>
+                                        </row>
+                                    </template>
+                                </grid>
+                            </vlayout>
+                        </tabpanel>
+                        <tabpanel style="padding:0">
+                            <vlayout height="100%">
+                                <button label="增加配件" onClick="@command('selectParts')" sclass="btn-default c-button"
+                                        visible="@load(!vm.readonly)"/>
+                                <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+                                      style="margin-bottom:15px;padding:0"
+                                      model="@bind(vm.qualityReportInfo.reportPartInfos)">
+                                    <columns sizable="true">
+                                        <column width="30px" label="行号" align="center"/>
+                                        <column hflex="2" label="零件件号" align="left"/>
+                                        <column hflex="2" label="零件名称" align="left"/>
+                                        <column width="80px" label="计量单位" align="center"/>
+                                        <column hflex="2" label="三包时间" align="left"/>
+                                        <column hflex="2" label="三包里程" align="left"/>
+                                        <column width="80px" label="价格" align="center"/>
+                                        <column width="80px" label="数量" align="center"/>
+                                        <column width="100px" label="金额" align="center"/>
+                                        <column width="120px" label="故障模式" align="center"/>
+                                        <column hflex="2" label="备注" align="center"/>
+                                        <column width="30px" label="操作" align="center"/>
+                                    </columns>
+                                    <template name="model">
+                                        <row>
+                                            <label value="${forEachStatus.index + 1}" sclass="label-index"/>
+                                            <label value="@load(each.part.code)"/>
+                                            <label value="@bind(each.part.name)"/>
+                                            <label value="@bind(each.part.unit)"/>
+                                            <label value="@bind(each.part.warrantyTime)"/>
+                                            <label value="@bind(each.part.warrantyMileage)"/>
+                                            <label value="@bind(each.part.price)"/>
+                                            <decimalbox format="####.##" hflex="1" value="@bind(each.amount)"
+                                                        readonly="@load(vm.readonly)"/>
+                                            <decimalbox format="####.##" value="@bind(each.part.price*each.amount)"
+                                                        readonly="true"/>
+                                            <textbox hflex="1" value="@bind(each.fault)"
+                                                     readonly="@load(vm.readonly)"></textbox>
+                                            <textbox hflex="1" value="@bind(each.comment)"
+                                                     readonly="@load(vm.readonly)"></textbox>
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button"
+                                                    onClick="@command('deletePart',model=each)"
+                                                    visible="@load(!vm.readonly)"/>
+                                        </row>
+                                    </template>
+                                </grid>
+                            </vlayout>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>
+        <!--</window>-->

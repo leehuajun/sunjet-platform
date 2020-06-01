@@ -1,0 +1,183 @@
+<!-- 故障件返回通知单 表单 -->
+<!--<window title="故障件返回通知单" border="normal" width="0" height="0" sizable="true"-->
+<!--style="padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach();" maximizable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.asm.RecycleNoticeFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClientInfo="@command('checkClientInfo',evt=event)">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.asm.RecycleNoticeFormVM')">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin:0;padding:0">
+                        <columns>
+                            <column width="80px"></column>
+                            <column hflex="1"></column>
+                            <column width="80px"></column>
+                            <column hflex="1"></column>
+                            <column width="80px"></column>
+                            <column hflex="1"></column>
+                            <column width="80px"></column>
+                            <column hflex="1"></column>
+                        </columns>
+                        <rows>
+                            <row style="border:none;height:30px">
+                                <label value="单号"/>
+                                <textbox value="@bind(vm.recycleNoticeInfo.docNo)" hflex="1" readonly="true"/>
+                                <label value="状态"/>
+                                <textbox value="@bind(vm.getStatusName(vm.recycleNoticeInfo.status))" hflex="1"
+                                         tabindex="4"
+                                         readonly="true"/>
+                                <label value="经办人"/>
+                                <textbox value="@load(vm.recycleNoticeInfo.submitterName)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="返回时间要求"/>
+                                <datebox value="@bind(vm.recycleNoticeInfo.returnDate)" hflex="1" format="medium"
+                                         readonly="true"
+                                         buttonVisible="@load(!vm.readonly)"/>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="服务站编号"/>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@bind(vm.recycleNoticeInfo.dealerCode)"
+                                         buttonVisible="@load(!vm.readonly)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                                <button label="清除" sclass="btn-warn"
+                                                        onClick="@command('clearSelectedDealer')"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="服务站编号"/>
+                                                    <column hflex="2" label="服务站名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectDealer',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="服务站名称"/>
+                                <textbox value="@bind(vm.recycleNoticeInfo.dealerName)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="来源单据号"/>
+                                <div>
+                                    <textbox value="@load(vm.recycleNoticeInfo.srcDocNo)" hflex="1" tabindex="1"
+                                             readonly="true"/>
+                                    <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-success" label=""
+                                            visible="@load(vm.recycleNoticeInfo.srcDocID eq null ? false:true)"
+                                            tooltiptext="查看来源单据详情"
+                                            onClick="@command('openSrcDocForm')"
+                                            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                                </div>
+                                <label value="来源单据类型"/>
+                                <textbox value="@load(vm.recycleNoticeInfo.srcDocType)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                            </row>
+                            <row>
+                                <label hflex="1" value="备注"></label>
+                                <cell colspan="7">
+                                    <textbox hflex="7" maxlength="200" rows="3"
+                                             value="@bind(vm.recycleNoticeInfo.comment)"></textbox>
+                                </cell>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <toolbar sclass="nav_toolbar" style="background:#fff;">
+                    <button sclass="btn-default" label="添加物料" onClick="@command('addPart')"
+                            if="${vm.recycleNoticeInfo.srcDocNo eq null?true:false}"
+                            visible="@load(!vm.readonly)"/>
+                </toolbar>
+                <grid hflex="true" vflex="true" sclass="list-grid"
+                      model="@bind(vm.recycleNoticeInfo.recycleNoticeItemInfoList)">
+                    <columns sizable="true">
+                        <column width="30px" label="行号" align="center"/>
+                        <column width="200px" label="零件件号" align="center"/>
+                        <column width="250px" label="零件名称" align="center"/>
+                        <column hflex="1" label="三包时间" align="center"/>
+                        <column hflex="1" label="三包里程" align="center"/>
+                        <column width="100px" label="需返回数量" align="center"/>
+                        <column width="100px" label="已返回数量" align="center"/>
+                        <column width="100px" label="待返回数量" align="center"/>
+                        <column hflex="1" label="备注" align="center"/>
+                        <column width="40px" label="操作" align="center"/>
+                    </columns>
+                    <template name="model">
+                        <row onClick="@command('selectRecycleNoticePart',model=each)">
+                            <label value="${forEachStatus.index + 1}" sclass="label-index"/>
+                            <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                     buttonVisible="@load(vm.recycleNoticeInfo.srcDocNo eq null?true:false)"
+                                     value="@load(each.partCode)">
+                                <bandpopup width="300px" height="300px">
+                                    <vlayout hflex="1" vflex="1">
+                                        <hlayout>
+                                            <textbox value="@bind(vm.keyword)" hflex="1"
+                                                     placeholder="输入关键字..回车搜索"
+                                                     sclass="input-prepend"
+                                                     onOK="@command('searchParts')"/>
+                                            <button label="查询" sclass="btn-default"
+                                                    onClick="@command('searchParts')"/>
+                                        </hlayout>
+                                        <grid style="border:none" vflex="1" model="@load(vm.parts)"
+                                              emptyMessage="没有数据">
+                                            <columns>
+                                                <column hflex="1" label="零件编号"/>
+                                                <column hflex="1" label="零件名称"/>
+                                                <column width="80px" label="计量单位"/>
+                                            </columns>
+                                            <template name="model">
+                                                <row onClick="@command('selectPart',model=each)">
+                                                    <label value="@load(each.code)"/>
+                                                    <label value="@load(each.name)"/>
+                                                    <label value="@load(each.unit)"/>
+                                                </row>
+                                            </template>
+                                        </grid>
+                                    </vlayout>
+                                </bandpopup>
+                            </bandbox>
+                            <textbox hflex="1" value="@bind(each.partName)" readonly="true"/>
+                            <textbox hflex="1" value="@bind(each.warrantyTime)" readonly="true"/>
+                            <textbox hflex="1" value="@bind(each.warrantyMileage)" readonly="true"/>
+                            <decimalbox format="####.##" hflex="1" value="@bind(each.amount)"
+                                        readonly="@load(vm.readonly)"/>
+                            <decimalbox format="####.##" hflex="1" value="@bind(each.backAmount)" readonly="true"/>
+                            <decimalbox format="####.##" hflex="1" value="@bind(each.amount - each.backAmount)"
+                                        readonly="true"/>
+                            <textbox hflex="1" value="@bind(each.comment)" readonly="@load(vm.readonly)"/>
+                            <div>
+                                <button iconSclass="@load(iconVariable.icon_delete)"
+                                        sclass="btn-default inner-button"
+                                        if="${vm.recycleNoticeInfo.srcDocNo eq null?true:false}"
+                                        onClick="@command('deletePart',model=each)" visible="@bind(!vm.readonly)">
+                                </button>
+                            </div>
+                        </row>
+                    </template>
+                </grid>
+
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

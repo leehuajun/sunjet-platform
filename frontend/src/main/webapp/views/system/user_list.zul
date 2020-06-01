@@ -1,0 +1,88 @@
+<!-- 用户列表 -->
+<!--<window xmlns:w="client">-->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.UserListVM')"
+              style="background-color:rgb(255,255,255);padding:0px;"
+>
+    <center autoscroll="true" sclass="form-center">
+        <vlayout width="100%" height="100%" style="padding-bottom:0px">
+            <div sclass="include">
+                <include src="/views/commons/list_toolbar.zul"/>
+                <div sclass="nav-search">
+                    <bandbox placeholder="输入关键字..回车搜索" sclass="input-prepend"
+                             value="@bind(vm.userItem.name)" onOK="@command('refreshData')"/>
+                </div>
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+                  model="@load(vm.pageResult.rows)"
+            >
+                <columns>
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="120px" label="姓名" align="left" sort="auto(name)"/>
+                    <column width="120px" label="登录名" align="left" sort="auto(logId)"/>
+                    <column width="100px" label="电话" align="left"/>
+                    <column width="100px" label="E-mail" align="left"/>
+                    <column hflex="1" label="角色" align="left"/>
+                    <column width="40px" label="状态" align="center" sort="auto(enabled)"/>
+                    <column width="80px" label="操作" align="center"/>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)">
+                        <!--<label hflex="1" value="@load(each.objId)" style="border-right:solid 1px rgb(233,233,233)"/>-->
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label hflex="1" value="@load(each.name)" style="color:rgb(78,116,149);font-weight:700"/>
+                        <label hflex="1" value="@load(each.logId)"/>
+                        <label hflex="1" value="@load(each.phone)"/>
+                        <label hflex="1" value="@load(each.email)"/>
+                        <!--<label hflex="1" value="@load(each.roles.toString().replace('[', '').replace(']', ''))" tooltiptext="@load(each.roles)"/>-->
+                        <!--<label hflex="1" value="@load(vm.formatRoles(each.roles))" tooltiptext="@load(vm.formatRoles(each.roles))"/>-->
+                        <label hflex="1" value="@load(each.roleNames)" tooltiptext="@load(each.roleNames)"/>
+
+
+                        <label hflex="1" value="@load(each.enabled eq true ? '启用':'禁用' )"
+                               style="@load(each.enabled eq true ? 'color:green':'color:red' )"/>
+                        <include src="/views/commons/grid_toolbar.zul"/>
+                    </row>
+                </template>
+
+                <!--<foot style="padding:0px 0px;" height="18px">-->
+                <!--<footer span="4" style="margin:0px 0px;padding:0px 0px;height:18px">-->
+                <!--<label value="共有用户数:"/>-->
+                <!--<label value="@load(vm.userVoList.size())"/>-->
+                <!--</footer>-->
+                <!--</foot>-->
+
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+            <!--<label value="测试一下页脚"/>-->
+            <!--            <listbox hflex="1" vflex="true" model="@bind(vm.userVoList)" rows="20">
+                            <auxhead>
+                                <auxheader colspan="3">员工信息列表</auxheader>
+                            </auxhead>
+                            <listhead>
+                                <listheader hflex="1" label="登录名" sort="auto"/>
+                                <listheader hflex="2" label="姓名" align="center" sort="auto"/>
+                                <listheader hflex="1" label="性别" align="center"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell label="${each.objId}"/>
+                                    <listcell label="${each.name}"/>
+                                    <listcell label="${each.sex}"/>
+                                </listitem>
+                            </template>
+                        </listbox>-->
+            <!--<vbox></vbox>-->
+        </vlayout>
+    </center>
+</borderlayout>
+        <!--</window>-->

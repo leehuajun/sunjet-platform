@@ -1,0 +1,141 @@
+<!-- 活动服务单 列表 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.activity.ActivityMaintenanceListVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin-top:10px">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="单据编号"/>
+                        <textbox value="@bind(vm.activityMaintenanceItem.docNo)" hflex="1"/>
+                        <label value="服务站编号"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@load(vm.activityMaintenanceItem.dealerCode)">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keyword)" hflex="1"
+                                                 placeholder="输入关键字..按Enter键搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                 style="margin-bottom:2px"/>
+                                        <button label="查询" sclass="btn-default"
+                                                onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                        <button label="清除" sclass="btn-warn"
+                                                onClick="@command('clearSelectedDealer')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                          emptyMessage="没有数据">
+                                        <columns>
+                                            <column hflex="1" label="服务站编号"/>
+                                            <column hflex="2" label="服务站名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectDealer',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="服务站名称"/>
+                        <textbox value="@bind(vm.activityMaintenanceItem.dealerName)" hflex="1" tabindex="1"
+                                 readonly="true"/>
+                        <label value="状态"/>
+                        <listbox mold="select"
+                                 model="@load(vm.documentStatuses)"
+                                 hflex="1"
+                                 selectedItem="@bind(vm.selectedStatus)"
+                                 onSelect="@command('selectedStatus')">
+                            <template name="model">
+                                <listitem label="@load(each.getName())"
+                                          value="@load(each)">
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </row>
+                    <row style="border:none;height:30px">
+                        <label value="活动通知单"/>
+                        <textbox value="@bind(vm.activityMaintenanceItem.aanDocNo)" hflex="1"/>
+                        <label value="活动分配单"/>
+                        <textbox value="@bind(vm.activityMaintenanceItem.aadDocNo)" hflex="1"/>
+                        <label value="VIN"/>
+                        <textbox value="@bind(vm.activityMaintenanceItem.vin)" hflex="1"/>
+                        <label value="车牌号"/>
+                        <textbox value="@bind(vm.activityMaintenanceItem.plate)" hflex="1"/>
+                    </row>
+                    <row style="border:none;height:30px">
+                        <label value="送修人"/>
+                        <textbox value="@bind(vm.activityMaintenanceItem.sender)" hflex="1"/>
+                        <label value="申请日期从"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.activityMaintenanceItem.startDate)"
+                                 readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.activityMaintenanceItem.endDate)"
+                                 readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>
+            <grid hflex="true" vflex="true" sclass="list-grid" model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="120px" label="单据编号" align="center"/>
+                    <column width="100px" label="服务站编号" align="center"/>
+                    <column hflex="1" label="服务站名称" align="left"/>
+                    <column width="120px" label="活动通知单号" align="center"/>
+                    <column width="120px" label="活动分配单号" align="center"/>
+                    <column width="120px" label="申请日期" align="center"/>
+                    <column width="80px" label="申请人" align="center"/>
+                    <column width="150px" label="当前处理" align="center"/>
+                    <column width="40px" label="状态" align="center"/>
+                    <column width="60px" label="操作" align="center"/>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)">
+                        <label value="${forEachStatus.index + 1}" sclass="label-index"/>
+                        <label value="@load(each.docNo)" tooltiptext="@load(each.docNo)"/>
+                        <label value="@load(each.dealerCode)" tooltiptext="@load(each.dealerCode)"/>
+                        <label value="@load(each.dealerName)" tooltiptext="@load(each.dealerName)"/>
+                        <label value="@load(each.aanDocNo)" tooltiptext="@load(each.aanDocNo)"/>
+                        <label value="@load(each.aadDocNo)" tooltiptext="@load(each.aadDocNo)"/>
+                        <label hflex="1" value="@load(each.createdTime)" tooltiptext="@load(each.createdTime)"/>
+                        <label hflex="1" value="@load(each.submitterName)" tooltiptext="@load(each.submitterName)"/>
+                        <label hflex="1" value="@load(vm.getCurrentNode(each.processInstanceId))"
+                               tooltiptext="@load(vm.getCurrentNode(each.processInstanceId))"/>
+                        <label hflex="1" value="@load(vm.getStatusName(each.status))"
+                               tooltiptext="@load(vm.getStatusName(each.status))"
+                               style="@load(vm.getColor(each.status))"/>
+                        <include src="/views/commons/flow_grid_toolbar.zul"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

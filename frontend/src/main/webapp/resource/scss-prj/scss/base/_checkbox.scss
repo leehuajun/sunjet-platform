@@ -1,0 +1,14 @@
+@import "variables";
+
+.z-checkbox-content {
+  font-family: $font-family-base;
+  //font-size: 12px;
+}
+
+input {
+  &[type="radio"], &[type="checkbox"] {
+    margin: 1px 0 0;
+    line-height: normal;
+    vertical-align: middle;
+  }
+}

@@ -1,0 +1,104 @@
+@import "variables";
+
+.z-paging {
+  height: $paging-height;
+  border: 1px solid $paging-border;
+  border-bottom: 1px solid $paging-border-bottom;
+  padding: $paging-padding;
+  margin: $paging-margin;
+  background: $paging-bg;
+  position: relative;
+  .z-paging-icon {
+    font-size: $paging-icon-size;
+    font-weight: $paging-icon-weight;
+    color: $paging-icon-color;
+  }
+  .z-paging-button {
+    //font-family: "Open Sans", Arial, Sans-serif;
+    //border-radius: 0px;
+    @include border-radius(0px);
+    font-size: $paging-button-font-size;
+    font-weight: 700;
+    font-style: normal;
+    color: $paging-button-color;
+    display: inline-block;
+    min-width: $paging-button-min-width;
+    height: 100%;
+    border: 1px solid transparent;
+    margin-right: $paging-button-margin-right;
+    line-height: $paging-button-min-width;
+    background: lightgray;
+    text-align: center;
+    vertical-align: top;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    &:hover {
+      background: $default;
+      border: 1px solid $paging-button-border-hover;
+      /*color: #ffffff;*/
+      box-shadow: none;
+      .z-paging-icon {
+        /*border: 1px solid rgb(89,137,169);*/
+        /*background: rgb(89,137,169);*/
+        color: $paging-button-color-hover;
+        /*box-shadow: none;*/
+      }
+    }
+    &[disabled] {
+      &:hover {
+        //cursor:default !important;
+        cursor: not-allowed !important;
+      }
+    }
+  }
+  .z-paging-input {
+    //font-family: "Open Sans", Arial, Sans-serif;
+    font-size: 14px;
+    font-weight: $paging-input-font-weight;
+    font-style: $paging-input-font-style;
+    color: $paging-input-color;
+    height: 100%;
+    border: 1px solid $paging-input-border;
+    padding: $paging-input-padding;
+    line-height: $paging-input-line-height;
+    vertical-align: baseline;
+    text-align: $paging-input-text-align;
+  }
+  .z-paging-text {
+    //font-family: "Open Sans", Arial, Sans-serif;
+    font-size: $paging-text-font-size;
+    font-weight: $paging-text-font-weight;
+    font-style: $paging-text-font-style;
+    color: $paging-text-color;
+    margin-right: $paging-text-margin-right;
+  }
+  .z-paging-info {
+    //font-family: "Open Sans", Arial, Sans-serif;
+    font-size: 14px;
+    font-weight: $paging-info-font-weight;
+    font-style: $paging-info-font-style;
+    color: $paging-info-color;
+    display: inline-block;
+    width: auto;
+    position: absolute;
+    right: $paging-info-right;
+  }
+  //.z-paging-button[disabled] {
+  //    cursor: pointer !important;
+  //}
+  //.z-paging-button[disable] .z-paging-icon {
+  //    //color: #bababa;
+  //    //&:hover {
+  //    //       color: #bababa;
+  //    //     }
+  //    cursor: auto;
+  //}
+  ul {
+    height: 100%;
+    > li {
+      height: 100%;
+    }
+  }
+
+}

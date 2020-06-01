@@ -1,0 +1,61 @@
+<!-- 数据字典项编辑页面 -->
+<!--<window title="数据字典编辑" border="normal" width="450px" height="220px"-->
+<!--sizable="false"-->
+<!--style="margin:20px;padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.DictionaryFormVM')">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.DictionaryFormVM')">
+        <center sclass="form-center">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <button onClick="@command('saveEntity')" iconSclass="@load(iconVariable.icon_save)"
+                            sclass="btn-default " label="保存"/>
+                    <!--<button iconSclass="z-icon-plus" sclass="btn-default " label="刷新"></button>-->
+                    <!--<button iconSclass="z-icon-refresh" sclass="btn-default " label="打印"></button>-->
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" sclass="form-grid">
+                        <columns>
+                            <column hflex="1"></column>
+                            <column hflex="3"></column>
+                            <column hflex="1"></column>
+                            <column hflex="3"></column>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="名称"/>
+                                <textbox width="100%" value="@bind(vm.dictionaryInfo.name)"></textbox>
+                                <label value="是否启用"/>
+                                <!--<listbox hflex="1" mold="select" multiple="false" checkmark="true" >-->
+                                <!--<listitem label="否" value="0" selected="true"></listitem>-->
+                                <!--<listitem label="是" value="1"></listitem>-->
+                                <!--</listbox>-->
+                                <checkbox checked="@bind(vm.dictionaryInfo.enabled)"
+                                          value="@bind(vm.dictionaryInfo.enabled)"/>
+                            </row>
+                            <row>
+                                <label value="代码"/>
+                                <textbox width="100%" value="@bind(vm.dictionaryInfo.code)"></textbox>
+                                <label value="值"/>
+                                <textbox width="100%" value="@bind(vm.dictionaryInfo.value)"></textbox>
+                            </row>
+                            <row>
+                                <label value="父项"/>
+                                <listbox width="100%" mold="select" multiple="false" checkmark="true"
+                                         selectedItem="@bind(vm.dictionaryInfo.parent)"
+                                         model="@load(vm.allParent)">
+                                    <template name="model">
+                                        <listitem label="@load(each.name)" value="@load(each)"></listitem>
+                                    </template>
+                                </listbox>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

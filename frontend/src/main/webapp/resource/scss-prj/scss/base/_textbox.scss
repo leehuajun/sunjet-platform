@@ -1,0 +1,46 @@
+@import "variables";
+
+.z-textbox {
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.z-decimalbox, .z-intbox, .z-longbox, .z-doublebox,
+.z-combobox-input, .z-bandbox-input, .z-datebox-input,
+.z-timebox-input, .z-spinner-input, .z-doublespinner-input {
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid $input-border;
+  //border-radius: 0px;
+}
+
+.z-textbox[readonly]:focus, .z-decimalbox[readonly]:focus, .z-intbox[readonly]:focus,
+.z-longbox[readonly]:focus, .z-doublebox[readonly]:focus, .z-combobox-input[readonly] {
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid $input-disabled-border;
+}
+
+.z-textbox:focus, .z-decimalbox:focus, .z-intbox:focus, .z-longbox:focus, .z-doublebox:focus,
+.z-combobox-input:focus, .z-bandbox-input:focus, .z-datebox-input:focus, .z-timebox-input:focus,
+.z-spinner-input:focus, .z-doublespinner-input:focus {
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid $input-active-border;
+  //border-radius: 0px;
+}
+
+.no_empty {
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid lighten($input-active-border, 20%);
+}
+
+.z-decimalbox {
+  text-align: right;
+}
+
+.c-decimalbox {
+  border: none !important;
+  background: none !important;
+}

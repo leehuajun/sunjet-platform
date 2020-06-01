@@ -1,0 +1,183 @@
+<!--
+基础管理 >>服务站信息列表
+-->
+<borderlayout width="100%" height="100%" apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.DealerListVM')">
+
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="50px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row>
+                        <label value="服务站编号"/>
+                        <textbox value="@bind(vm.dealerItem.code)" hflex="1" tabindex="1"/>
+                        <label value="服务站名称"/>
+                        <textbox value="@bind(vm.dealerItem.name)" hflex="1" tabindex="1"/>
+                        <label value="星级"></label>
+                        <listbox mold="select"
+                                 model="@load(vm.listStar)"
+                                 hflex="1"
+                                 selectedItem="@bind(vm.dealerStar)"
+                                 onSelect="@command('selectDealerStar')">
+                            <template name="model">
+                                <listitem
+                                        label="@load(each)"
+                                        value="@bind(each)">
+                                </listitem>
+                            </template>
+                        </listbox>
+                        <label value="级别"></label>
+                        <listbox hflex="1"
+                                 mold="select"
+                                 selectedItem="@bind(vm.dealerLevel)"
+                                 onSelect="@command('selectdealerLevel')">
+                            <listitem label="一级" value="一级"/>
+                            <listitem label="二级" value="二级"/>
+                        </listbox>
+                    </row>
+                    <row>
+                        <label value="省份"/>
+                        <listbox hflex="1"
+                                 mold="select"
+                                 model="@load(vm.provinceEntities)"
+                                 selectedItem="@load(vm.selectedProvince)"
+                                 onSelect="@command('selectProvince',event=event)">
+                            <template name="model">
+                                <listitem left="1" label="@load(each.name)" value="@load(each)"
+                                          selected="@load(each.name eq vm.selectedProvince.name?true:false)"></listitem>
+                            </template>
+                        </listbox>
+                        <label value="市"/>
+                        <listbox hflex="1"
+                                 mold="select"
+                                 model="@load(vm.cityEntities)"
+                                 selectedItem="@load(vm.selectedCity)"
+                                 onSelect="@command('selectCity',event=event)">
+                            <template name="model">
+                                <listitem left="1" label="@load(each.name)" value="@load(each)"
+                                          selected="@load(each.name eq vm.selectedCity.name?true:false)">
+                                </listitem>
+                            </template>
+                        </listbox>
+                        <label value="父级服务站"></label>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@load(vm.parentDealer.name)">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox hflex="1" placeholder="输入关键字..按Enter键搜索"
+                                                 value="@bind(vm.keyword)"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchParentDealers')" style="margin-bottom:2px"/>
+                                        <button label="查询" sclass="btn-default"
+                                                onClick="@command('searchParentDealers')"/>
+                                        <button label="清除" sclass="btn-warn"
+                                                onClick="@command('clearSelectedDealer2')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.parentDealers)"
+                                          emptyMessage="没有数据">
+                                        <columns>
+                                            <column hflex="1" label="服务站编号"/>
+                                            <column hflex="2" label="服务站名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectDealer',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="服务经理"/>
+                        <textbox value="@bind(vm.dealerItem.serviceManagerName)" hflex="1" tabindex="1"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <div sclass="include">
+                <include src="/views/commons/basic_list_toolbar.zul"/>
+                <!--<div sclass="ctoolbars" xmlns="http://www.zkoss.org/2005/zul">-->
+                <!--<div sclass="ctoolbar">-->
+                <!--<button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="新增"-->
+                <!--onClick="@command('openForm',objId=null,url=vm.formUrl,title=vm.title)"-->
+                <!--if="${vm.enableAdd}"/>-->
+                <!--</div>-->
+                <!--<div sclass="ctoolbar" style="float:right">-->
+                <!--<button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"-->
+                <!--label="查询"-->
+                <!--onClick="@command('refreshData')"></button>-->
+                <!--<button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"-->
+                <!--label="重置"-->
+                <!--onClick="@command('reset')"></button>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid" model="@bind(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <!--<column width="40px" label="" align="center">-->
+                    <!--<checkbox/>-->
+                    <!--</column>-->
+                    <column width="30px" label="行号" align="center"></column>
+                    <column width="40px" label="状态" align="center"></column>
+                    <column width="80px" label="服务站编号" align="center"></column>
+                    <column width="200px" label="服务站名称" align="center"></column>
+                    <column width="60px" label="星级" align="center"></column>
+                    <column width="60px" label="等级" align="center"></column>
+                    <column width="200px" label="父级服务站" align="center"></column>
+                    <column width="80px" label="服务经理" align="center"></column>
+                    <column width="60px" label="省份" align="center"></column>
+                    <column width="60px" label="城市" align="center"></column>
+                    <column width="120px" label="准入日期" align="center"></column>
+                    <column width="100px" label="电话" align="center"></column>
+                    <column width="60px" label="法人" align="center"></column>
+                    <column width="60px" label="站长" align="center"></column>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)">
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label hflex="1" value="@load(each.enabled eq true ? '启用':'禁用' )"
+                               style="@load(each.enabled eq true ? 'color:green':'color:red' )"/>
+                        <label value="@load(each.code)"/>
+                        <div align="left">
+                            <label value="@load(each.name)" tooltiptext="@load(each.name)"/>
+                        </div>
+                        <label value="@load(each.star)"/>
+                        <label value="@load(each.level)"/>
+                        <label value="@load(each.parentName)" tooltiptext="@load(each.parentName)"/>
+                        <label value="@load(each.serviceManagerName)"/>
+                        <label value="@load(each.provinceName)"/>
+                        <label value="@load(each.cityName)"/>
+                        <label value="@load(each.createdTime)"/>
+                        <label value="@load(each.phone)"/>
+                        <label value="@load(each.legalPerson)"/>
+                        <label value="@load(each.stationMaster)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

@@ -1,0 +1,87 @@
+<window title="选择运费待结算单" border="normal" width="800px" height="550px" sclass="c-dialog"
+        sizable="false" visible="@load(vm.showSelectWin)" mode="modal" closable="true"
+        onClose="self.visible = false;vm.showSelectWin = !vm.showSelectWin;event.stopPropagation();"
+        position="@load(vm.window_position)">
+    <borderlayout width="100%" height="100%">
+        <north sclass="c-north" style="box-shadow:none">
+            <vlayout>
+                <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                    <columns>
+                        <column width="80px"></column>
+                        <column hflex="1"></column>
+                        <column width="70px"></column>
+                        <column hflex="1"></column>
+                        <column width="20px"></column>
+                        <column hflex="1"></column>
+                    </columns>
+                    <rows>
+                        <row style="border:none;height:30px">
+                            <label value="来源单据编号"/>
+                            <textbox value="@bind(vm.pendingSettlementDetailItems.srcDocNo)" hflex="1"/>
+                            <!--<label value="结算情况"/>-->
+                            <!--<checkbox label="是否已结算" checked="@bind(vm.settlement)"/>-->
+                            <label value="业务日期从"/>
+                            <datebox hflex="1" format="medium" value="@bind(vm.pendingSettlementDetailItems.startDate)"
+                                     readonly="true"/>
+                            <label value="至"/>
+                            <datebox hflex="1" format="medium" value="@bind(vm.pendingSettlementDetailItems.endDate)"
+                                     readonly="true"/>
+                        </row>
+                    </rows>
+                </grid>
+            </vlayout>
+        </north>
+        <center sclass="c-center">
+            <vlayout width="100%" height="100%">
+                <div sclass="include">
+                    <div sclass="ctoolbar">
+                        <label value="服务站:"/>
+                        <label value="@load(vm.dealer.name)"/>
+                    </div>
+                    <div sclass="ctoolbar" style="float:right">
+                        <button label="查询" sclass="btn-default " onClick="@command('refreshList')"></button>
+                        <button label="重置" sclass="btn-default " onClick="@command('reset')"></button>
+                    </div>
+                </div>
+                <grid hflex="true" vflex="true" sclass="list-grid" model="@load(vm.pendingItems)"
+                      emptyMessage="@load(vm.emptyMessage)"
+                      mold="paging" pageSize="10">
+                    <columns sizable="true">
+                        <column width="40px" align="center">
+                            <checkbox onCheck="@command('checkAll',check=self.checked)"
+                                      checked="@load(vm.isCheckAll)"></checkbox>
+                        </column>
+                        <column width="40px" label="行号" align="center"/>
+                        <column width="100px" label="来源单据类型" align="center"/>
+                        <column hflex="1" label="来源单据编号" align="center"/>
+                        <column width="120px" label="业务时间" align="center"/>
+                        <column width="100px" label="结算费用" align="center"/>
+                        <column width="70px" label="经办人" align="center"/>
+                        <column width="90px" label="联系电话" align="center"/>
+                    </columns>
+                    <template name="model">
+                        <row>
+                            <!--<checkbox hflex="1" onCheck="@command('selectPendingSettlementPart',model=each,check=self.checked)"></checkbox>-->
+                            <checkbox hflex="1" onCheck="@command('checkOne',model=each,check=self.checked)"
+                                      checked="@load(vm.checkSelected(each))"></checkbox>
+                            <label hflex="1" value="${forEachStatus.index+1}" sclass="label-index"/>
+                            <label hflex="1" value="@load(each.srcDocType)" tooltiptext="@load(each.srcDocType)"/>
+                            <label hflex="1" value="@load(each.srcDocNo)" tooltiptext="@load(each.srcDocNo)"/>
+                            <label hflex="1" value="@load(each.businessDate)" tooltiptext="@load(each.businessDate)"/>
+                            <decimalbox hflex="1" format="@load(vm.decimalFormat)" value="@load(each.expenseTotal)"
+                                        readonly="true"/>
+                            <label hflex="1" value="@load(each.operator)" tooltiptext="@load(each.operator)"/>
+                            <label hflex="1" value="@load(each.operatorPhone)" tooltiptext="@load(each.operatorPhone)"/>
+                        </row>
+                    </template>
+                </grid>
+            </vlayout>
+        </center>
+        <south sclass="c-south">
+            <div align="center" style="padding-top:10px">
+                <button label="确定" sclass="btn-default" onClick="@command('saveSelected')"></button>
+                <button label="关闭" sclass="btn-danger" onClick="@command('closeSelectWin')"></button>
+            </div>
+        </south>
+    </borderlayout>
+</window>

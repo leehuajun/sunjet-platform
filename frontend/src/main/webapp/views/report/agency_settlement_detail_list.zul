@@ -1,0 +1,76 @@
+<!-- 合作商结算明细 列表 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.report.AgencySettlementDetailVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="合作商"/>
+                        <textbox value="@bind(vm.agencySettlementDetailItem.agencyCode)" hflex="1"/>
+                        <label value="申请日期从"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.agencySettlementDetailItem.startDate)"
+                                 readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.agencySettlementDetailItem.endDate)"
+                                 readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>
+            <grid hflex="true" vflex="true"
+                  sclass="list-grid"
+                  oddRowSclass="none"
+                  style="margin:0;padding:0"
+
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column hflex="1" label="合作商" align="center"/>
+                    <column hflex="1" label="结算单号" align="center"/>
+                    <column width="120px" label="配件费用" align="center"/>
+                    <column width="120px" label="运费" align="center"/>
+                    <column width="120px" label="总费用" align="center"/>
+                    <column width="120px" label="提交时间" align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.agencyName)"/>
+                        <label value="@load(each.docNo)"/>
+                        <decimalbox format="@load(vm.decimalFormat)" readonly="true" sclass="c-decimalbox"
+                                    value="@load(each.partExpense)"/>
+                        <decimalbox format="@load(vm.decimalFormat)" readonly="true" sclass="c-decimalbox"
+                                    value="@load(each.freightExpense)"/>
+                        <decimalbox format="@load(vm.decimalFormat)" readonly="true" sclass="c-decimalbox"
+                                    value="@load(each.expenseTotal)"/>
+                        <!--<decimalbox format="####.##" readonly="true" value="@load(each.partExpense+each.freight)"/>-->
+                        <label value="@load(each.createdTime)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

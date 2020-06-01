@@ -1,0 +1,95 @@
+<!-- 公告编辑页面 -->
+<!--<window title="公告" border="normal" width="0px" height="0px"-->
+<!--sizable="true"-->
+<!--style="margin:20px;padding-top:0px;padding-left:0px;" position="center,top" closable="true"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--viewModel="@id('vm') @init('com.sunjet.vm.basic.NoticeFormVM')"-->
+<!--onClientInfo="@command('checkClientInfo',evt=event)">-->
+<borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.NoticeFormVM')" width="100%" height="100%">
+    <center sclass="form-center" hflex="1" vflex="1" autoscroll="@load(vm.canEdit)">
+        <vlayout hflex="1" vflex="1">
+            <button label="发布" iconSclass="@load(iconVariable.icon_save)" tabindex="7"
+                    sclass="btn-default"
+                    onClick="@command('submit')" visible="@load(vm.canEdit)"/>
+            <button label="编辑" iconSclass="@load(iconVariable.icon_save)" tabindex="7"
+                    sclass="btn-default"
+                    onClick="@command('changeStatus')"
+                    if="${vm.checkEdit()}"
+                    visible="@load(!vm.canEdit)"/>
+            <hlayout style="background:#fff;padding:20px;margin: 10px 0 0 0;border-bottom: 1px solid #ccc;">
+                <div width="40px" vflex="1">
+                    <label value="标题：" style="font-weight:700;line-height: 24px;"/>
+                </div>
+                <div hflex="1">
+                    <textbox hflex="1" value="@bind(vm.notice.title)" visible="@load(vm.canEdit)"/>
+                    <label hflex="1" value="@load(vm.notice.title)" visible="@load(!vm.canEdit)"
+                           style="color:rgb(78,116,149);font-weight:700;font-size:16px;line-height: 24px;"/>
+                </div>
+                <div width="80px" align="right">
+                    <checkbox label="置顶" checked="@bind(vm.notice.isTop)" tabindex="9" disabled="@load(!vm.canEdit)"/>
+                </div>
+            </hlayout>
+            <div vflex="1" hflex="1" style="background:#fff;">
+                <ckeditor vflex="1" value="@bind(vm.notice.content)" visible="@load(vm.canEdit)"
+                          filebrowserImageBrowseUrl="/widgets/input/wysiwyg_editor/img"
+                          filebrowserFlashBrowseUrl="/widgets/input/wysiwyg_editor/flash"
+                          customConfigurationsPath="/widgets/input/wysiwyg_editor/config.js">
+                </ckeditor>
+                <div hflex="1" vflex="1" visible="@load(!vm.canEdit)"
+                     style="padding:20px;word-wrap:break-word;overflow-y:auto;">
+                    <html content="@load(vm.notice.content)"/>
+                </div>
+            </div>
+            <hlayout style="background:#fff;padding:20px;margin:0px;border-top: 1px solid #ccc;">
+                <div width="150px" vflex="1">
+                    <label value="附件" style="font-weight:700;line-height:24px;"/>
+                    <a target="_blank"
+                       href="@load(vm.getFilePath(vm.notice.fileRealName))"
+                       label="@load(vm.notice.fileOriginName)"
+                       visible="@bind(not empty vm.notice.fileRealName)"/>
+                </div>
+                <div hflex="1" align="right">
+                    <button label="浏览" width="60px" tooltiptext="选择文件"
+                            iconSclass="z-icon-search"
+                            sclass="btn-default" visible="@load(vm.canEdit)"
+                            upload="true,maxsize=5120"
+                            onUpload="@command('doUploadFile',event=event)"/>
+                    <button label="删除" width="60px" tooltiptext="删除附件"
+                            sclass="btn-danger" visible="@load(vm.canEdit)"
+                            iconSclass="z-icon-times"
+                            onClick="@command('deleteFile')"/>
+                </div>
+            </hlayout>
+            <!--<groupbox>-->
+            <!--<grid oddRowSclass="none">-->
+            <!--<columns>-->
+            <!--<column width="70px"></column>-->
+            <!--<column hflex="1"></column>-->
+            <!--<column width="170px"></column>-->
+            <!--</columns>-->
+            <!--<rows>-->
+            <!--<row style="border:none;height:40px">-->
+            <!--<label value="附件" style="font-weight:700"/>-->
+            <!--<a target="_blank"-->
+            <!--href="@load(vm.getFilePath(vm.notice.fileRealName))"-->
+            <!--label="@load(vm.notice.fileOriginName)"-->
+            <!--visible="@bind(not empty vm.notice.fileRealName)"/>-->
+            <!--<div hflex="1" align="right">-->
+            <!--<hlayout hflex="1">-->
+            <!--<button label="浏览..." width="60px" tooltiptext="选择文件"-->
+            <!--sclass="btn-default" visible="@load(!vm.canEdit)"-->
+            <!--upload="true,maxsize=5120"-->
+            <!--onUpload="@command('doUploadFile',event=event)"/>-->
+            <!--<button label="删除" width="50px" tooltiptext="删除附件"-->
+            <!--sclass="btn-default" visible="@load(!vm.canEdit)"-->
+            <!--onUpload="@command('deleteFile')"/>-->
+            <!--</hlayout>-->
+            <!--</div>-->
+            <!--</row>-->
+            <!--</rows>-->
+            <!--</grid>-->
+            <!--</groupbox>-->
+        </vlayout>
+    </center>
+</borderlayout>
+        <!--</window>-->

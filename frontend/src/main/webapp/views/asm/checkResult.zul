@@ -1,0 +1,60 @@
+<!-- 检查结果 -->
+<window title="请选择配件" border="normal" width="900px" height="550px" sclass="c-dialog"
+        sizable="false" visible="@load(vm.showSelectWin)" mode="modal" closable="true"
+        onClose="self.visible = false;vm.showSelectWin = !vm.showSelectWin;event.stopPropagation();"
+        position="@load(vm.window_position)">
+    <borderlayout width="100%" height="100%">
+        <north sclass="c-north" style="border-bottom:1px solid #cccccc">
+            <label value="选择修改内容" style="font-weight:700"/>
+        </north>
+        <center sclass="c-center" style="border-bottom:1px solid #cccccc">
+            <vlayout hflex="1" vflex="1">
+                <textbox value="@bind(vm.keyword)" hflex="1" placeholder="输入关键字..回车搜索" sclass="input-prepend"
+                         onOK="@command('searchReportPart')"/>
+                <listbox tabindex="6" style="width:180px;border:none"
+                         model="@load(vm.partList)"
+                         multiple="true"
+                         checkmark="true"
+                         hflex="1"
+                         vflex="1"
+                         selectedItems="@bind(vm.selectedPartList)"
+                         onDoubleClick="@global-command('updateSelectedPart',partResult=vm.selectedPartList)">
+                    <listhead sizable="true">
+                        <listheader hflex="2" label="零件件号" align="left"/>
+                        <listheader hflex="2" label="零件名称" align="left"/>
+                        <listheader width="80px" label="计量单位" align="center"/>
+                        <listheader hflex="2" label="三包时间" align="left"/>
+                        <listheader hflex="2" label="三包里程" align="left"/>
+                        <listheader width="80px" label="价格" align="center"/>
+                        <listheader hflex="2" label="备注" align="left"/>
+                    </listhead>
+                    <template name="model">
+                        <listitem label="@load(each.code)"
+                                  value="@load(each)">
+                            <listcell label="@load(each.code)"></listcell>
+                            <listcell label="@load(each.name)"></listcell>
+                            <listcell label="@load(each.unit)"></listcell>
+                            <listcell label="@bind(each.warrantyTime)"/>
+                            <listcell label="@bind(each.warrantyMileage)"/>
+                            <listcell label="@load(each.price)"></listcell>
+                            <listcell label="@load(each.comment)"></listcell>
+                        </listitem>
+                    </template>
+
+                </listbox>
+            </vlayout>
+
+        </center>
+        <south sclass="c-south" style="height:55px;">
+            <div align="center" style="margin-top:10px;margin-bottom:20px">
+                <hlayout spacing="10px">
+                    <button label="确定" iconSclass="@load(iconVariable.icon_save)" tabindex="7"
+                            sclass="btn-default"
+                            onClick="@command('updateCheckResultList',vehicle=vm.selectedPartList)"/>
+                    <button label="关闭" iconSclass="@load(iconVariable.icon_close)" tabindex="9"
+                            sclass="btn-default" onClick="spaceOwner.detach();"/>
+                </hlayout>
+            </div>
+        </south>
+    </borderlayout>
+</window>

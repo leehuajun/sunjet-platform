@@ -1,0 +1,274 @@
+<!-- 配件供货单 表单 -->
+<!--<window title="调拨供货单" border="normal" width="0px" height="0px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.supply.SupplyFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--onClientInfo="@command('checkClientInfo',evt=event)">-->
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.supply.SupplyFormVM')" width="100%" height="100%">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout width="100%" height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin:0;padding:0">
+                        <!--<auxhead>-->
+                        <!--<auxheader label="基本信息" colspan="8" style="color:green"/>-->
+                        <!--</auxhead>-->
+                        <columns>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                        </columns>
+                        <rows>
+                            <row style="border:none;height:30px">
+                                <label value="单据类型"/>
+                                <textbox value="调拨供货单" hflex="1" tabindex="1" readonly="true"/>
+                                <label value="单据编号"/>
+                                <textbox value="@load(vm.supplyRequest.docNo)" hflex="1" tabindex="4" readonly="true"/>
+                                <label value="状态"/>
+                                <textbox value="@bind(vm.getStatusName(vm.supplyRequest.status))" hflex="1" tabindex="4"
+                                         readonly="true"/>
+                                <label value="创建时间"/>
+                                <textbox value="@bind(vm.supplyRequest.createdTime)" hflex="1" tabindex="4"
+                                         readonly="true"/>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="经销商 :"/>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@load(vm.supplyRequest.agencyName)" buttonVisible="@bind(!vm.readonly)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchAgencys',model=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchAgencys',model=vm.keyword)"/>
+                                                <button label="清除" sclass="btn-warn"
+                                                        onClick="@command('clearSelectedAgency')"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.agencyInfoSet)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="合作商编号"/>
+                                                    <column hflex="2" label="合作商名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectAgency',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="经办人"/>
+                                <textbox value="@bind(vm.supplyRequest.submitterName)" hflex="1" tabindex="2"
+                                         readonly="true"/>
+                                <label value="联系电话"/>
+                                <textbox value="@bind(vm.supplyRequest.submitterPhone)" hflex="1" tabindex="5"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="运输方式"/>
+                                <textbox value="@bind(vm.supplyRequest.transportmodel)" hflex="1" tabindex="5"
+                                         readonly="@load(vm.readonly)"/>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="服务站"/>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@load(vm.supplyRequest.dealerName)" buttonVisible="@bind(!vm.readonly)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                                <button label="清除" sclass="btn-warn"
+                                                        onClick="@command('clearSelectedDealer')"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="服务站编号"/>
+                                                    <column hflex="2" label="服务站名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectDealer',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="物流名称 :"/>
+                                <textbox value="@bind(vm.supplyRequest.logistics)" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="物流单号 :"/>
+                                <textbox value="@bind(vm.supplyRequest.logisticsNum)" hflex="1" tabindex="1"
+                                         onChange="@command('changeLogisticsNum')" readonly="@load(vm.readonly)"/>
+                                <label value="物流附件 :"/>
+                                <hlayout>
+                                    <a target="_blank"
+                                       href="@load(vm.getFilePath(vm.supplyRequest.logisticsfile))"
+                                       label="查看"
+                                       visible="@bind(not empty vm.supplyRequest.logisticsfile)"/>
+                                    <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                            sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                            onUpload="@command('doUploadFile',event=event)"
+                                            disabled="@load(vm.readonly)"
+                                    />
+                                    <button iconSclass="@load(iconVariable.icon_delete)"
+                                            sclass="btn-default inner-button" label=""
+                                            tooltiptext="删除" visible="@load(!vm.readonly)"
+                                            onClick="@command('delUploadFile')"
+                                            style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                </hlayout>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="配件费用:"/>
+                                <decimalbox format="@load(vm.decimalFormat)" value="@bind(vm.supplyRequest.partExpense)"
+                                            hflex="1"
+                                            tabindex="1" readonly="true" onChange="@command('changePartAmount')"/>
+                                <label value="运输费用:"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.supplyRequest.transportExpense)" hflex="1"
+                                            tabindex="1" onChange="@command('changePartAmount')"
+                                            readonly="@load(vm.readonly)"/>
+                                <label value="其他费用:"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.supplyRequest.otherExpense)" hflex="1"
+                                            tabindex="1" onChange="@command('changePartAmount')"
+                                            readonly="@load(vm.readonly)"/>
+                                <label value="费用合计:"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.supplyRequest.expenseTotal)" hflex="1"
+                                            tabindex="1" readonly="true"/>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="发货时间"/>
+                                <datebox value="@bind(vm.supplyRequest.supplyDate)" hflex="1" tabindex="4"
+                                         readonly="true" buttonVisible="@load(!vm.readonly)"/>
+                                <label value="收货时间"/>
+                                <datebox value="@bind(vm.supplyRequest.rcvDate)" hflex="1" tabindex="4"
+                                         readonly="true" buttonVisible="@load(vm.readonly)"/>
+                                <label value="收货地址 :"/>
+                                <cell colspan="3">
+                                    <textbox value="@bind(vm.supplyRequest.dealerAdderss)" hflex="1" tabindex="1"
+                                             readonly="@load(vm.readonly)"/>
+                                </cell>
+
+                            </row>
+                            <row>
+                                <label value="收货人"/>
+                                <textbox value="@bind(vm.supplyRequest.receive)" hflex="1" tabindex="4"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="联系电话"/>
+                                <textbox value="@bind(vm.supplyRequest.operatorPhone)" hflex="1" tabindex="4"
+                                         readonly="@load(vm.readonly)"/>
+                                <label hflex="1" value="备注"></label>
+                                <cell colspan="7">
+                                    <textbox rows="2" maxlength="200" hflex="7"
+                                             value="@bind(vm.supplyRequest.comment)"></textbox>
+                                </cell>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+
+                <!--<label value="-== 配件信息 ==-" style="color:green;font-weight:700"/>-->
+                <toolbar sclass="nav_toolbar" style="background:#fff;">
+                    <button sclass="btn-default" label="添加物料" onClick="@command('addItemModel')"
+                            visible="@load(!vm.readonly)"/>
+                    <!--<fileupload label="导入行" sclass="btn-default "  onUpload="@command('importData',model=event.media)"></fileupload>-->
+                </toolbar>
+                <grid hflex="true" vflex="true" sclass="list-grid" model="@bind(vm.supplyRequest.items)">
+                    <columns sizable="true">
+                        <column width="30px" label="行号" align="center"/>
+                        <column hflex="3" label="配件件号" align="center"/>
+                        <column hflex="3" label="配件名称" align="center"/>
+                        <column hflex="1" label="单位" align="center"/>
+                        <!--<column width="80px" label="故障模式" align="center"/>-->
+                        <column width="80px" label="三包时间" align="center"/>
+                        <column width="80px" label="三包里程" align="center"/>
+                        <column width="80px" label="单价" align="center"/>
+                        <column width="80px" label="发货数量" align="center"/>
+                        <column hflex="1" label="金额" align="center"/>
+                        <column width="126px" label="物流单号" align="center"/>
+                        <column width="40px" label="操作" align="center"/>
+                    </columns>
+                    <template name="model">
+                        <row onClick="@command('selectSupplyPart',model=each)">
+                            <label value="${(forEachStatus.index+1)}"/>
+                            <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                     buttonVisible="@load(!vm.readonly)"
+                                     value="@load(each.partCode)">
+                                <bandpopup width="300px" height="300px">
+                                    <vlayout hflex="1" vflex="1">
+                                        <hlayout>
+                                            <textbox value="@bind(vm.keyword)" hflex="1"
+                                                     placeholder="输入关键字..回车搜索"
+                                                     sclass="input-prepend"
+                                                     onOK="@command('searchParts')"/>
+                                            <button label="查询" sclass="btn-default"
+                                                    onClick="@command('searchParts')"/>
+                                        </hlayout>
+                                        <grid style="border:none" vflex="1" model="@load(vm.supplyWaitingItemItems)"
+                                              emptyMessage="没有数据">
+                                            <columns>
+                                                <column hflex="1" label="零件编号"/>
+                                                <column hflex="1" label="零件名称"/>
+                                                <!--<column width="80px" label="计量单位"/>-->
+                                            </columns>
+                                            <template name="model">
+                                                <row onClick="@command('selectPart',model=each)">
+                                                    <label value="@load(each.partCode)"/>
+                                                    <label value="@load(each.partName)"/>
+                                                    <!--<label value="@load(each.unit)"/>-->
+                                                </row>
+                                            </template>
+                                        </grid>
+                                    </vlayout>
+                                </bandpopup>
+                            </bandbox>
+                            <label value="@load(each.partName)"/>
+                            <label value="@load(each.unit)"/>
+                            <!--<label value="@load(each.supplyNoticeItem.pattern)"/>-->
+                            <label value="@load(each.warrantyTime)"/>
+                            <label value="@load(each.warrantyMileage)"/>
+                            <decimalbox format="@load(vm.decimalFormat)" hflex="1" value="@load(each.price)"
+                                        readonly="true"/>
+                            <decimalbox format="####.##" hflex="1" value="@bind(each.amount)"
+                                        onChange="@command('changePartAmount')" readonly="@load(vm.readonly)"/>
+                            <decimalbox format="@load(vm.decimalFormat)" hflex="1" value="@load(each.money)"
+                                        readonly="true"/>
+                            <textbox width="120px" value="@bind(each.logisticsNum)" readonly="@load(vm.readonly)"/>
+                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                    sclass="btn-default inner-button"
+                                    onClick="@command('deleteItem',model=each)" visible="@load(!vm.readonly)">
+                            </button>
+
+                        </row>
+                    </template>
+                </grid>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

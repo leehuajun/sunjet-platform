@@ -1,0 +1,34 @@
+<!-- 页面左边导航栏 -->
+<vlayout>
+    <!--"z-tree","z-dottree","z-filetree","z-vfiletree"-->
+    <tree id="menuTree"
+          model="@load(vm.treeModel)"
+          zclass="z-tree"
+          sclass="sidebar"
+          style="height:100%;overflow-y:auto;border:0px solid black;">
+        <template name="model">
+            <!--<treeitem onClick="@command('openTab',e=event)" open="${each.data.open}">-->
+            <treeitem onClick="@command('openTab',e=event)" open="@load(vm.mapMenuStatus.get(each.data.objId))">
+                <!--<treerow height="${each.childCount>0?'35px':'30px'}"-->
+                <treerow height="35px" style="${each.childCount>0 ? 'background:none' : 'background:#fff'}">
+                    <!--<treecell label="${each.data.name}" style="border-left:3px solid black">-->
+                    <!--<treecell label="${each.data.name}" style="${'font-size:'.concat(each.childCount>0?'13px':'12px')}" >-->
+                    <treecell label="${each.data.name}" style="${each.childCount>0 ? '' : 'text-indent:1em;'}">
+                        <!--<a iconSclass="@bind(vm.iconStatus)" class="pull-right" href="#" visible="@load(each.childCount>0)"></a>-->
+                        <a onClick="@command('toggleicon',e=event)"
+                           iconSclass="@load(vm.mapMenuIcon.get(each.data.objId))" sclass="tree-icon" class="pull-right"
+                           visible="@load(each.childCount>0)"></a>
+                        <!--<div style="float:left;font-size:16px;visibility:visible;width:10px;background-color:black"></div>-->
+                        <!--<label iconSclass="z-icon-chevron-up" class="pull-right"-->
+                        <!--style="${'visibility:'.concat(each.childCount>0?'visible':'hidden')}"/>-->
+
+
+                        <!--<div sclass="z-icon-caret-right" style="float:left;font-size:16px;visibility:hidden"></div>-->
+                    </treecell>
+                    <!--image="${each.data.icon eq ''?'':'images/menu/'.concat(vm.getThemeName()).concat('/').concat(each.data.icon)}"-->
+                    <!--/>-->
+                </treerow>
+            </treeitem>
+        </template>
+    </tree>
+</vlayout>

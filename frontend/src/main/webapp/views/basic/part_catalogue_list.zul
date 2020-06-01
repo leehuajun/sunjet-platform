@@ -1,0 +1,109 @@
+<!--
+基础管理 >>零配件目录
+-->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.PartCatalogueListVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <div sclass="form-grid">
+                <label value="查询条件:"></label>
+                <combobox width="160px" value="@bind(vm.selectCondition)"
+                          readonly="true"
+                          onSelect="@command('changeCondition')"
+                          model="@load(vm.selectConditionList )"
+                          style="margin-left: 19px;"
+                >
+                    <template name="model">
+                        <comboitem label="@load(each)" value="@load(each)"/>
+                    </template>
+                </combobox>
+            </div>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none" visible="@load(vm.showSelectOne)">
+                        <label value="零件名称:"/>
+                        <textbox hflex="1" value="@bind(vm.partCatalogueInfo.partName)"/>
+                    </row>
+                    <row style="border:none" visible="@load(vm.showSelectTwo)">
+                        <label value="车型代码:"/>
+                        <textbox hflex="1" value="@bind(vm.partCatalogueInfo.vehicleModels)"/>
+                        <label value="模块名称:"/>
+                        <textbox hflex="1" value="@bind(vm.partCatalogueInfo.moduleName)"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <div sclass="include">
+                <div sclass="ctoolbars" xmlns="http://www.zkoss.org/2005/zul">
+                    <div sclass="ctoolbar" style="float:right">
+                        <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"
+                                label="查询"
+                                onClick="@command('refreshData')"></button>
+                        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                label="重置"
+                                onClick="@command('reset')"></button>
+                    </div>
+                </div>
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+                  mold="paging"
+                  pageSize="15"
+                  model="@load(vm.partCatalogueInfoList)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"></column>
+                    <column hflex="1" label="零件代码" align="center"/>
+                    <column hflex="1" label="零件名称" align="center"/>
+                    <column hflex="1" label="模块名称" align="center"/>
+                    <column hflex="1" label="创建时间" align="center"/>
+                    <column hflex="1" label="版本号" align="center"/>
+                    <column hflex="1" label="发布时间" align="center"/>
+                    <column hflex="1" label="最后修改时间" align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <div align="left">
+                            <label value="@load(each.part_symbol)" tooltiptext="@load(each.part_symbol)"
+                                   style="color:rgb(78,116,149);font-weight:700"/>
+                        </div>
+                        <div align="left">
+                            <label value="@load(each.part_assembly)" tooltiptext="@load(each.part_assembly)"/>
+                        </div>
+                        <label value="@load(each.module_name)" tooltiptext="@load(each.module_name)"/>
+                        <div align="right" style="padding-right:10px">
+                            <label value="@load(each.c_create_time)" tooltiptext="@load(each.c_create_time)"/>
+                        </div>
+                        <label value="@load(each.c_version)" tooltiptext="@load(each.c_version)"/>
+                        <label value="@load(each.c_publish_time)" tooltiptext="@load(each.c_publish_time)"/>
+                        <label value="@load(each.c_last_modify_time)" tooltiptext="@load(each.c_last_modify_time)"/>
+
+                    </row>
+                </template>
+
+            </grid>
+            <!--<paging-->
+            <!--pageSize="@bind(vm.pageResult.pageSize)"-->
+            <!--totalSize="@bind(vm.pageResult.total)"-->
+            <!--pageIncrement="1"-->
+            <!--detailed="true"-->
+            <!--activePage="@bind(vm.pageResult.page)"-->
+            <!--onPaging="@command('gotoPageNo',e=event)"-->
+            <!--style="border:0px"-->
+            <!--/>-->
+        </vlayout>
+    </center>
+</borderlayout>

@@ -1,0 +1,157 @@
+<!-- 退出申请申请表单 -->
+<!--<window title="合作商退出申请" border="normal" width="1000px" height="500px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.agency.AgencyQuitFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClose="spaceOwner.detach();">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.agency.AgencyQuitFormVM')">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true"
+                style="margin-bottom:15px;margin-right:0px">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <!--<caption>基本信息</caption>-->
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                        <columns>
+                            <column width="65px"/>
+                            <column hflex="1"/>
+                            <column width="65px"/>
+                            <column hflex="1"/>
+                            <column width="50px"/>
+                            <column hflex="1"/>
+                            <column width="40px"/>
+                            <column hflex="1"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="合作商编号"></label>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@load(vm.agencyQuitRequest.agencyInfo.code)"
+                                         buttonVisible="@load(!vm.readonly)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchAgencies',model=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchAgencies',model=vm.keyword)"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.agencies)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="合作商编码"/>
+                                                    <column hflex="2" label="合作商名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectAgency',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="合作商名称"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.name)"
+                                         readonly="true"/>
+                                <label value="电话"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.phone)"
+                                         readonly="true"/>
+                                <label value="传真"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.fax)"
+                                         readonly="true"/>
+
+                            </row>
+                            <row>
+                                <label value="地址"></label>
+                                <cell colspan="3">
+                                    <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.address)"
+                                             readonly="true"/>
+                                </cell>
+
+                                <label value="所在省"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.provinceName)"
+                                         readonly="true"/>
+                                <label value="市"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.cityName)"
+                                         readonly="true"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <groupbox>
+                    <!--<caption>人员信息</caption>-->
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                        <columns>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="法人代表"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.legalPerson)"
+                                         readonly="true"/>
+                                <label value="法人电话"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.legalPersonPhone)"
+                                         readonly="true"/>
+                                <label value="店长"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.shopManager)"
+                                         readonly="true"/>
+                                <label value="店长电话"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.shopManagerPhone)"
+                                         readonly="true"/>
+
+                            </row>
+                            <row>
+                                <label value="技术主管"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.technicalDirector)"
+                                         readonly="true"/>
+                                <label value="技术主管电话"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.technicalDirectorPhone)"
+                                         readonly="true"/>
+                                <label value="计划主管"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.planDirector)"
+                                         readonly="true"/>
+                                <label value="计划主管电话"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.planDirectorPhone)"
+                                         readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="配件主管"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.partDirector)"
+                                         readonly="true"/>
+                                <label value="配件主管电话"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.partDirectorPhone)"
+                                         readonly="true"/>
+                                <label value="财务经理"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.financeDirector)"
+                                         readonly="true"/>
+                                <label value="财务经理电话"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyQuitRequest.agencyInfo.financeDirectorPhone)"
+                                         readonly="true"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <label value="=== 退出原因说明 ===" style="color:green;font-weight:700"/>
+                <textbox hflex="1" rows="6" value="@bind(vm.agencyQuitRequest.reason)" readonly="@bind(vm.readonly)"/>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

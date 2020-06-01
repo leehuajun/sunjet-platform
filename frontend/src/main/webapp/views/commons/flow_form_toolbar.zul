@@ -1,0 +1,52 @@
+<div sclass="ctoolbars" style="height:auto; overflow:hidden;">
+    <div sclass="ctoolbar">
+        <!--<if test="@load(vm.readonly)">-->
+        <!--<button label="Edit"/>-->
+        <!--</if>-->
+        <button sclass="btn-default" label="保存"
+                onClick="@command('submit')"
+                if="${vm.checkCanEdit()}"
+                visible="@load(vm.canEdit)"/>
+        <button sclass="btn-default" label="提交"
+                onClick="@command('startProcess')"
+                if="${vm.checkCanCommit()}"
+                visible="@load(vm.canEdit)"/>
+        <button sclass="btn-default" label="任务办理"
+                onClick="@command('showHandleForm')"
+                if="${vm.checkCanHandleTask()}"
+                visible="@load(vm.canHandleTask)"/>
+        <button sclass="btn-default" label="单据作废"
+                onClick="@command('desertTask',tabs=mytab.getTabs().getChildren())"
+                visible="@load(vm.canDesertTask)"
+                if="${vm.checkCanDesert()}"/>
+        <button sclass="btn-default" label="打印"
+                onClick="@command('printReport')"
+                if="${vm.checkCanPrint}"/>
+        <button sclass="btn-default" label="快递单打印"
+                onClick="@command('expressPrintReport')"
+                if="${vm.checkCanExpressPrintReport()}"/>
+
+    </div>
+    <!--<button iconSclass="z-icon-refresh" sclass="btn-default " label="打印"></button>-->
+    <div sclass="ctoolbar" style="float:right">
+        <button sclass="btn-default" label="生成调拨单"
+                onClick="@command('generateSupplyNotice')"
+                visible="@load(vm.checkCanEditSupply())"></button>
+        <button sclass="btn-default" label="生成故障件返回通知单"
+                onClick="@command('generateRecycleNotice')"
+                if="${vm.checkCanEditRecycle()}"></button>
+        <button sclass="btn-default" label="流程审批日志"
+                onClick="@command('showFlowImage',entity=vm.flowDocInfo)"
+                visible="@load(vm.canShowFlowImage)"></button>
+        <button label="查看调拨通知单"
+                sclass="btn-default"
+                visible="@load(vm.canShowOpenSupplyNoticeForm)"
+                onClick="@command('openSupplyNoticeForm')"
+        />
+        <button label="查看故障件返回通知单"
+                sclass="btn-default"
+                visible="@load(vm.canShowOpenRecycleNoticeForm)"
+                onClick="@command('openRecycleNoticeForm')"
+        />
+    </div>
+</div>

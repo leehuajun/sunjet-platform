@@ -1,0 +1,27 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://120.78.130.20:3306/dms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: Sunjet&2016
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  activiti:
+    check-process-definitions: false
+    db-identity-used: false
+access:
+  auth: false
+swagger:
+  title: 整车售后服务后端应用API
+  description: 整车售后服务后端应用API
+  version: 1.0.0.RELEASE
+  contact:
+    name: MengYun.Chen
+    email: cmy@3jtech.com.cn
+  base-path: /**
+  base-package: com.sunjet.backend
+

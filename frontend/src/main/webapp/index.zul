@@ -1,0 +1,64 @@
+<!--
+ 主页
+-->
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<!--<?page id="homepage" title="配件订单管理系统" contentType="text/html;charset=UTF-8"?>-->
+<?page title="整车售后服务系统" contentType="text/html;charset=UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<!--<?link rel="shortcut icon" type="image/x-icon" href="/images/logo.png"?>-->
+<?link rel="shortcut icon" type="image/x-icon" href="resource/images/favicon.ico"?>
+<!-- Load Bootstrap  -->
+<?link href="resource/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
+<!-- Google Open Sans font -->
+<!-- Load fonts from local -->
+<?link href="resource/css/fonts.css" rel="stylesheet" type="text/css"?>
+<!-- Unmark if we want to use fonts from google server
+<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
+-->
+<!--<?link href="resource/style/login.css.dsp" rel="stylesheet" type="text/css"?>-->
+<?link href="resource/style/style.css" rel="stylesheet" type="text/css"?>
+<zk>
+    <borderlayout width="100%" height="100%" class="custom-borderlayout"
+                  apply="org.zkoss.bind.BindComposer"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.IndexVM')"
+                  style="margin:0px 0px;padding:0px 0px;"
+                  onClientInfo="@command('showClientInfo',evt=event)"
+    >
+        <!--<north sclass="index-north" style="box-shadow: 0px 1px 1px #f5f5f5;">-->
+        <north sclass="index-north" style="box-shadow:0 2px 3px 0 rgba(0,0,0,.3)">
+            <include src="navbar.zul"/>
+        </north>
+        <west border="none" id="sidebar" title="功能导航" sclass="sidebar" collapsible="true"
+              width="220px" minsize="180" maxsize="300" vflex="min" autoscroll="true">
+            <include src="sidebar.zul"/>
+        </west>
+        <center border="none" style="border-left:1px solid rgb(227,227,227)">
+            <div id="mainScreen" height="100%" width="100%" sclass="custom-div">
+                <!-- atlantic 主题,使用 #198bc9   sapphire 使用 #8FB9D0  silvergray 使用 #CFCFCF-->
+                <!--style="background-color: #FFFFFF;margin:0px 0px;border:1px solid #198bc9">-->
+                <tabbox id="mytab" height="100%">
+                    <toolbar>
+                        <menubar id="menubar" width="100%" style="background: #f5f5f5;border:none;">
+                            <menu label="关闭">
+                                <menupopup sclass="closemenu">
+                                    <menuitem iconSclass="z-icon-bolt" label="关闭当前"
+                                              onClick="@command('closeOne',tabNow=mytab.getSelectedTab())"/>
+                                    <menuitem iconSclass="z-icon-ban" label="关闭所有"
+                                              onClick="@command('closeAll',tabs=mytab.getTabs().getChildren())"/>
+                                </menupopup>
+                            </menu>
+                        </menubar>
+                    </toolbar>
+                    <tabs id="mainTabs" style="background:#f5f5f5;">
+                        <!--<tab label="${labels.homepage}" image="images/system/audit.png" closable="false"  style="height:16px" />-->
+                    </tabs>
+                    <tabpanels id="mainTabpanels">
+                    </tabpanels>
+                </tabbox>
+            </div>
+        </center>
+        <!--<south border="none" height="18px" style="width:100%;background:rgb(44,64,82)">-->
+        <!--<include src="index_footer.zul"/>-->
+        <!--</south>-->
+    </borderlayout>
+</zk>

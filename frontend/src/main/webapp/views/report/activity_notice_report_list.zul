@@ -1,0 +1,91 @@
+<!-- 活动通知单报表 列表 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.report.ActivityNoticesReportListVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="单据编号"/>
+                        <textbox value="@bind(vm.activityNoticeReportItem.docNo)" hflex="1"/>
+                        <label value="申请日期从"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.activityNoticeReportItem.startDate)"
+                                 readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.activityNoticeReportItem.endDate)"
+                                 readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>
+            <grid hflex="true" vflex="true" sclass="list-grid"
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="140px" label="VIN" align="center"/>
+                    <column width="140px" label="VSN" align="center"/>
+                    <column width="110px" label="车型型号" align="center"/>
+                    <column width="100px" label="用户" align="center"/>
+                    <column width="80px" label="电话" align="center"/>
+                    <column width="140px" label="用户地址" align="center"/>
+                    <column width="100px" label="购车日期" align="center"/>
+                    <column width="100px" label="行驶里程 " align="center"/>
+                    <column width="120px" label="状态 " align="center"/>
+                    <column width="130px" label="单据编号" align="center"/>
+                    <column width="120px" label="开始日期" align="center"/>
+                    <column width="120px" label="结束日期" align="center"/>
+                    <column width="80px" label="状态" align="center"/>
+                    <column width="130px" label="标题" align="center"/>
+                    <column width="120px" label="发布时间" align="center"/>
+
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.vin)"/>
+                        <label value="@load(each.vsn)"/>
+                        <label value="@load(each.vehicleModel)"/>
+                        <label value="@load(each.ownerName)"/>
+                        <label value="@load(each.mobile)"/>
+                        <label value="@load(each.address)"/>
+                        <label value="@load(each.purchaseDate)"/>
+                        <label value="@load(each.mileage)"/>
+                        <label value="@load(each.distribute ? '已分配':'未分配')"/>
+                        <label value="@load(each.docNo)"/>
+                        <label value="@load(each.startDate)"/>
+                        <label value="@load(each.endDate)"/>
+                        <label value="@load(each.status)"/>
+                        <label value="@load(each.title)"/>
+                        <label value="@load(each.createdTime)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

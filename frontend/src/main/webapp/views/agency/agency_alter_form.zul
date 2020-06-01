@@ -1,0 +1,980 @@
+<!-- 变更申请表单 -->
+<!--<window title="合作商变更申请" border="normal" width="1000px" height="600px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.agencyBackupInfo.AgencyAlterFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClose="spaceOwner.detach();">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.agency.AgencyAlterFormVM')">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true"
+                style="margin-bottom:15px;margin-right:0px">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                        <columns>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="合作商编号"></label>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@load(vm.agencyBackupInfo.code)"
+                                         buttonVisible="@load(!vm.readonly)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchAgencies',model=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchAgencies',model=vm.keyword)"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.agencies)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="合作商编码"/>
+                                                    <column hflex="2" label="合作商名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectAgency',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="合作商名称"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.name)"
+                                         readonly="true"/>
+                                <label value="法人代表"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.legalPerson)"
+                                         readonly="true"/>
+                                <label value="地址"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.address)"
+                                         readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="所在省"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.provinceName)"
+                                         readonly="true"/>
+                                <label value="市"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.cityName)"
+                                         readonly="true"/>
+                                <label value="县/区"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.countyName)"
+                                         readonly="true"/>
+                                <label value="组织机构代码"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.orgCode)"
+                                         readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="营业执照号"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.businessLicenseCode)"
+                                         readonly="true"/>
+                                <label value="纳税人识别号"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.taxpayerCode)"
+                                         readonly="true"/>
+                                <label value="开户行"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.bank)"
+                                         readonly="true"/>
+                                <label value="银行帐号"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyBackupInfo.bankAccount)"
+                                         readonly="true"/>
+                            </row>
+                            <row>
+                                <label value="变更函"></label>
+                                <!--<textbox hflex="1" value="@bind(vm.agencyAlterRequestEntity.fileAlteration)" readonly="@bind(vm.readonly)"/>-->
+                                <div align="left">
+                                    <a target="_blank"
+                                       href="@load(vm.getFilePath(vm.agencyAlterRequest.fileAlteration))"
+                                       label="查看" visible="@bind(not empty vm.agencyAlterRequest.fileAlteration)"/>
+                                    <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                            sclass="btn-default inner-button"
+                                            upload="true,maxsize=5120"
+                                            onUpload="@command('doUploadFile',event=event,t='t00')"
+                                            disabled="@bind(vm.readonly)"/>
+
+                                    <button iconSclass="@load(iconVariable.icon_delete)"
+                                            sclass="btn-danger inner-button" label=""
+                                            tooltiptext="删除" visible="@load(!vm.readonly)"
+                                            onClick="@command('delUploadFile',t='t00')"
+                                            style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                </div>
+                                <label value="变更前税率"/>
+                                <label value="@load(vm.agencyBackupInfo.taxRate)"/>
+                                <label value="变更后税率"/>
+                                <decimalbox value="@bind(vm.agencyAlterRequest.taxRate)" hflex="1"
+                                            placeholder="变更后税率" readonly="@bind(vm.readonly)"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <tabbox sclass="ntabbox" hflex="true" vflex="true">
+                    <tabs>
+                        <tab label="人员信息"/>
+                        <tab label="公司资料"/>
+                        <tab label="资质信息"/>
+                        <tab label="设备信息"/>
+                    </tabs>
+                    <tabpanels style="border-bottom:1px solid green">
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <columns>
+                                    <column width="120px" label="变更项目"/>
+                                    <column hflex="1" label="变更前"/>
+                                    <column hflex="1" label="变更后"/>
+                                    <column width="120px" label="变更项目"/>
+                                    <column hflex="1" label="变更前"/>
+                                    <column hflex="1" label="变更后"/>
+                                    <column width="120px" label="变更项目"/>
+                                    <column hflex="1" label="变更前"/>
+                                    <column hflex="1" label="变更后"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="法人电话"/>
+                                        <label value="@bind(vm.agencyBackupInfo.legalPersonPhone)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.legalPersonPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="传真"/>
+                                        <label value="@bind(vm.agencyBackupInfo.fax)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.fax)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="店长"/>
+                                        <label value="@bind(vm.agencyBackupInfo.shopManager)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.shopManager)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="店长电话"/>
+                                        <label value="@bind(vm.agencyBackupInfo.shopManagerPhone)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.shopManagerPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="技术主管"/>
+                                        <label value="@bind(vm.agencyBackupInfo.technicalDirector)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.technicalDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="技术主管电话"/>
+                                        <label value="@bind(vm.agencyBackupInfo.technicalDirectorPhone)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.technicalDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="计划主管"/>
+                                        <label value="@bind(vm.agencyBackupInfo.planDirector)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.planDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="计划主管电话"/>
+                                        <label value="@bind(vm.agencyBackupInfo.planDirectorPhone)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.planDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="配件主管"/>
+                                        <label value="@bind(vm.agencyBackupInfo.partDirector)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.partDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="配件主管电话"/>
+                                        <label value="@bind(vm.agencyBackupInfo.partDirectorPhone)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.partDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="财务经理"/>
+                                        <label value="@bind(vm.agencyBackupInfo.financeDirector)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.financeDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="财务经理电话"/>
+                                        <label value="@bind(vm.agencyBackupInfo.financeDirectorPhone)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.financeDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="员工总数(名)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.employeeCount)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.employeeCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="接待员(名)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.receptionistCount)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.receptionistCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="物流员(名)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.logisticsClerkCount)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.logisticsClerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="库管员(名)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.storeKeeperCount)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.storeKeeperCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="开票员(名)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.invoiceClerkCount)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.invoiceClerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="结算员(名)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.clerkCount)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.clerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="办公室面积(m2)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.officeArea)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.officeArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="配件库面积(m2)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.storageArea)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.storageArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="接待室面积(m2)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.receptionArea)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.receptionArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="液压叉车(台)"/>
+                                        <label value="@bind(vm.agencyBackupInfo.forkliftCount)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.forkliftCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="料架数量"/>
+                                        <label value="@bind(vm.agencyBackupInfo.shelfArea)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.shelfArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="库房结构"/>
+                                        <label value="@bind(vm.agencyBackupInfo.buildingStructure)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.buildingStructure)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <columns>
+                                    <column hflex="1" label="变更项" align="left"/>
+                                    <column width="40px" label="变更前" align="center"/>
+                                    <column width="100px" label="变更后" align="center"/>
+                                    <column hflex="1" label="变更项" align="left"/>
+                                    <column width="40px" label="变更前" align="center"/>
+                                    <column width="100px" label="变更后" align="center"/>
+                                    <column hflex="1" label="变更项" align="left"/>
+                                    <column width="40px" label="变更前" align="center"/>
+                                    <column width="100px" label="变更后" align="center"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="维修资质"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileQualification))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileQualification)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileQualification))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileQualification)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t01')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t01')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="企业组织架构及设置书"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileOrgChart))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileOrgChart)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileOrgChart))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileOrgChart)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t02')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t02')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                        </div>
+                                        <label value="营业执照"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileBusinessLicense))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileBusinessLicense)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileBusinessLicense))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileBusinessLicense)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t03')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t03')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                        </div>
+                                        <label value="合作商全貌图片"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileGlobal))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileGlobal)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileGlobal))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileGlobal)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t04')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t04')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="税务登记证"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileTaxCertificate))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileTaxCertificate)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileTaxCertificate))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileTaxCertificate)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t05')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t05')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="办公区图片"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileOffice))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileOffice)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileOffice))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileOffice)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t06')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t06')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="银行开户许可证"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileBankAccountOpeningPermit))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileBankAccountOpeningPermit)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileBankAccountOpeningPermit))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileBankAccountOpeningPermit)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t07')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t07')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="接待室图片"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileReceptionOffice))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileReceptionOffice)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileReceptionOffice))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileReceptionOffice)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t08')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t08')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="开票信息"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileInvoiceInfo))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileInvoiceInfo)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileInvoiceInfo))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileInvoiceInfo)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t09')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t09')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="配件库房图片"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.filePartStoreage))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.filePartStoreage)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.filePartStoreage))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.filePartStoreage)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t10')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t10')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="人员登记证书"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.filePersonnelCertificate))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.filePersonnelCertificate)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.filePersonnelCertificate))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.filePersonnelCertificate)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t11')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t11')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="地图位置"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileMap))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileMap)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileMap))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileMap)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t12')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t12')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <columns>
+                                    <column width="120px" label="变更项目"/>
+                                    <column hflex="1" label="变更前"/>
+                                    <column hflex="1" label="变更后"/>
+                                    <column width="120px" label="变更项目"/>
+                                    <column hflex="1" label="变更前"/>
+                                    <column hflex="1" label="变更后"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="拟供应我公司产品系列"/>
+                                        <label value="@bind(vm.agencyBackupInfo.productsOfSupply)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.productsOfSupply)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="还兼做哪些品牌的配件"/>
+                                        <label value="@bind(vm.agencyBackupInfo.otherBrand)"/>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.agencyAlterRequest.otherBrand)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <!--<auxhead>-->
+                                <!--<auxheader label="变更项" colspan="2"/>-->
+                                <!--<auxheader label="变更前" colspan="2"/>-->
+                                <!--<auxheader label="变更后" colspan="2"/>-->
+                                <!--<auxheader label="变更项" colspan="2"/>-->
+                                <!--<auxheader label="变更前" colspan="2"/>-->
+                                <!--<auxheader label="变更后" colspan="2"/>-->
+                                <!--</auxhead>-->
+                                <columns>
+                                    <column hflex="1" label="变更项" align="left"/>
+                                    <column width="60px" label="要求数量" align="center"/>
+                                    <column width="80px" label="变更前数量" align="center"/>
+                                    <column width="80px" label="变更前图片" align="center"/>
+                                    <column width="80px" label="变更后数量" align="center"/>
+                                    <column width="80px" label="变更后图片" align="center"/>
+                                    <column hflex="1" label="变更项" align="left"/>
+                                    <column width="60px" label="要求数量" align="center"/>
+                                    <column width="80px" label="变更前数量" align="center"/>
+                                    <column width="80px" label="变更前图片" align="center"/>
+                                    <column width="80px" label="变更后数量" align="center"/>
+                                    <column width="80px" label="变更后图片" align="center"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="标准货架(1700*800*200)"/>
+                                        <label value="10" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.shelfCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileShelf))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileShelf)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.shelfCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileShelf))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileShelf)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t13')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t13')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+
+                                        <label value="电脑(有网络)"/>
+                                        <label value="2" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.computerCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileComputer))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileComputer)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.computerCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileComputer))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileComputer)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t14')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t14')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="定制货柜"/>
+                                        <label value="3" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.containerCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.containerCount))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileContainer)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.containerCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileContainer))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileContainer)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t15')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t15')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+
+                                        <label value="电话"/>
+                                        <label value="2" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.telephoneCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileTelephone))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileTelephone)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.telephoneCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileTelephone))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileTelephone)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t16')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t16')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="登高车(1200*600*1500)"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.ladderTruckCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileLadderTruck))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileLadderTruck)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.ladderTruckCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileLadderTruck))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileLadderTruck)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t17')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t17')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                        <label value="堆高车"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.forkTruckCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileForkTruck))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileForkTruck)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.forkTruckCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileForkTruck))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileForkTruck)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t19')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t19')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="小件容器(300*200*150)"/>
+                                        <label value="10" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.littleContainerCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileLittleContainer))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileLittleContainer)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.littleContainerCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileLittleContainer))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileLittleContainer)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t21')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t21')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+
+
+                                        <label value="传真"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.faxCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileFax))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileFax)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.faxCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileFax))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileFax)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t18')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t18')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="零件铭牌"/>
+                                        <label value="400" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.partNameplateCount)"/>
+                                        <label/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.partNameplateCount)"/>
+                                        <label/>
+                                        <label value="手动打包机"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.packerCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.filePacker))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.filePacker)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.packerCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.filePacker))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.filePacker)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t22')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t22')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="货物标签卡"/>
+                                        <label value="1000" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.tagCardCount)"/>
+                                        <label/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.tagCardCount)"/>
+                                        <label/>
+                                        <label value="数码相机"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.shelfCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyBackupInfo.fileShelf))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyBackupInfo.fileShelf)"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.cameraCount)"/>
+                                        <div align="left">
+                                            <a target="_blank"
+                                               href="@load(vm.getFilePath(vm.agencyAlterRequest.fileCamera))"
+                                               label="查看"
+                                               visible="@bind(not empty vm.agencyAlterRequest.fileCamera)"/>
+                                            <button tooltiptext="上传文件" iconSclass="@load(iconVariable.icon_search)"
+                                                    sclass="btn-default inner-button"
+                                                    upload="true,maxsize=5120"
+                                                    onUpload="@command('doUploadFile',event=event,t='t20')"
+                                                    disabled="@bind(vm.readonly)"/>
+
+                                            <button iconSclass="@load(iconVariable.icon_delete)"
+                                                    sclass="btn-danger inner-button" label=""
+                                                    tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                    onClick="@command('delUploadFile',t='t20')"
+                                                    style="padding-left:5px;font-weight:700;font-size:14px;"/>
+
+                                        </div>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="库房灯光"/>
+                                        <label value="6" sclass="label-require"/>
+                                        <label sclass="label-require"
+                                               value="@bind(vm.agencyBackupInfo.storeLampCount)"/>
+                                        <label/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)"
+                                                 value="@bind(vm.agencyAlterRequest.storeLampCount)"/>
+                                        <label/>
+                                        <label value="" sclass="label-index"/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+                <label style="color:red" hflex="1"
+                       value="*拟维修我公司产品系列是指维修我公司的产品系列：观光车系列、客车系列、校车系列、(柴油车需注明)货改车系列，如维修多种系列，请全部注明"/>
+            </vlayout>
+
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

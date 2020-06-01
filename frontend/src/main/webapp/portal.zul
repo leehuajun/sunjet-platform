@@ -1,0 +1,159 @@
+<borderlayout width="100%" height="100%">
+    <!--<north autoscroll="true" border="none">-->
+    <!--<vlayout sclass="page-content" spacing="0">-->
+    <!--&lt;!&ndash;<include src="/views/content/alert.zul"/>&ndash;&gt;-->
+    <!--<div sclass="alert alert-info">欢迎登录</div>-->
+    <!--&lt;!&ndash;<div sclass="alert alert-warning">欢迎登录</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div sclass="jumbotron">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div sclass="container">&ndash;&gt;-->
+    <!--&lt;!&ndash;<vlayout>&ndash;&gt;-->
+    <!--&lt;!&ndash;<label value="Hello, world!" style="font-size:52px"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<label value="This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information."&ndash;&gt;-->
+    <!--&lt;!&ndash;style="font-size:16px"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<p>...</p>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<a sclass="btn btn-default btn-lg" href="#">Learn more</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</vlayout>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</vlayout>-->
+    <!--</north>-->
+    <center vflex="true" hflex="true" autoscroll="true">
+        <!--<image src="resource/images/welcome.gif"/>-->
+        <!--<window border="normal" width="100%" height="100%"-->
+        <!--apply="org.zkoss.bind.BindComposer"-->
+        <!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+        <!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.IndexVM')">-->
+        <!--&lt;!&ndash;<borderlayout height="100%">&ndash;&gt;-->
+        <!--&lt;!&ndash;<west width="60%" vflex="true">&ndash;&gt;-->
+        <!--&lt;!&ndash;<vlayout style="padding:0px">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div height="30px" style="margin-bottom:0px; background-color:rgba(217, 237, 247, 1)">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label style="font-size: 16px">待办任务</label>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-camera-retro fa-lg"></i> fa-lg&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<a class="fa fa-camera-retro fa-lg"></a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a class="fa fa-camera-retro fa-2x"></a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a class="fa fa-camera-retro fa-3x"></a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a class="fa fa-camera-retro fa-4x"></a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="fa fa-camera-retro fa-5x"></label>&ndash;&gt;-->
+        <!--&lt;!&ndash;<box class="fa fa-camera-retro fa-5x"></box>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-camera-retro fa-2x"></i> fa-2x&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-camera-retro fa-3x"></i> fa-3x&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-camera-retro fa-4x"></i> fa-4x&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-camera-retro fa-5x"></i> fa-5x&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<div height="375px" hflex="true">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<borderlayout width="100%" height="460px"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;apply="org.zkoss.bind.BindComposer"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;viewModel="@id('vm') @init('com.sunjet.frontend.vm.flow.TaskListVM')"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;style="background-color:rgb(255,255,255);padding:0px;margin:0px;"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<center autoscroll="true" sclass="c-center">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<vlayout width="100%" height="100%" style="padding-bottom:0px">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;autopaging="true"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;model="@load(vm.tasks)"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;style="margin-bottom:15px"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;emptyMessage="@load(vm.emptyMessage)">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<columns sizable="true">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column width="30px" label="序号" align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column hflex="1" label="流程名称" align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column width="120px" label="单据编号" align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column width="60px" label="申请人" align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column width="200px" label="申请人所在单位" align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash;<column width="95px" label="提交时间" align="center"/>&ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column width="130px" label="操作" align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</columns>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<template name="model">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<row onDoubleClick="@command('handleTaskByTask',task=each)">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<label value="${forEachStatus.index+1}" sclass="label-index"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<label hflex="1"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;value="@load(vm.mapProcessDefinition.get(each.processDefinitionId).name)"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<label hflex="1" value="@load(vm.getDocNo(each.processInstanceId))"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<label hflex="1"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;value="@load(vm.getSubmitterName(each.processInstanceId))"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash;<label hflex="1"  value="@load(vm.getSubmitterName(each.processInstanceId))"/>&ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<label hflex="1"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;value="@load(vm.mapRequestOrg.get(vm.getSubmitter(each.processInstanceId)))"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash;<label hflex="1" value="@load(each.createTime)"/>&ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<hlayout>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<button sclass="btn-default" width="50px"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;label="处理"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;tooltiptext="办理任务"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;onClick="@command('handleTaskByTask',task=each)"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<button sclass="btn-default" width="60px"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;label="流程图"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;tooltiptext="办理任务"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;onClick="@command('showFlowImage',task=each)"/>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;</hlayout>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</row>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</template>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</grid>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</vlayout>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</center>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</borderlayout>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<div hflex="true" >&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<a label="更多任务" href="#" onClick="@command('enterTaskList')" style="float:right">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="z-icon-arrow-right"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</vlayout>&ndash;&gt;-->
+        <!--&lt;!&ndash;</west>&ndash;&gt;-->
+        <!--&lt;!&ndash;<east width="40%" vflex="true">&ndash;&gt;-->
+        <!--&lt;!&ndash;<vlayout style="padding:0px">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div height="30px" style="margin-bottom:0px ;background-color:rgba(217, 237, 247, 1)">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label style="font-size: 16px">公告信息</label>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<div height="375px">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<borderlayout width="100%" height="460px"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;apply="org.zkoss.bind.BindComposer"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;viewModel="@id('vm') @init('com.sunjet.vm.basic.NoticeListVM')"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;style="background-color:rgb(255,255,255);padding:0px;margin:0px;"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<center autoscroll="true" sclass="c-center">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<vlayout width="100%" height="100%" style="padding-bottom:0px">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;autopaging="true"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;model="@load(vm.resultDTO.pageContent)"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;style="margin-bottom:15px"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;emptyMessage="@load(vm.emptyMessage)">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<columns>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column width="30px" label="序号" align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column hflex="1" label="标题" align="left"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column width="95px" label="发布时间" align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<column width="55px" label=" " align="center"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</columns>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<template name="model">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<row onDoubleClick="@command('openForm',entity=each,url=vm.formUrl)">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<label value="${forEachStatus.index+1}" sclass="label-index"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<label value="@load(each.title)"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;style="color:rgb(78,116,149);font-weight:700"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;tooltiptext="@load(each.title)"/>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;<label value="@load(each.publishDate)"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<hlayout>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<button sclass="btn-default"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;label="查看" tooltiptext="查看"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;onClick="@command('openForm',entity=each,url=vm.formUrl)"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</hlayout>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</row>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</template>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</grid>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</vlayout>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</center>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</borderlayout>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<div>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<a label="更多公告" href="#" onClick="@command('enterNoticeList')" style="float:right">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="z-icon-arrow-right"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</vlayout>&ndash;&gt;-->
+        <!--&lt;!&ndash;</east>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;</borderlayout>&ndash;&gt;-->
+        <!--</window>-->
+    </center>
+</borderlayout>

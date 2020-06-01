@@ -1,0 +1,63 @@
+<!--
+基础管理 >>车型平台 表单
+-->
+<borderlayout width="100%" height="100%"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.VehiclePlatformListVM')">
+    <center sclass="c-center">
+        <hlayout vflex="1">
+            <grid width="300px" vflex="true" sclass="list-grid" oddRowSclass="none"
+                  model="@load(vm.infos)">
+                <columns>
+                    <column width="30px" label="行号" align="center"/>
+                    <column hflex="1" label="车型平台名称" align="center"/>
+                </columns>
+                <template name="model">
+                    <row onClick="@command('selectInfo',model=each)">
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.name)" style="color:rgb(78,116,149);font-weight:700"/>
+                    </row>
+                </template>
+            </grid>
+            <div width="20px"/>
+            <vlayout hflex="1" vflex="1">
+                <div sclass="include">
+                    <div sclass="ctoolbars" style="padding-top:2px">
+                        <div sclass="ctoolbar">
+                            <button iconSclass="@load(iconVariable.icon_save)" sclass="btn-default"
+                                    label="保存"
+                                    if="${vm.canSave}"
+                                    onClick="@command('submit')"/>
+                            <button iconSclass="@load(iconVariable.icon_delete)" sclass="btn-default"
+                                    label="删除"
+                                    if="${vm.canDelete}"
+                                    onClick="@command('deleteEntity')"/>
+                            <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                    if="${vm.canAdd}"
+                                    label="刷新" onClick="@command('refresh')"/>
+                            <!--</div>-->
+                            <!--<div sclass="ctoolbar" style="float:right">-->
+                            <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default"
+                                    if="${vm.canAdd}"
+                                    label="增加"
+                                    onClick="@command('addVehiclePlatform')"/>
+                        </div>
+                    </div>
+                </div>
+                <div sclass="include">
+                    <grid oddRowSclass="none" sclass="form-grid" style="margin-top:10px" if="${vm.canAdd}">
+                        <columns>
+                            <column width="100px"></column>
+                            <column hflex="1"></column>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="车型平台名称"/>
+                                <textbox value="@bind(vm.current.name)" hflex="1" tabindex="1"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+            </vlayout>
+        </hlayout>
+    </center>
+</borderlayout>

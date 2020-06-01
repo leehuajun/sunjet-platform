@@ -1,0 +1,73 @@
+<!-- 资源项编辑页面 -->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.ResourceFormVM')"
+                  form="@id('fx') @load(vm.resourceInfo) @save(vm.resourceInfo, before='submit')">
+        <center sclass="form-center">
+            <vlayout>
+                <div sclass="include">
+                    <button label="保存" iconSclass="@load(iconVariable.icon_save)" tabindex="7"
+                            sclass="btn-default "
+                            onClick="@command('submit')"/>
+                    <!--<button label="重置" iconSclass="z-icon-refresh" style="width:80px;height:25px;" tabindex="8"-->
+                    <!--sclass="btn-default "-->
+                    <!--onClick="alert(self.sclass)"/>-->
+                </div>
+                <hlayout>
+                    <groupbox>
+                        <grid oddRowSclass="none" width="300px" sclass="form-grid" style="margin-top:10px">
+                            <columns>
+                                <column hflex="1"></column>
+                                <column hflex="2"></column>
+                            </columns>
+                            <rows>
+                                <row style="border:none;height:50px">
+                                    <label value="资源名称" style="text-align:left;align:center;pack:left"/>
+                                    <textbox constraint="no empty" value="@bind(fx.name)"
+                                             width="100%" tabindex="1" readonly="@load(vm.readonly)"
+                                             style="align:center;pack:left"/>
+                                </row>
+                                <row style="border:none;height:50px">
+                                    <label value="资源代码" style="text-align:left;align:center;pack:left"/>
+                                    <textbox constraint="no empty" value="@bind(fx.code)"
+                                             width="100%" tabindex="2" readonly="@load(vm.readonly)"
+                                             style="align:center;pack:left"/>
+                                </row>
+                                <row style="border:none;height:50px">
+                                    <label value="" style="text-align:left;align:center;pack:left"/>
+                                    <label value="" style="text-align:left;align:center;pack:left"/>
+                                </row>
+                                <row style="border:none;height:50px">
+                                    <label value="状态" style="text-align:left;align:center;pack:left"/>
+                                    <!--<checkbox id="chk_enabled" checked="@bind(fx.enabled)" tabindex="4" style="color:darkblue"/>-->
+                                    <!--<label  style="color:rgb(78,116,149);font-weight:700;cursor:hand" value="启用"/>-->
+                                    <vlayout>
+                                        <checkbox label="启用" checked="@bind(fx.enabled)" tabindex="4"/>
+                                    </vlayout>
+                                </row>
+                            </rows>
+                        </grid>
+                    </groupbox>
+                    <listbox tabindex="6" style="background:#fff;"
+                             model="@load(vm.entityWrappers)"
+                             multiple="true"
+                             checkmark="true"
+                             hflex="1"
+                             vflex="1"
+                             selectedItems="@bind(vm.entityWrapperSelectedItems)">
+                        <listhead>
+                            <listheader label="可选操作" style="font-weight:700"/>
+                        </listhead>
+                        <template name="model">
+                            <listitem label="@load(each.entity.optName)"
+                                      value="@load(each.entity)"
+                                      selected="@bind(each.selected)">
+                                <!--<listcell label="@load(each.roleEntity)" />-->
+                            </listitem>
+                        </template>
+                    </listbox>
+                </hlayout>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>

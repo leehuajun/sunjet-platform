@@ -1,0 +1,7 @@
+custom:
+  ip: 123.123.123.123
+  pathUrl: http://127.0.0.1/backend
+  partPathUrl: http://127.0.0.1:8090
+  file-path: /mnt/vdb/data/files/
+#  file-path: D:/mnt/vdb/data/files/
+

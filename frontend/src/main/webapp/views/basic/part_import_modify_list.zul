@@ -1,0 +1,99 @@
+<!--
+基础管理 >>维修项目及定时金额表单
+-->
+<!--<window title="维修项目编辑" border="normal" width="500px" height="350px"-->
+<!--sizable="false"-->
+<!--style="margin:20px;padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.MaintainFormVM')"-->
+<!--validationMessages="@id('vmsgs')">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.PartImportModifyListVM')">
+        <north sclass="c-north">
+            <hlayout>
+                <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                    <columns>
+                        <column width="100px"></column>
+                        <column hflex="1"></column>
+                    </columns>
+                    <rows>
+                        <row>
+                            <button label="选择文件" iconSclass="@load(iconVariable.icon_search)"
+                                    sclass="btn-default"
+                                    upload="true,maxsize=5120"
+                                    onUpload="@command('doUploadFile',event=event)"/>
+                            <textbox hflex="1" value="@load(vm.uploadFilename)"/>
+                        </row>
+                    </rows>
+                </grid>
+            </hlayout>
+        </north>
+        <center sclass="c-center" hflex="1" vflex="1">
+            <vlayout width="100%" vflex="1">
+                <div sclass="include">
+                    <div sclass="ctoolbars" xmlns="http://www.zkoss.org/2005/zul">
+                        <div sclass="ctoolbar">
+                            <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="批量修改"
+                                    onClick="@command('modifyVehicles')"/>
+                        </div>
+                        <div sclass="ctoolbar" style="float:right">
+                            <!--<button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"-->
+                            <!--label="查询"-->
+                            <!--onClick="@command('refreshData')"></button>-->
+                            <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                    label="重置"
+                                    onClick="@command('reset')"></button>
+                        </div>
+                    </div>
+                </div>
+                <grid hflex="true" vflex="true" sclass="list-grid" model="@load(vm.infos)" mold="paging"
+                      pageSize="@load(vm.pageSize)">
+                    <columns sizable="true">
+                        <column width="30px" label="行号" align="center"></column>
+                        <column width="10px" label="" align="center"></column>
+                        <column width="150px" label="零部件号" align="center"></column>
+                        <column width="200px" label="零部件名称" align="center"></column>
+                        <column width="120px" label="三包时间" align="center"></column>
+                        <column width="100px" label="三包里程" align="center"></column>
+                        <column width="150px" label="价格" align="center"></column>
+                        <column width="100px" label="零件类型" align="center"></column>
+                    </columns>
+                    <template name="model">
+                        <row style="border:none">
+                            <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                            <zk switch="${each.err.toString()}">
+                                <zk case="1">
+                                    <a iconSclass="z-icon-info" tooltiptext="零部件号不存在!"
+                                       style="font-weight:700;color:red"/>
+                                </zk>
+                                <zk case="2">
+                                    <a iconSclass="z-icon-info" tooltiptext="未知错误!" style="font-weight:700;color:red"/>
+                                </zk>
+                                <zk case="3">
+                                    <a iconSclass="z-icon-info" tooltiptext="配件类型为空!"
+                                       style="font-weight:700;color:red"/>
+                                </zk>
+                                <zk>
+                                    <label hflex="1" value=""/>
+                                </zk>
+                            </zk>
+                            <textbox value="@bind(each.code)" hflex="1"
+                                     style="@load(each.err eq 1?'background:yellow':'')" readonly="true"/>
+                            <textbox value="@bind(each.name)" hflex="1" readonly="true"/>
+                            <textbox value="@bind(each.warrantyTime)" hflex="1" readonly="true"/>
+                            <textbox value="@bind(each.warrantyMileage)" hflex="1" readonly="true"/>
+                            <decimalbox format="####.##" value="@bind(each.price)" hflex="1" readonly="true"/>
+                            <!--<textbox value="@bind(each.price)" hflex="1" readonly="true"/>-->
+                            <textbox value="@bind(each.partType)" hflex="1" readonly="true"/>
+                        </row>
+                    </template>
+                </grid>
+                <hlayout>
+                    <label value="记录数:"/>
+                    <label value="@load(vm.infos.size())"/>
+                </hlayout>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>

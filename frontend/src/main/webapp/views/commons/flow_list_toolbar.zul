@@ -1,0 +1,31 @@
+<div sclass="ctoolbars" style="overflow:hidden;height:auto;">
+    <div sclass="ctoolbar">
+        <button label="新增"
+                iconSclass="z-icon-plus" sclass="btn-default"
+                onClick="@command('openForm',objId=null,url=vm.formUrl,title=vm.title)"
+                if="${vm.enableAdd}"></button>
+        <button label="创建故障件返回单" iconSclass="z-icon-plus" sclass="btn-default"
+                onClick="@command('createRecycleDoc')" if="${vm.enableAddRecycleDoc}"></button>
+        <button label="保存分配信息" iconSclass="z-icon-plus" sclass="btn-default"
+                onClick="@command('createSupplyAllocation')" if="${vm.enableSaveAllocation}"></button>
+        <button label="创建调拨供货单" iconSclass="z-icon-plus" sclass="btn-default"
+                onClick="@command('createSupply')" if="${vm.enableSaveSupply}"></button>
+        <button label="创建服务结算单" iconSclass="z-icon-plus" sclass="btn-default"
+                onClick="@command('createWarrantSettlement')" if="${vm.enableWarrantSettlement}"></button>
+        <button label="创建运费结算单" iconSclass="z-icon-plus" sclass="btn-default"
+                onClick="@command('createFreightSettlement')" if="${vm.enableFreightSettlement}"></button>
+        <button label="创建配件结算单" iconSclass="z-icon-plus" sclass="btn-default"
+                onClick="@command('createPartSettlement')" if="${vm.enablePartSettlement}"></button>
+        <button label="导出Excel" iconSclass="z-icon-refresh" sclass="btn-default"
+                onClick="@command('exportExcel')" if="${vm.enableExport}">
+            <!--<attribute name="onClick">-->
+            <!--Filedownload.save("/uploads/fileName", null);-->
+            <!--</attribute>-->
+        </button>
+    </div>
+
+    <div sclass="ctoolbar" style="float:right">
+        <button label="查询" sclass="btn-default" onClick="@command('refreshData')"></button>
+        <button label="重置" sclass="btn-default" onClick="@command('reset')"></button>
+    </div>
+</div>

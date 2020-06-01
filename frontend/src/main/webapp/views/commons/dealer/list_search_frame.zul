@@ -1,0 +1,118 @@
+<vlayout>
+    <grid oddRowSclass="none" sclass="form-grid">
+        <columns>
+            <column width="70px"></column>
+            <column hflex="1"></column>
+            <column width="70px"></column>
+            <column hflex="1"></column>
+            <column width="70px"></column>
+            <column hflex="1"></column>
+            <column width="70px"></column>
+            <column hflex="1"></column>
+        </columns>
+        <rows>
+            <row style="border:none;height:30px">
+                <label value="服务站编号"></label>
+                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                         value="@load(vm.dealer.code)"
+                         buttonVisible="@load(!(!(vm.dealer eq null) and !(vm.dealer.parentId eq null)))">
+                    <bandpopup width="300px" height="300px">
+                        <vlayout hflex="1" vflex="1">
+                            <hlayout>
+                                <textbox hflex="1" value="@bind(vm.keyword)"
+                                         placeholder="输入关键字..按Enter键搜索"
+                                         sclass="input-prepend"
+                                         onOK="@command('searchDealers',keyword=vm.keyword)"
+                                         style="margin-bottom:2px"/>
+                                <button label="查询" sclass="btn-default"
+                                        onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                <button label="清除" sclass="btn-warn"
+                                        onClick="@command('clearSelectedDealer')"/>
+                            </hlayout>
+                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                  emptyMessage="没有数据">
+                                <columns>
+                                    <column hflex="1" label="服务站编号"/>
+                                    <column hflex="2" label="服务站名称"/>
+                                </columns>
+                                <template name="model">
+                                    <row onClick="@command('selectDealer',model=each)">
+                                        <label value="@load(each.code)"/>
+                                        <label value="@load(each.name)"/>
+                                    </row>
+                                </template>
+                            </grid>
+                        </vlayout>
+                    </bandpopup>
+                </bandbox>
+                <label value="服务站名称"></label>
+                <textbox value="@bind(vm.dealer.name)" hflex="1" tabindex="1" readonly="true"></textbox>
+
+                <label value="省份"></label>
+                <div>
+                    <listbox hflex="1"
+                             mold="select"
+                             model="@load(vm.provinceEntities)"
+                             selectedItem="@load(vm.selectedProvince)"
+                             onSelect="@command('selectProvince',event=event)">
+                        <template name="model">
+                            <listitem left="1" label="@load(each.name)"
+                                      value="@load(each)"
+                                      selected="@load(each.name eq vm.selectedProvince.name?true:false)"
+                            ></listitem>
+                        </template>
+                    </listbox>
+                </div>
+                <label value="状态"></label>
+                <listbox mold="select"
+                         model="@load(vm.documentStatuses)"
+                         hflex="1"
+                         selectedItem="@bind(vm.status)"
+                         onSelect="@command('selectStatus')">
+                    <template name="model">
+                        <listitem label="@load(each.getName())"
+                                  value="@load(each)">
+                        </listitem>
+                    </template>
+                </listbox>
+            </row>
+            <row style="border:none;height:30px">
+                <!--<label value="申请人"></label>-->
+                <!--<textbox value="@bind(vm.creator)" hflex="1" tabindex="1"-->
+                <!--readonly="@bind(vm.creatorReadonly)"></textbox>-->
+                <label value="申请日期从"/>
+                <datebox hflex="1" format="medium" value="@bind(vm.dealerItem.startDate)"
+                         readonly="true"/>
+                <label value="至"/>
+                <datebox hflex="1" format="medium" value="@bind(vm.dealerItem.endDate)"
+                         readonly="true"/>
+                <label value="星级"></label>
+                <listbox mold="select"
+                         model="@load(vm.listStar)"
+                         hflex="1"
+                         selectedItem="@bind(vm.dealerStar)"
+                         onSelect="@command('selectDealerStar')">
+                    <template name="model">
+                        <listitem
+                                label="@load(each)"
+                                value="@bind(each)">
+                        </listitem>
+                    </template>
+                </listbox>
+                <label value="维修资质"></label>
+                <listbox mold="select"
+                         model="@load(vm.qualifications)"
+                         hflex="1"
+                         selectedItem="@bind(vm.qualification)"
+                         onSelect="@command('selectQualification')">
+                    <template name="model">
+                        <listitem left="1" label="@load(each)"
+                                  value="@load(each)" selected="@load(each eq vm.qualification)"
+                        >
+                        </listitem>
+                    </template>
+                </listbox>
+            </row>
+        </rows>
+    </grid>
+</vlayout>

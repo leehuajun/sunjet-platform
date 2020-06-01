@@ -1,0 +1,155 @@
+<!-- 代办任务 -->
+<!--<window xmlns:w="client">-->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.flow.TaskListVM')"
+              style="background-color:rgb(255,255,255);padding:0px;"
+>
+    <north sclass="c-north">
+        <!--<div sclass="ctoolbars">-->
+        <!--<div sclass="ctoolbar">-->
+        <!--<button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-info " label="刷新"-->
+        <!--onClick="@command('refresh')"></button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <vlayout>
+            <grid oddRowSclass="none" sclass="form-grid" style="margin-top:10px">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+
+                        <label value="单据编号"></label>
+                        <textbox value="@bind(vm.docNo)" hflex="1" tabindex="1"></textbox>
+                        <label value="单据类型"></label>
+                        <listbox hflex="1"
+                                 model="@load(vm.docType)"
+                                 mold="select"
+                                 selectedItem="@bind(vm.processName)">
+                            <listitem label="@load(each)" value="each"/>
+                        </listbox>
+                        <label value="省份"></label>
+                        <div>
+                            <listbox hflex="1"
+                                     mold="select"
+                                     model="@load(vm.provinceEntities)"
+                                     selectedItem="@load(vm.selectedProvince)"
+                                     onSelect="@command('selectProvince',event=event)">
+                                <template name="model">
+                                    <listitem left="1" label="@load(each.name)"
+                                              value="@load(each)"
+                                              selected="@load(each.name eq vm.selectedProvince.name?true:false)"
+                                    ></listitem>
+                                </template>
+                            </listbox>
+                        </div>
+                        <label value="申请人单位"></label>
+                        <textbox value="@bind(vm.orgName)" hflex="1" tabindex="1"></textbox>
+
+                    </row>
+                    <row style="border:none;height:30px">
+                        <label value="服务站编号"></label>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@load(vm.dealerCode)">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox hflex="1" value="@bind(vm.keyword)"
+                                                 placeholder="输入关键字..按Enter键搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                 style="margin-bottom:2px"/>
+                                        <button label="查询" sclass="btn-default"
+                                                onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                        <button label="清除" sclass="btn-warn"
+                                                onClick="@command('clearSelectedDealer')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                          emptyMessage="没有数据">
+                                        <columns>
+                                            <column hflex="1" label="服务站编号"/>
+                                            <column hflex="2" label="服务站名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectDealer',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="服务站名称"></label>
+                        <textbox value="@bind(vm.dealerName)" hflex="1" tabindex="1"
+                                 readonly="true"></textbox>
+                        <label value="申请日期从"/>
+                        <datebox hflex="1" value="@bind(vm.startDate)" format="medium" readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" value="@bind(vm.endDate)" format="medium" readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center autoscroll="true" sclass="c-center">
+        <vlayout width="100%" height="100%" style="padding-bottom:0px">
+            <div sclass="ctoolbars" style="overflow:hidden;height:auto;">
+                <div sclass="ctoolbar" style="float:right;padding-bottom:10px">
+                    <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default " label="查询"
+                            onClick="@command('searchTasks')"></button>
+                    <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default " label="重置"
+                            onClick="@command('reset')"></button>
+                </div>
+            </div>
+            <!--<include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>-->
+            <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+                  model="@load(vm.tasks)"
+                  mold="paging"
+                  pageSize="20"
+                  emptyMessage="@load(vm.emptyMessage)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="150px" label="单据编号" align="center"/>
+                    <column width="180px" label="单据类型" align="center"/>
+                    <column hflex="1" label="任务名称" align="center"/>
+                    <column width="150px" label="申请日期" align="center"/>
+                    <column width="80px" label="申请人" align="center"/>
+                    <column width="200px" label="申请人所在单位" align="center"/>
+                    <column width="130px" label="操作" align="center"/>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('handleTaskByTask',task=each)">
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label hflex="1" value="@load(vm.getDocNo(each.processInstanceId))"/>
+                        <label hflex="1" value="@load(vm.mapProcessDefinition.get(each.processDefinitionId).name)"/>
+                        <label hflex="1" value="@load(each.name)"/>
+                        <label hflex="1" value="@load(each.createTime)"/>
+                        <label hflex="1" value="@load(vm.getSubmitterName(each.processInstanceId))"/>
+                        <label hflex="1" value="@load(vm.mapRequestOrg.get(vm.getSubmitter(each.processInstanceId)))"/>
+                        <hlayout>
+                            <button sclass="btn-success" width="50px"
+                                    label="处理"
+                                    tooltiptext="办理任务"
+                                    onClick="@command('handleTaskByTask',task=each)"/>
+                            <button sclass="btn-info" width="60px"
+                                    label="流程图"
+                                    tooltiptext="显示流程图"
+                                    onClick="@command('showFlowImage',task=each)"/>
+
+                        </hlayout>
+                    </row>
+                </template>
+            </grid>
+        </vlayout>
+    </center>
+</borderlayout>

@@ -1,0 +1,25 @@
+<!-- 流程图查看器 -->
+<window title="流程图查看器" border="normal" width="800px" height="500px"
+        sizable="true"
+        style="margin:20px;padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"
+        onClose="spaceOwner.detach();"
+        viewModel="@id('vm') @init('com.sunjet.frontend.vm.flow.ImageViewerVM')">
+    <borderlayout hflex="1" vflex="1">
+        <center autoscroll="true" hflex="1" vflex="1" style="border:none">
+            <!--<include src="@load(vm.url)"/>-->
+            <!--<iframe src="@load(vm.url)"/>-->
+            <div>
+                <image content="@load(vm.flowBufferedImage)"/>
+                <!--<bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">-->
+                <!--<omgdc:Bounds height="55.0" width="105.0" x="245.0" y="80.0"></omgdc:Bounds>-->
+                <!--</bpmndi:BPMNShape>-->
+                <!--
+                    获取到的节点边框尺寸：height  width  x  y
+                    添加红色的边框为: height  width  x+3  y+31
+                -->
+                <div visible="@load(vm.show)" sclass="div-mark"
+                     style="top:${vm.coording.get('y')}px; left:${vm.coording.get('x')}px; width:${vm.coording.get('width')}px; height:${vm.coording.get('height')}px;"></div>
+            </div>
+        </center>
+    </borderlayout>
+</window>

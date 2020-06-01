@@ -1,0 +1,13 @@
+<hlayout>
+    <button iconSclass="@load(iconVariable.icon_edit)" sclass="btn-success" label=""
+            tooltiptext="编辑"
+            onClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)"
+            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+    <!-- if="${vm.enableUpdate}" -->
+    <!--style="text-align:center;padding:3px 4.5px;font-weight:700;"/>-->
+    <button iconSclass="@load(iconVariable.icon_delete)" sclass="btn-danger" label=""
+            tooltiptext="删除"
+            if="${vm.enableDelete}"
+            onClick="@command('deleteEntity',objId=each.objId,tabs=mytab.getTabs().getChildren())"
+            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+</hlayout>

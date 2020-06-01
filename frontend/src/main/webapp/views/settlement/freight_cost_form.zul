@@ -1,0 +1,205 @@
+<!-- 故障件运费结算单 -->
+<!--<window title="故障件运费结算单" border="normal" width="0px" height="0px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.settlement.FreightCostFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--onClientInfo="@command('checkClientInfo',evt=event)"-->
+<!--&gt;-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.settlement.FreightCostFormVM')">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout vflex="true">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                    <include src="/views/settlement/select_pending_freight_bill_win.zul"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" sclass="form-grid" style="margin:0;padding:0">
+                        <columns>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                        </columns>
+                        <rows>
+                            <row style="border:none;height:30px">
+                                <label value="单据编号"/>
+                                <textbox value="@bind(vm.freightSettlement.docNo)" hflex="1" readonly="true"/>
+                                <label value="申请日期"/>
+                                <datebox hflex="1" value="@bind(vm.freightSettlement.requestDate)"
+                                         readonly="true" buttonVisible="@load(!vm.readonly)"></datebox>
+                                <label value="经办人"/>
+                                <textbox value="@bind(vm.freightSettlement.operator)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="状态"/>
+                                <textbox value="@bind(vm.getStatusName(vm.freightSettlement.status))" hflex="1"
+                                         tabindex="4"
+                                         readonly="true"/>
+
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="服务站编号"/>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@load(vm.dealer.code)" buttonVisible="@load(!vm.readonly)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                                <button label="清除" sclass="btn-warn"
+                                                        onClick="@command('clearSelectedDealer')"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="服务站编号"/>
+                                                    <column hflex="2" label="服务站名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectDealer',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="服务站名称"/>
+                                <textbox value="@bind(vm.dealer.name)" hflex="1" tabindex="1" readonly="true"/>
+                                <label value="省份"/>
+                                <textbox value="@bind(vm.freightSettlement.provinceName)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="电话"/>
+                                <textbox value="@bind(vm.freightSettlement.operatorPhone)" hflex="1"
+                                         tabindex="1"/>
+
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <groupbox>
+                    <grid oddRowSclass="none" sclass="form-grid" style="margin:0;padding:0">
+                        <columns>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                        </columns>
+                        <rows>
+                            <row style="border:none;height:30px">
+                                <label value="运输费用"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.freightSettlement.freightExpense)"
+                                            hflex="1" readonly="true"/>
+                                <label value="其他费用"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.freightSettlement.otherExpense)"
+                                            onChange="@command('changeExpense')" readonly="true" hflex="1"/>
+                                <label value="价税总计"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.freightSettlement.expenseTotal)"
+                                            hflex="1" readonly="true"/>
+                                <label value="税率"/>
+                                <decimalbox value="@bind(vm.dealer.taxRate)"
+                                            format="@load(vm.decimalFormat)"
+                                            hflex="1" readonly="true"/>
+                            </row>
+
+                            <row style="border:none;height:30px">
+                                <label value="税额"/>
+                                <decimalbox value="@bind(vm.freightSettlement.tax)"
+                                            format="@load(vm.decimalFormat)"
+                                            hflex="1"/>
+                                <label value="未税金额"/>
+                                <decimalbox value="@bind(vm.freightSettlement.nonTaxAmount)"
+                                            format="@load(vm.decimalFormat)"
+                                            hflex="1"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+
+                <toolbar sclass="nav_toolbar" style="background:#fff;">
+                    <hlayout hflex="true">
+                        <!--<label value="单据时间"/>-->
+                        <!--<datebox hflex="1" value="@bind(vm.freightSettlement.startDate)"-->
+                        <!--readonly="true"></datebox>-->
+                        <!--<label value="到"/>-->
+                        <!--<datebox hflex="1" value="@bind(vm.freightSettlement.endDate)"-->
+                        <!--readonly="true"></datebox>-->
+                        <button sclass="btn-default "
+                                label="选择待结算单据" onClick="@command('selectPendingBills')" visible="@load(!vm.readonly)"/>
+                        <!--<button sclass="btn-default"-->
+                        <!--label="调取故障件返回单" onClick="@command('ReadItem')" visible="@load(!vm.readonly)"/>-->
+                        <div align="left">
+                            <button sclass="btn-default " label="打印结算明细"
+                                    onClick="@command('printDetail')"></button>
+                        </div>
+                    </hlayout>
+                </toolbar>
+                <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none" mold="paging"
+                      style="margin:0;padding:0"
+                      pageSize="20"
+                      model="@bind(vm.freightSettlement.freightExpenseInfos)">
+                    <columns sizable="true">
+                        <column width="35px" label="行号" align="center"/>
+                        <column width="120px" label="来源类型" align="center"/>
+                        <column width="160px" label="来源单号" align="center"/>
+                        <!--<column width="80px" label="工时费用" align="center"/>-->
+                        <!--<column width="80px" label="配件费用" align="center"/>-->
+                        <column width="80px" label="运输费用" align="center"/>
+                        <column width="80px" label="其他费用" align="center"/>
+                        <column width="80px" label="费用合计" align="center"/>
+                        <column hflex="2" label="备注" align="center"/>
+                        <column width="60px" label="操作" align="center"/>
+                    </columns>
+                    <template name="model">
+                        <!--<row onDoubleClick="@command('openSrcDocForm',entity=each)">-->
+                        <row>
+                            <label value="${(forEachStatus.index+1)*1}"/>
+                            <label hflex="1" value="@bind(each.srcDocType)"/>
+                            <label hflex="1" value="@bind(each.srcDocNo)"/>
+                            <decimalbox width="76px" value="@load(each.freightExpense)" format="@load(vm.decimalFormat)"
+                                        readonly="true" sclass="c-decimalbox"/>
+                            <decimalbox width="76px" value="@load(each.otherExpense)" format="@load(vm.decimalFormat)"
+                                        readonly="true" sclass="c-decimalbox"/>
+                            <decimalbox width="76px" value="@load(each.expenseTotal)" format="@load(vm.decimalFormat)"
+                                        readonly="true" sclass="c-decimalbox"/>
+                            <textbox hflex="2" value="@bind(each.comment)" style="border:none"/>
+                            <hlayout>
+                                <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-success" label=""
+                                        tooltiptext="查看来源单据详情"
+                                        onClick="@command('openSrcDocForm',entity=each)"
+                                        style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                                <button iconSclass="@load(iconVariable.icon_delete)" sclass="btn-danger" label=""
+                                        tooltiptext="删除" visible="@load(!vm.readonly)"
+                                        onClick="@command('deleteItem',model=each)"
+                                        style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                            </hlayout>
+                            <!--<button label="删除" onClick="@command('deleteItem',model=each)"-->
+                            <!--sclass="btn-danger" visible="@load(!vm.readonly)"></button>-->
+                        </row>
+                    </template>
+                </grid>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>
+        <!--</window>-->

@@ -1,0 +1,96 @@
+<!-- 已处理任务 -->
+<!--<window xmlns:w="client">-->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.flow.HandleTaskListVM')"
+              style="background-color:rgb(255,255,255);padding:0px;"
+>
+    <north sclass="c-north">
+
+        <vlayout>
+            <grid oddRowSclass="none" sclass="form-grid" style="margin-top:10px">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="流程名称"></label>
+                        <textbox value="@bind(vm.processName)" hflex="1" tabindex="1"></textbox>
+                        <label value="申请日期从"/>
+                        <datebox hflex="1" value="@bind(vm.startDate)" format="medium" readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" value="@bind(vm.endDate)" format="medium" readonly="true"/>
+                        <label value="申请人单位"></label>
+                        <textbox value="@bind(vm.orgName)" hflex="1" tabindex="1"></textbox>
+                        <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default " label="查询"
+                                onClick="@command('searchTasks')"></button>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center autoscroll="true" sclass="c-center">
+        <vlayout width="100%" height="100%" style="padding-bottom:0px">
+            <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+                  mold="paging"
+                  pageSize="20"
+                  style="margin:0;padding:0"
+                  model="@load(vm.handleTask)"
+                  emptyMessage="@load(vm.emptyMessage)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <!--<column width="80px" label="任务ID" align="center"/>-->
+                    <column width="150px" label="单据编号" align="center"/>
+                    <column width="180px" label="流程名称" align="center"/>
+                    <column hflex="1" label="任务名称" align="center"/>
+                    <!--<column width="80px" label="流程实例ID" align="center"/>-->
+                    <column width="150px" label="申请日期" align="center"/>
+                    <!--<column width="80px" label="申请人" align="center"/>-->
+                    <column width="80px" label="申请人" align="center"/>
+                    <column width="200px" label="申请人所在单位" align="center"/>
+                    <!--<column width="50px" label="状态" align="center"/>-->
+                    <column width="130px" label="操作" align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label hflex="1" value="@load(vm.getHandleDocNo(each.processInstanceId))"/>
+                        <!--<label hflex="1" value="@load(each.id)" style="color:rgb(78,116,149);font-weight:700"/>-->
+                        <label hflex="1" value="@load(vm.mapProcessDefinition.get(each.processDefinitionId).name)"/>
+                        <label hflex="1" value="@load(each.name)"/>
+                        <!--<label hflex="1" value="@load(each.processInstanceId)"/>-->
+                        <label hflex="1" value="@load(each.createTime)"/>
+                        <label hflex="1" value="@load(vm.getSubmitterName(each.processInstanceId))"/>
+                        <label hflex="1"
+                               value="@load(vm.mapRequestOrg.get(vm.getHandleSubmitter(each.processInstanceId)))"/>
+                        <!--<label hflex="1" value="@load(vm.mapRequestOrg.get(each.assignee))"/>-->
+                        <!--<label hflex="1" value="@load(vm.mapRequestOrg.get(each.assignee))"/>-->
+                        <!--<label hflex="1" value="@load(vm.mapUser.get(each.assignee).name)"/>-->
+                        <!--<label hflex="1" value="@load(vm.getStatusName(each.status))"/>-->
+                        <!--<div align="right" hflex="1" >-->
+                        <hlayout>
+                            <button sclass="btn-success" width="50px"
+                                    label="撤回"
+                                    tooltiptext="撤回任务"
+                                    onClick="@command('callBackTask',handleTask=each)"/>
+                            <button sclass="btn-info" width="60px"
+                                    label="流程图"
+                                    tooltiptext="办理任务"
+                                    onClick="@command('showFlowImage',handleTask=each)"/>
+
+                        </hlayout>
+                        <!--</div>-->
+                    </row>
+                </template>
+            </grid>
+        </vlayout>
+    </center>
+</borderlayout>

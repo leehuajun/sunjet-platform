@@ -1,0 +1,14 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/sunjet_db
+    username: postgres
+    password: lzw719
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+access:
+  auth: false

@@ -1,0 +1,61 @@
+<vlayout hflex="1" vflex="1" style="padding-bottom:0px" apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('com.sunjet.frontend.vm.asm.ActivityVehicleListVM')">
+    <grid hflex="true" vflex="true" sclass="list-grid"
+          model="@load(vm.pageResult.rows)">
+        <columns sizable="true">
+            <column width="30px" label="行号" align="center"/>
+            <column width="180px" label="VIN" align="center"/>
+            <column width="150px" label="VSN" align="center"/>
+            <column width="100px" label="车型型号" align="center"/>
+            <column hflex="1" label="经销商" align="center"/>
+            <column hflex="1" label="用户" align="center"/>
+            <column width="80px" label="电话" align="center"/>
+            <column hflex="1" label="用户地址" align="center"/>
+            <column width="72px" label="购车日期" align="center"/>
+            <column width="80px" label="行驶里程" align="center"/>
+            <column width="60px" label="分配状态" align="center" if="${vm.canDisplay}"/>
+            <column width="60px" label="维修状态" align="center" if="${!vm.canDisplay}"/>
+            <column width="40px" label="操作" align="center"/>
+        </columns>
+        <template name="model">
+            <!--<row onClick="@command('selectNoticeVehicleEntity',model=each)">-->
+            <row>
+                <label value="${forEachStatus.index + 1}" sclass="label-index"/>
+                <label value="@load(each.vin)"/>
+                <label value="@load(each.vsn)"/>
+                <label value="@load(each.vehicleModel)"/>
+                <label value="@load(each.seller)"/>
+                <label value="@load(each.ownerName)"
+                       tooltiptext="@load(each.ownerName)"/>
+                <label value="@load(each.mobile)"/>
+                <label value="@load(each.address)"
+                       tooltiptext="@load(each.address)"/>
+                <!--<datebox hflex="1" value="@load(each.purchaseDate)" format="medium" style="border:none"-->
+                <!--readonly="true" buttonVisible="false" tabindex="4"/>-->
+                <label hflex="1" value="@load(vm.dateToString(each.purchaseDate))"
+                       tooltiptext="@load(vm.dateToString(each.purchaseDate))"/>
+                <label value="@load(each.mileage)"/>
+                <label hflex="1" value="@load(each.distribute eq true ? '已分配':'未分配' )"
+                       if="${vm.canDisplay}"
+                       style="@load(each.distribute eq true ? 'color:green':'color:red' )"/>
+                <label hflex="1" value="@load(each.repair eq true ? '已维修':'未维修' )"
+                       if="${!vm.canDisplay}"
+                       style="@load(each.repair eq true ? 'color:green':'color:red' )"/>
+                <button tooltiptext="删除" iconSclass="@load(iconVariable.icon_delete)"
+                        onClick="@command('deleteEntity',objId=each.objId)"
+                        visible="@load(vm.canDelete)"
+                        style="text-align:center;padding:3px 4.5px;font-weight:700;"
+                        sclass="btn-danger"></button>
+            </row>
+        </template>
+    </grid>
+    <paging
+            pageSize="@bind(vm.pageResult.pageSize)"
+            totalSize="@bind(vm.pageResult.total)"
+            pageIncrement="1"
+            detailed="true"
+            activePage="@bind(vm.pageResult.page)"
+            onPaging="@command('gotoPageNo',e=event)"
+            style="border:0px"
+    />
+</vlayout>

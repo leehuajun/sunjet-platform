@@ -1,0 +1,122 @@
+<!--角色项编辑页面 -->
+<!--<window title="@load('角色信息')" border="normal" width="970px" height="550px"-->
+<!--sizable="false"-->
+<!--style="padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach()"-->
+<!--apply="org.zkoss.bind.BindComposer"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.RoleFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--form="@id('fx') @load(vm.roleInfo) @save(vm.roleInfo, before='submit')">-->
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.RoleFormVM')"
+                  validationMessages="@id('vmsgs')"
+                  form="@id('fx') @load(vm.roleInfo) @save(vm.roleInfo, before='submit')"
+                  width="100%" height="100%">
+        <center sclass="form-center">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <button label="保存" iconSclass="@load(iconVariable.icon_save)" tabindex="7"
+                            sclass="btn-default "
+                            onClick="@command('submit')"/>
+                    <!--<button label="重置" iconSclass="z-icon-refresh" style="width:80px;height:25px;" tabindex="8"-->
+                    <!--sclass="btn-default "-->
+                    <!--onClick="alert(self.sclass)"/>-->
+                    <button label="获取选中项" iconSclass="@load(iconVariable.icon_close)" width="100px" tabindex="9"
+                            sclass="btn-default "
+                            onClick="@command('test')"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" sclass="form-grid">
+                        <columns>
+                            <column width="60px"></column>
+                            <column width="240px" align="left"></column>
+                            <column width="60px"></column>
+                            <column width="240px" align="left"></column>
+                            <column width="60px" align="right"></column>
+                            <column></column>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="角色名称" style="color:rgb(78,116,149);font-weight:700"/>
+                                <textbox width="200px" constraint="no empty" value="@bind(fx.name)"
+                                         tabindex="1" readonly="@load(vm.readonly)"/>
+                                <label value="角色ID" style="color:rgb(78,116,149);font-weight:700"/>
+                                <textbox width="200px" constraint="no empty" value="@bind(fx.roleId)"
+                                         tabindex="1" readonly="@load(vm.readonly)"/>
+                                <label value="状态" style="color:rgb(78,116,149);font-weight:700"/>
+                                <checkbox checked="@bind(fx.enabled)" label="启用" tabindex="4"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <hlayout vflex="1" style="background:#fff;padding:10px;">
+                    <div hflex="1" vflex="1" style="overflow:hidden">
+                        <div hflex="2" style="float:left;height:100%;margin-right:20px;">
+                            <div style="float:left;width:100%;margin-bottom:10px;">
+                                <span class="z-icon-user" style="font-size:14px;color:rgb(78,116,149);font-weight:700"/>
+                                <label style="color:rgb(78,116,149);font-weight:700">用户列表</label>
+                            </div>
+                            <div vflex="1" style="overflow-y:auto;width:100%;">
+                                <!--<div style="float:left;width:100%;">-->
+                                <listbox tabindex="6" vflex="1"
+                                         multiple="true"
+                                         checkmark="true"
+                                         style="height:100%;"
+                                         model="@bind(vm.userWrappers)"
+                                         selectedItems="@bind(vm.userWrapperSelectedItems)">
+                                    <listhead>
+                                        <listheader label="姓名"></listheader>
+                                        <!--<listheader label="登录名"></listheader>-->
+                                    </listhead>
+                                    <template name="model">
+                                        <listitem value="@bind(each.entity)" selected="@bind(each.selected)">
+                                            <listcell
+                                                    label="@load(each.entity.name.concat('(').concat(each.entity.logId).concat(')'))"/>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div hflex="8" style="float:left;height:100%;">
+                            <div style="width:100%;float:left;margin-bottom:10px;">
+                                <span class="z-icon-lock" style="font-size:14px;color:rgb(78,116,149);font-weight:700"/>
+                                <label style="color:rgb(78,116,149);font-weight:700">权限列表</label>
+                            </div>
+                            <div vflex="1" style="overflow-y:auto;width:100%;">
+                                <!--<div style="width:100%;float:left;">-->
+                                <grid sclass="list-grid pgrid" hflex="1" vflex="1"
+                                      model="@bind(vm.resourceWrappers)"
+                                      emptyMessage="@load(vm.emptyMessage)">
+                                    <columns>
+                                        <column width="130px" label="资源名称" align="left"/>
+                                        <column hflex="1" label="访问权限" align="left"/>
+                                    </columns>
+                                    <template name="model">
+                                        <row>
+                                            <label value="@load(each.entity.name)"
+                                                   style="color:rgb(78,116,149);font-weight:700"/>
+                                            <!--<hbox>-->
+                                            <!--<checkbox forEach="@load(each.model.operationEntityList)" label="test"/>-->
+                                            <!--</hbox>-->
+                                            <div style="vertical-align:bottom">
+                                                <!--<checkbox checked="@bind(each.selected)" label="${each.model.accessName}" forEach="${each.modelWrappers}" style="padding-right:10px"/>-->
+                                                <checkbox value="${each.entity.permissionCode}"
+                                                          checked="${each.selected}"
+                                                          label="${each.entity.accessName}"
+                                                          forEach="${each.entityWrappers}"
+                                                />
+                                            </div>
+                                        </row>
+                                    </template>
+                                </grid>
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </hlayout>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

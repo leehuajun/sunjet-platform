@@ -1,0 +1,122 @@
+<!--
+基础管理 >>车辆信息列表
+-->
+<borderlayout width="100%" height="100%" apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.VehicleListVM')">
+
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="40px"></column>
+                    <column hflex="1"></column>
+                    <column width="60px"></column>
+                    <column hflex="1"></column>
+                    <column width="60px"></column>
+                    <column hflex="1"></column>
+                    <column width="60px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="VIN"/>
+                        <textbox value="@bind(vm.vehicleInfo.vin)" hflex="1" tabindex="1"/>
+                        <label value="VSN"/>
+                        <textbox value="@bind(vm.vehicleInfo.vsn)" hflex="1" tabindex="1"/>
+                        <label value="车型型号"/>
+                        <textbox value="@bind(vm.vehicleInfo.vehicleModel)" hflex="1" tabindex="1"/>
+                        <label value="销售商"/>
+                        <textbox value="@bind(vm.vehicleInfo.seller)" hflex="1" tabindex="1"/>
+                        <!--<label value="经稍商"/>-->
+                        <!--<textbox value="" hflex="1" tabindex="1"/>-->
+                        <!--<button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default " label="查询"-->
+                        <!--onClick="@command('refreshData')"></button>-->
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <div sclass="include">
+                <div sclass="ctoolbars" xmlns="http://www.zkoss.org/2005/zul">
+                    <div sclass="ctoolbar">
+                        <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="新增"
+                                onClick="@command('openForm',objId=null,url=vm.formUrl,title=vm.title)"
+                                if="${vm.enableAdd}"/>
+                        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="批量增加"
+                                onClick="@command('openForm',objId=null,url='/views/basic/vehicle_import_add_list.zul',title='批量增加车辆')"
+                                if="${vm.enableImportAddVehicles}"/>
+                        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="批量修改"
+                                onClick="@command('openForm',objId=null,url='/views/basic/vehicle_import_modify_list.zul',title='批量修改车辆')"
+                                if="${vm.enableImportModifyVehicles}"/>
+                    </div>
+                    <div sclass="ctoolbar" style="float:right">
+                        <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"
+                                label="查询"
+                                onClick="@command('refreshData')"></button>
+                        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                label="重置"
+                                onClick="@command('reset')"></button>
+                    </div>
+                </div>
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid"
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"></column>
+                    <column width="150px" label="VIN" align="center"></column>
+                    <column width="150px" label="VSN" align="center"></column>
+                    <column width="100px" label="车型型号" align="center"></column>
+                    <column width="100px" label="发动机型号" align="center"></column>
+                    <column width="100px" label="发动机号" align="center"></column>
+                    <column width="100px" label="车辆类别代码" align="center"></column>
+                    <column width="100px" label="车辆类别名称" align="center"></column>
+                    <column width="100px" label="车牌号" align="center"></column>
+                    <column width="100px" label="首保日期" align="center"></column>
+                    <column width="200px" label="地址" align="center"></column>
+                    <column width="200px" label="经销商" align="center"></column>
+                    <column width="180px" label="服务站名称" align="center"></column>
+                    <column width="100px" label="服务经理" align="center"></column>
+                    <column width="80px" label="里程" align="center"></column>
+                    <column width="80px" label="行驶里程" align="center"></column>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('openForm',url=vm.formUrl,objId=each.objId,title=vm.title)">
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.vin)" tooltiptext="@load(each.vin)"/>
+                        <label value="@load(each.vsn)" tooltiptext="@load(each.vsn)"/>
+                        <label value="@load(each.vehicleModel)" tooltiptext="@load(each.vehicleModel)"/>
+                        <label value="@load(each.engineModel)" tooltiptext="@load(each.engineModel)"/>
+                        <label value="@load(each.engineNo)" tooltiptext="@load(each.engineNo)"/>
+                        <label value="@load(each.typeCode)" tooltiptext="@load(each.typeCode)"/>
+                        <label value="@load(each.typeName)" tooltiptext="@load(each.typeName)"/>
+                        <label value="@load(each.plate)" tooltiptext="@load(each.plate)"/>
+                        <label value="@load(each.fmDate)" tooltiptext="@load(each.fmDate)"/>
+                        <div align="left">
+                            <label value="@load(each.address)" tooltiptext="@load(each.address)"/>
+                        </div>
+                        <div align="left">
+                            <label value="@load(each.seller)" tooltiptext="@load(each.seller)"/>
+                        </div>
+                        <div align="left">
+                            <label value="@load(each.dealerName)" tooltiptext="@load(each.dealerName)"/>
+                        </div>
+                        <label value="@load(each.serviceManager)" tooltiptext="@load(each.serviceManager)"/>
+                        <label value="@load(each.vmt)" tooltiptext="@load(each.vmt)"/>
+                        <label value="@load(each.mileage)" tooltiptext="@load(each.mileage)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

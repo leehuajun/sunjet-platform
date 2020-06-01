@@ -1,0 +1,155 @@
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.settlement.PendingSettleMentDetailsListVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="80px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="单据编号"/>
+                        <textbox value="@bind(vm.pendingSettlementDetailItems.srcDocNo)" hflex="1"/>
+                        <label value="服务站编号"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@load(vm.pendingSettlementDetailItems.dealerCode)">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keyword)" hflex="1"
+                                                 placeholder="输入关键字..按Enter键搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                 style="margin-bottom:2px"/>
+                                        <button label="查询" sclass="btn-default"
+                                                onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                        <button label="清除" sclass="btn-warn"
+                                                onClick="@command('clearSelectedDealer')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                          emptyMessage="没有数据">
+                                        <columns>
+                                            <column hflex="1" label="服务站编号"/>
+                                            <column hflex="2" label="服务站名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectDealer',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="服务站名称"/>
+                        <textbox value="@bind(vm.pendingSettlementDetailItems.dealerName)" hflex="1" tabindex="1"
+                                 readonly="true"/>
+                        <!--<label value="结算情况"/>-->
+                        <!--<checkbox label="是否已结算" checked="@bind(vm.settlement)"/>-->
+                        <label value="状态"></label>
+                        <listbox mold="select"
+                                 model="@load(vm.documentStatuses)"
+                                 hflex="1"
+                                 selectedItem="@bind(vm.selectedStatus)"
+                                 onSelect="@command('selectedStatus')">
+                            <template name="model">
+                                <listitem label="@load(each.getName())"
+                                          value="@load(each)">
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </row>
+                    <row style="border:none;height:30px">
+
+                        <label value="业务日期从"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.pendingSettlementDetailItems.startDate)"
+                                 readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.pendingSettlementDetailItems.endDate)"
+                                 readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+
+            <div sclass="include">
+                <!--<div sclass="ctoolbar">-->
+                <!--<button onClick="@command('createFreightSettlement')"-->
+                <!--iconSclass="z-icon-plus" sclass="btn-default" label="创建运费结算单"-->
+                <!--if="${vm.enableFreightSettlement}"></button>-->
+                <!--</div>-->
+
+                <div sclass="ctoolbars" style="overflow:hidden;height:auto;">
+                    <!--<div sclass="ctoolbar">-->
+                    <!--<button label="查询" sclass="btn-default " onClick="@command('refreshData')"></button>-->
+                    <!--<button label="重置" sclass="btn-default " onClick="@command('reset')"></button>-->
+                    <!--</div>-->
+
+                    <div sclass="ctoolbar" style="float:right">
+                        <button label="查询" sclass="btn-default " onClick="@command('refreshData')"></button>
+                        <button label="重置" sclass="btn-default " onClick="@command('reset')"></button>
+                    </div>
+                </div>
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid" model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <!--<column width="30px" label="选择" align="center"/>-->
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="50px" label="状态" align="center"/>
+                    <column width="100px" label="来源单据类型" align="center"/>
+                    <column width="120px" label="来源单据编号" align="center"/>
+                    <column width="100px" label="服务站编号" align="center"/>
+                    <column width="250px" label="服务站名称" align="left"/>
+                    <column width="120px" label="业务时间" align="center"/>
+                    <column width="100px" label="结算费用" align="center"/>
+                    <column width="70px" label="经办人" align="center"/>
+                    <column width="90px" label="联系电话" align="center"/>
+                    <column width="120px" label="结算单号" align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <!--<checkbox onCheck="@command('selectPendingSettlementFreight',model=each,check=self.checked)"-->
+                        <!--disabled="@load(vm.chkStatus(each.settlementStatus))"></checkbox>-->
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(vm.getStatusName(each.status))"
+                               tooltiptext="@load(vm.getStatusName(each.status))"
+                               style="@load(vm.getColor(each.status))"/>
+                        <label hflex="1" value="@load(each.srcDocType)" tooltiptext="@load(each.srcDocType)"/>
+                        <label hflex="1" value="@load(each.srcDocNo)" tooltiptext="@load(each.srcDocNo)"/>
+                        <label hflex="1" value="@load(each.dealerCode)" tooltiptext="@load(each.dealerCode)"/>
+                        <label hflex="1" value="@load(each.dealerName)" tooltiptext="@load(each.dealerName)"/>
+                        <label hflex="1" value="@load(each.businessDate)" tooltiptext="@load(each.businessDate)"/>
+                        <decimalbox hflex="1" format="@load(vm.decimalFormat)" value="@load(each.expenseTotal)"
+                                    readonly="true" sclass="c-decimalbox"/>
+                        <label hflex="1" value="@load(each.operator)" tooltiptext="@load(each.operator)"/>
+                        <label hflex="1" value="@load(each.operatorPhone)" tooltiptext="@load(each.operatorPhone)"/>
+                        <label hflex="1" value="@load(each.settlementDocNo)" tooltiptext="@load(each.settlementDocNo)"/>
+
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

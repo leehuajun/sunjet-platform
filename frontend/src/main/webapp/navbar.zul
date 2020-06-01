@@ -1,0 +1,147 @@
+<!-- 页头导航栏 -->
+<div sclass="navbar" width="100%;height:49px">
+    <!-- Brand Logo -->
+    <!--<image src="@load(vm.app_logo)" sclass="navbar-logo"/>-->
+    <!--<label value="@load(vm.app_name)" sclass="pull-left navbar-brand"/>-->
+    <!-- Navbar -->
+    <hlayout sclass="pull-left">
+        <div style="width:100px;height:50px;background: url(resource/images/logo-wuling.png) center;background-repeat: no-repeat"></div>
+        <div style="width:200px;">
+            <label style="color: #fff;font-size: 22px;text-shadow: 2px 2px 4px #000000;line-height: 47px;"
+                   value="整车售后服务系统"></label>
+        </div>
+    </hlayout>
+    <hlayout sclass="nav-user pull-right" spacing="0" xmlns:w='client'>
+        <timer repeats="true" running="true" delay="60000" onTimer="@command('renewal')"/>
+        <!--<a id="toggleSidebar" iconSclass="z-icon-home" sclass="" >-->
+        <!--<label value="切换菜单" w:onClick="jq('$sidebar').hide().fadeOut()"/>-->
+        <!--</a>-->
+        <!--<label value="@load(vm.now)"/>-->
+        <a id="ahome" iconSclass="z-icon-home" sclass="" onClick="@command('showIndex')">
+            <label value="首页"/>
+        </a>
+        <a id="amessage" iconSclass="z-icon-tasks" href="#" onClick="@command('enterMessageList')" sclass="">
+            <label value="消息通知"/>
+            <label value="@load(vm.messages.size())" sclass="badge"/>
+        </a>
+        <a id="atask" iconSclass="z-icon-tasks" href="#" onClick="@command('enterTaskList')" sclass="">
+            <label value="待办任务"/>
+            <label value="@load(vm.tasks.size())" sclass="badge"/>
+        </a>
+        <a id="amsg" iconSclass="z-icon-envelope" onClick="@command('enterNoticeList')" sclass=""
+           if="${vm.enableNotice}">
+            <label value="公告"/>
+            <label value="@load(vm.notices.size())" sclass="badge"/>
+        </a>
+        <a id="auser" iconSclass="z-icon-user" popup="userpp, position=after_end, type=toggle" sclass="">
+            <label value="${vm.activeUser.username}"/>
+            <span style="margin-left:4px" class="z-icon-caret-down"/>
+        </a>
+    </hlayout>
+    <!-- Popups of navbar -->
+    <popup id="userpp" sclass="menu" width="150px" onClick="self.setVisible(false)">
+        <a label="个人管理" sclass="header" iconSclass="z-icon-user" tooltip="当前用户"/>
+        <vlayout spacing="0">
+            <a iconSclass="btn btn-xs no-hover btn-default z-icon-user" href="#" onClick="@command('showDealerInfo')"
+               visible="@load(vm.userType eq 'dealer')">
+                <label value="当前服务站信息"></label>
+                <!--<label value="+12" class="badge badge-info pull-right"/>-->
+            </a>
+            <a iconSclass="btn btn-xs no-hover btn-default z-icon-user" href="#" onClick="@command('showAgencyInfo')"
+               visible="@load(vm.userType eq 'agency')">
+                <label value="当前合作商信息"></label>
+                <!--<label value="+12" class="badge badge-info pull-right"/>-->
+            </a>
+            <a iconSclass="btn btn-xs no-hover btn-default z-icon-user" href="#" onClick="@command('changePassword')">
+                <label value="修改密码"></label>
+                <!--<label value="+12" class="badge badge-info pull-right"/>-->
+            </a>
+            <a iconSclass="btn btn-xs no-hover btn-default z-icon-user" href="#" onClick="@command('logout')">
+                <label value="注销"></label>
+                <!--<label value="+12" class="badge badge-info pull-right"/>-->
+            </a>
+            <a label="个人信息" href="#">
+                <span class="z-icon-arrow-right"/>
+            </a>
+        </vlayout>
+    </popup>
+
+    <!--<popup id="taskpp" sclass="menu" width="300px" onClick="self.close()">-->
+    <!--<a label="待办任务列表" sclass="header" iconSclass="z-icon-exclamation-triangle"/>-->
+    <!--<vlayout spacing="0">-->
+    <!--<grid model="@load(vm.showTasks)" sclass="list-grid" style="border:none" emptyMessage="${vm.emptyMessage}"-->
+    <!--oddRowSclass="none">-->
+    <!--<columns>-->
+    <!--&lt;!&ndash;<column width="30px" align="left"/>&ndash;&gt;-->
+    <!--<column hflex="1" align="left"/>-->
+    <!--<column hflex="1" align="right"/>-->
+    <!--</columns>-->
+    <!--<template name="model">-->
+    <!--<row onClick="@command('handleTaskByTask',task=each)" height="30px">-->
+    <!--&lt;!&ndash;<a iconSclass="z-icon-arrow-circle-o-right"/>&ndash;&gt;-->
+    <!--<cell align="left" hflex="1" style="padding-left:2px">-->
+    <!--<label value="${vm.mapProcessDefinition.get(each.processDefinitionId).name}"-->
+    <!--style="color:rgb(78,116,149);font-weight:700"/>-->
+    <!--</cell>-->
+    <!--<cell align="right" hflex="1" style="padding-right:2px">-->
+    <!--<label value="${each.createTime}" class="pull-right"-->
+    <!--style="color:rgb(200,200,200)"/>-->
+    <!--</cell>-->
+    <!--</row>-->
+    <!--</template>-->
+    <!--</grid>-->
+    <!--&lt;!&ndash;<a href="#" onClick="@command('taskClicked',task=self.getAttribute(&quot;obj&quot;))" forEach="${vm.tasks}">&ndash;&gt;-->
+    <!--&lt;!&ndash;<label value="${vm.mapProcessDefinition.get(each.processDefinitionId).name}"></label>&ndash;&gt;-->
+    <!--&lt;!&ndash;<label value="${each.createTime}" class="pull-right"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<custom-attributes obj="${each}"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<button sclass="btn-default"&ndash;&gt;-->
+    <!--&lt;!&ndash;label="${each}"&ndash;&gt;-->
+    <!--&lt;!&ndash;onClick="@command('commit',outcome=self.getAttribute(&quot;outcome&quot;))"&ndash;&gt;-->
+    <!--&lt;!&ndash;forEach="${vm.outcomes}">&ndash;&gt;-->
+    <!--&lt;!&ndash;<custom-attributes outcome="${each}"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;<a iconSclass="btn btn-xs no-hover btn-default z-icon-user" href="#">&ndash;&gt;-->
+    <!--&lt;!&ndash;<label>Bob just signed up as an editor ...</label>&ndash;&gt;-->
+    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;<a iconSclass="btn btn-xs no-hover btn-default z-icon-shopping-cart" href="#">&ndash;&gt;-->
+    <!--&lt;!&ndash;<label>New Orders</label>&ndash;&gt;-->
+    <!--&lt;!&ndash;<label value="+8" class="badge badge-info pull-right"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;<a iconSclass="btn btn-xs no-hover btn-default z-icon-twitter" href="#">&ndash;&gt;-->
+    <!--&lt;!&ndash;<label>Followers</label>&ndash;&gt;-->
+    <!--&lt;!&ndash;<label value="+11" class="badge badge-info pull-right"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--<a label="进入待办任务列表" href="#" onClick="@command('enterTaskList')">-->
+    <!--<span class="z-icon-arrow-right"/>-->
+    <!--</a>-->
+    <!--</vlayout>-->
+    <!--</popup>-->
+    <!--<popup id="noticepp" sclass="menu" width="300px">-->
+    <!--<a label="公告列表" sclass="header" iconSclass="z-icon-exclamation-triangle"/>-->
+    <!--<vlayout spacing="0">-->
+    <!--&lt;!&ndash;<a iconSclass="btn btn-xs no-hover btn-default z-icon-comment" href="#">&ndash;&gt;-->
+    <!--&lt;!&ndash;<label>New Comments</label>&ndash;&gt;-->
+    <!--&lt;!&ndash;<label value="+12" class="badge badge-info pull-right"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--<grid model="@load(vm.showNotices)" sclass="list-grid" style="border:none" emptyMessage="${vm.emptyMessage}"-->
+    <!--oddRowSclass="none">-->
+    <!--<columns>-->
+    <!--&lt;!&ndash;<column width="30px" align="left"/>&ndash;&gt;-->
+    <!--<column hflex="1" align="left"/>-->
+    <!--</columns>-->
+    <!--<template name="model">-->
+    <!--<row onClick="@command('noticeClicked',notice=each)" height="30px">-->
+    <!--&lt;!&ndash;<a iconSclass="z-icon-arrow-circle-o-right"/>&ndash;&gt;-->
+    <!--<label value="@load(each.title)"-->
+    <!--style="color:rgb(78,116,149);font-weight:700"/>-->
+    <!--</row>-->
+    <!--</template>-->
+    <!--</grid>-->
+    <!--<a label="进入公告列表" href="#" onClick="@command('enterNoticeList')">-->
+    <!--<span class="z-icon-arrow-right"/>-->
+    <!--</a>-->
+    <!--</vlayout>-->
+    <!--</popup>-->
+</div>

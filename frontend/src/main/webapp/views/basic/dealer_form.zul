@@ -1,0 +1,475 @@
+<!--
+基础管理 >>服务站信息表单
+-->
+<!--<window title="服务站信息" border="normal" width="1000px" height="600px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.DealerFormVM')"-->
+<!--onClose="spaceOwner.detach();">-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.DealerFormVM')">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout height="100%">
+                <!--<button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default "-->
+                <!--label="服务经理设置"-->
+                <!--onClick="@command('filterList')"></button>-->
+                <div sclass="include">
+                    <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="保存"
+                            if="${vm.canSave}"
+                            onClick="@command('saveServiceManager')"/>
+                </div>
+                <groupbox>
+                    <grid hflex="true" sclass="form-grid" oddRowSclass="none" style="margin-bottom:10px">
+                        <columns>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="服务站编号"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.code)"
+                                         readonly="true"/>
+                                <label value="服务站名称"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.name)"
+                                         readonly="true" sclass="no_empty"
+                                />
+                                <label value="电话"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.phone)"
+                                         readonly="true" sclass="no_empty"
+                                />
+                                <label value="传真"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.fax)"
+                                         readonly="true" sclass="no_empty"
+                                />
+                            </row>
+                            <row>
+                                <label value="地址"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.address)"
+                                         readonly="true" sclass="no_empty"
+                                />
+                                <label value="所在省"></label>
+                                <textbox hflex="1" value="@bind(vm.dealerInfo.provinceName)"
+                                         readonly="true" sclass="no_empty"
+                                />
+                                <label value="市"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.dealerInfo.cityName)"
+                                         readonly="true"></textbox>
+
+                                <label value="SGMW体系"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@load(vm.dealerInfo.sgmwSystem eq 'true'?'是':'否')"
+                                         readonly="true"></textbox>
+                            </row>
+                            <row>
+                                <label value="申请等级"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@load(vm.dealerInfo.star)"
+                                         readonly="true"></textbox>
+                                <label value="维修资质"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@load(vm.dealerInfo.qualification)"
+                                         readonly="true"></textbox>
+                                <!--一类；二类(汽车综合小修)；三类(发动机维修)-->
+                                <label value="服务站级别"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@load(vm.dealerInfo.level)"
+                                         readonly="true"></textbox>
+                                <label value="父级服务站"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@load(vm.dealerInfo.parentName)"
+                                         readonly="true"></textbox>
+                            </row>
+                            <row>
+                                <label value="组织机构代码"></label>
+                                <textbox value="@bind(vm.dealerInfo.orgCode)" hflex="1" sclass="no_empty"
+                                         readonly="true"></textbox>
+                                <label value="纳税人识别"></label>
+                                <textbox value="@bind(vm.dealerInfo.taxpayerCode)" hflex="1" sclass="no_empty"
+                                         readonly="true"></textbox>
+                                <label value="开户银行"></label>
+                                <textbox value="@bind(vm.dealerInfo.bank)" hflex="1" sclass="no_empty"
+                                         readonly="true"></textbox>
+                                <label value="银行账号"></label>
+                                <textbox value="@bind(vm.dealerInfo.bankAccount)" hflex="1" sclass="no_empty"
+                                         readonly="true"></textbox>
+
+                            </row>
+                            <row>
+                                <label value="营业执照号"></label>
+                                <textbox value="@bind(vm.dealerInfo.businessLicenseCode)" hflex="1" sclass="no_empty"
+                                         readonly="true"></textbox>
+                                <label value="其他合作内容"></label>
+                                <cell colspan="3">
+                                    <textbox value="@bind(vm.dealerInfo.otherCollaboration)" hflex="1" sclass="no_empty"
+                                             readonly="true"></textbox>
+                                </cell>
+                                <label value="培训资料"></label>
+                                <a target="_blank"
+                                   href="@load(vm.getFilePath(vm.dealerInfo.fileTrain))"
+                                   label="查看"
+                                   visible="@bind(not empty vm.dealerInfo.fileTrain)"/>
+
+                            </row>
+                            <row>
+                                <label value="税率"></label>
+                                <textbox value="@bind(vm.dealerInfo.taxRate)" hflex="1" sclass="no_empty"
+                                         readonly="true"></textbox>
+                                <label value="服务经理"></label>
+                                <div>
+                                    <listbox mold="select"
+                                             model="@load(vm.serviceManagers)"
+                                             hflex="1"
+                                             selectedItem="@bind(vm.dealerInfo.serviceManagerName)">
+                                        <template name="model">
+                                            <listitem label="@load(each.name)"
+                                                      value="@load(each)"
+                                                      selected="@load(vm.defaultServiceManager)"></listitem>
+
+                                        </template>
+                                    </listbox>
+                                    <!--<textbox hflex="1" value="@bind(vm.dealerInfo.serviceManager.name)"/>-->
+                                </div>
+                                <label value="是否启用:"/>
+                                <div>
+                                    <listbox mold="select"
+                                             model="@load(vm.enableds)"
+                                             hflex="1"
+                                             selectedItem="@bind(vm.selectEnabled)">
+                                        <template name="model">
+                                            <listitem label="@load(each)"
+                                                      value="@load(each)"
+                                            ></listitem>
+                                        </template>
+                                    </listbox>
+                                    <!--<textbox hflex="1" value="@bind(vm.dealerInfo.serviceManager.name)"/>-->
+                                </div>
+
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <tabbox sclass="ntabbox" hflex="true" vflex="true">
+                    <tabs>
+                        <tab label="人员信息"/>
+                        <tab label="场地信息(平方米)"/>
+                        <tab label="资质信息"/>
+                        <tab label="图片信息(附件)"/>
+                    </tabs>
+                    <tabpanels style="border-bottom:1px solid green">
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="true" sclass="form-grid" style="margin:5px;padding:5px">
+                                <columns>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="法人代表"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.legalPerson)"
+                                                 readonly="true"/>
+                                        <label value="法人电话"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.legalPersonPhone)"
+                                                 readonly="true"/>
+                                        <label value="站长"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.stationMaster)"
+                                                 readonly="true"/>
+                                        <label value="站长电话"></label>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.dealerInfo.stationMasterPhone)"
+                                                 readonly="true"/>
+
+                                    </row>
+                                    <row>
+                                        <label value="技术主管"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.technicalDirector)"
+                                                 readonly="true"/>
+                                        <label value="技术主管电话"></label>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.dealerInfo.technicalDirectorPhone)"
+                                                 readonly="true"/>
+                                        <label value="索赔主管"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.claimDirector)"
+                                                 readonly="true"/>
+                                        <label value="索赔主管电话"></label>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.dealerInfo.claimDirectorPhone)"
+                                                 readonly="true"/>
+
+                                    </row>
+                                    <row>
+                                        <label value="配件主管"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.partDirector)"
+                                                 readonly="true"/>
+                                        <label value="配件主管电话"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.partDirectorPhone)"
+                                                 readonly="true"/>
+                                        <label value="财务经理"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.financeDirector)"
+                                                 readonly="true"/>
+                                        <label value="财务经理电话"></label>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.dealerInfo.financeDirectorPhone)"
+
+                                                 readonly="true"/>
+
+                                    </row>
+                                    <row></row>
+                                    <row>
+                                        <label value="员工总数(名)"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.employeeCount)"
+                                                 readonly="true"/>
+                                        <label value="接待员(名)"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.receptionistCount)"
+                                                 readonly="true"/>
+                                        <label value="配件员(名)"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.partKeeyperCount)"
+                                                 readonly="true"/>
+                                        <label value="维修工(名)"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.maintainerCount)"
+
+                                                 readonly="true"/>
+                                    </row>
+                                    <row>
+                                        <label value="质检员(名)"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.qcInspectorCount)"
+                                                 readonly="true"/>
+                                        <label value="结算员(名)"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.clerkCount)"
+                                                 readonly="true"/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="true" sclass="form-grid" style="margin:5px;padding:5px;">
+                                <columns>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="停车区面积"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.parkingArea)"
+                                                 readonly="true"/>
+                                        <label value="接待室"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.receptionArea)"
+                                                 readonly="true"/>
+                                        <label value="综合维修区"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.generalArea)"
+                                                 readonly="true"/>
+                                        <label value="总成维修区"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.assemblyArea)"
+                                                 readonly="true"/>
+                                    </row>
+                                    <row>
+                                        <label value="配件库总面积"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.storageArea)"
+                                                 readonly="true"/>
+                                        <label value="五菱配件库面积"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.storageWulingArea)"
+                                                 readonly="true"/>
+                                        <label value="旧件库面积"></label>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.dealerInfo.storageUserdPartArea)"
+                                                 readonly="true"/>
+                                        <label value="五菱旧件库面积"></label>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.dealerInfo.storageWulingUserdPartArea)"
+                                                 readonly="true"/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="true" sclass="form-grid" style="margin:5px;padding:5px;">
+                                <columns>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="其他车辆维修条件"></label>
+                                        <textbox hflex="1"
+                                                 value="@bind(vm.dealerInfo.otherMaintainCondition)"
+                                                 readonly="true"
+                                        />
+                                        <label value="兼做的品牌服务"></label>
+                                        <textbox hflex="1" value="@bind(vm.dealerInfo.otherBrand)"
+                                                 readonly="true"
+                                        />
+                                        <label value="拟维修我公司产品系列"></label>
+                                        <cell colspan="3">
+                                            <textbox hflex="1" value="@bind(vm.dealerInfo.productsOfMaintain)"
+                                                     readonly="true"
+                                            />
+                                        </cell>
+                                    </row>
+                                    <row>
+                                        <label value="配件储备表"></label>
+                                        <cell colspan="3">
+                                            <textbox hflex="1" value="@bind(vm.dealerInfo.partReport)"
+                                                     readonly="true"
+                                            />
+                                        </cell>
+                                        <label value="其它"></label>
+                                        <cell colspan="3">
+                                            <textbox hflex="1" value="@bind(vm.dealerInfo.otherProducts)"
+                                                     readonly="true"
+                                            />
+                                        </cell>
+
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <columns>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="70px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="70px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="70px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="70px" label="图片" align="center"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="1" sclass="label-index"/>
+                                        <label value="营业执照"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileBusinessLicense))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileBusinessLicense)"/>
+                                        <label value="5" sclass="label-index"/>
+                                        <label value="税务登记证"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileTaxCertificate))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileTaxCertificate)"/>
+                                        <label value="9" sclass="label-index"/>
+                                        <label value="银行开户许可证"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileBankAccountOpeningPermit))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileBankAccountOpeningPermit)"/>
+                                        <label value="13" sclass="label-index"/>
+                                        <label value="人员登记证书"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.filePersonnelCertificate))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.filePersonnelCertificate)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="2" sclass="label-index"/>
+                                        <label value="维修资质"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileQualification))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileQualification)"/>
+                                        <label value="6" sclass="label-index"/>
+                                        <label value="服务站开票信息"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileInvoiceInfo))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileInvoiceInfo)"/>
+                                        <label value="10" sclass="label-index"/>
+                                        <label value="道路运输营业许可证"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileRoadTransportLicense))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileRoadTransportLicense)"/>
+                                        <label value="14" sclass="label-index"/>
+                                        <label value="企业组织结构及设置书"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileOrgChart))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileOrgChart)"/>
+                                        <!--<textbox hflex="1"  value="@bind(vm.dealerInfo.fileOrgChart)" readonly="true"/>-->
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="3" sclass="label-index"/>
+                                        <label value="设备清单"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileDevice))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileDevice)"/>
+                                        <label value="7" sclass="label-index"/>
+                                        <label value="接待室图片"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileReceptionOffice))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileReceptionOffice)"/>
+                                        <label value="11" sclass="label-index"/>
+                                        <label value="地图位置"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileMap))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileMap)"/>
+                                        <label value="15" sclass="label-index"/>
+                                        <label value="服务站全貌图片"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileGlobal))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileGlobal)"/>
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="4" sclass="label-index"/>
+                                        <label value="办公室图片"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileOffice))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileOffice)"/>
+                                        <label value="8" sclass="label-index"/>
+                                        <label value="配件库房图片"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.filePartStoreage))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.filePartStoreage)"/>
+                                        <label value="12" sclass="label-index"/>
+                                        <label value="维修车间图片"></label>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.dealerInfo.fileWorkshop))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.dealerInfo.fileWorkshop)"/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

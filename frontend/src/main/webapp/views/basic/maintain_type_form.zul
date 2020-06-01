@@ -1,0 +1,68 @@
+<!--
+基础管理 >>维修项目 类型 表单
+-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.MaintainTypeFormVM')">
+        <center sclass="c-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout>
+                <div sclass="ctoolbars" style="padding-top:2px">
+                    <div sclass="ctoolbar">
+                        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default "
+                                label="保存"
+                                onClick="@command('submit')"/>
+                    </div>
+                </div>
+                <grid oddRowSclass="none" sclass="form-grid" style="margin-top:10px">
+                    <columns>
+                        <column width="60px"></column>
+                        <column hflex="1"></column>
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="名称"/>
+                            <textbox value="@bind(vm.current.name)" hflex="1" tabindex="1"/>
+                        </row>
+                        <row>
+                            <label value="父级类别"/>
+                            <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                     value="@bind(vm.parent.name)">
+                                <bandpopup width="300px" height="300px">
+                                    <vlayout hflex="1" vflex="1">
+                                        <hlayout>
+                                            <textbox value="@bind(vm.keyword)" hflex="1"
+                                                     placeholder="输入关键字..回车搜索"
+                                                     sclass="input-prepend"
+                                                     onOK="@command('searchParent')"/>
+                                            <button label="查询" sclass="btn-default"
+                                                    onClick="@command('searchParent')"/>
+                                            <button label="清除" sclass="btn-warn"
+                                                    onClick="@command('clearParent')"/>
+                                        </hlayout>
+                                        <grid style="border:none" vflex="1" model="@load(vm.infos)"
+                                              emptyMessage="没有数据">
+                                            <!--<columns>-->
+                                            <!--<column hflex="1" label="Vin"/>-->
+                                            <!--&lt;!&ndash;<column hflex="2" label="Vin"/>&ndash;&gt;-->
+                                            <!--</columns>-->
+                                            <template name="model">
+                                                <row onClick="@command('selectParent',model=each)">
+                                                    <label value="@load(each.name)"/>
+                                                    <!--<label value="@load(each.vsn)"/>-->
+                                                </row>
+                                            </template>
+                                        </grid>
+                                    </vlayout>
+                                </bandpopup>
+                            </bandbox>
+                        </row>
+                        <row>
+                            <label value="备注"/>
+                            <textbox value="@bind(vm.current.comment)" hflex="1" tabindex="1"/>
+                        </row>
+                    </rows>
+                </grid>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>

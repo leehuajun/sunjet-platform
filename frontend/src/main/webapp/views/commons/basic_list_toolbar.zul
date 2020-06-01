@@ -1,0 +1,30 @@
+<div sclass="ctoolbars" style="height:auto;overflow:hidden;" xmlns="http://www.zkoss.org/2005/zul">
+    <div sclass="ctoolbar">
+        <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="新增"
+                onClick="@command('openForm',objId=null,url=vm.formUrl,title=vm.title)"
+                if="${vm.enableAdd}"/>
+        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="导入维修项目"
+                onClick="@command('openForm',objId=null,url='/views/basic/maintain_import_form.zul',title='导入维修项目')"
+                if="${vm.enableImportMaintains}"/>
+        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="批量增加"
+                onClick="@command('openForm',objId=null,url='/views/basic/vehicle_import_add_list.zul',title='批量增加车辆')"
+                if="${vm.enableImportAddVehicles}"/>
+        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="批量修改"
+                onClick="@command('openForm',objId=null,url='/views/basic/vehicle_import_modify_list.zul',title='批量修改车辆')"
+                if="${vm.enableImportModifyVehicles}"/>
+        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="批量增加"
+                onClick="@command('openForm',objId=null,url='/views/basic/part_import_add_list.zul',title='批量增加配件')"
+                if="${vm.enableImportAddParts}"/>
+        <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default" label="批量修改"
+                onClick="@command('openForm',objId=null,url='/views/basic/part_import_modify_list.zul',title='批量修改配件')"
+                if="${vm.enableImportModifyParts}"/>
+    </div>
+    <div sclass="ctoolbar" style="float:right">
+        <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"
+                label="查询"
+                onClick="@command('refreshData')"></button>
+        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                label="重置"
+                onClick="@command('reset')"></button>
+    </div>
+</div>

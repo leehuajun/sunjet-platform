@@ -1,0 +1,50 @@
+<!-- 欢迎页面 -->
+<!--<window xmlns:w="client">-->
+<!--<zscript>-->
+<!--<![CDATA[-->
+<!--void doSomething(){-->
+<!--win.visible=true;-->
+<!--Thread.sleep(2000);-->
+<!--win.visible=false;-->
+<!--alert("加载完毕，请查看该用户详细信息！");-->
+<!--}-->
+<!--]]>-->
+<!--</zscript>-->
+<hbox align="center" pack="center" width="100%" height="100%" context="editPopup">
+    <hbox align="center" pack="center" hflex="1" vflex="1">
+        <!--<include src="wait_win.zul"/>-->
+        <!--<button label="先提示忙，后提示完成" w:onClick="zk.Widget.$(jq('$win')).doModal()" onClick="doSomething()"/>-->
+        <image src="resource/images/welcome.gif" width="145" height="46"/>
+
+    </hbox>
+    <!--<menupopup id="editPopup">-->
+    <!--<menuitem image="/widgets/menu/context_menu/img/Bubble-16x16.png" label="Message" />-->
+    <!--<menuseparator />-->
+    <!--<menuitem image="/widgets/menu/context_menu/img/UserProfileMale-16x16.png" label="Profile" />-->
+    <!--<menuitem image="/widgets/menu/context_menu/img/Envelope-16x16.png" label="Mail to" />-->
+    <!--<menuseparator />-->
+    <!--<menu label="Group" image="/widgets/menu/context_menu/img/CasualUsers-16x16.png">-->
+    <!--<menupopup>-->
+    <!--<menu label="Add to...">-->
+    <!--<menupopup>-->
+    <!--<menuitem label="Member" autocheck="true" checkmark="true" checked="true" />-->
+    <!--<menuitem label="Managers" autocheck="true" checkmark="true" />-->
+    <!--<menuitem label="Guest" autocheck="true" checkmark="true" />-->
+    <!--<menuitem label="Customers" autocheck="true" checkmark="true" />-->
+    <!--</menupopup>-->
+    <!--</menu>-->
+    <!--<menu label="Move to...">-->
+    <!--<menupopup>-->
+    <!--<menuitem label="Member" autocheck="true" checkmark="true" />-->
+    <!--<menuitem label="Managers" autocheck="true" checkmark="true" />-->
+    <!--<menuitem label="Guest" autocheck="true" checkmark="true" />-->
+    <!--<menuitem label="Customers" autocheck="true" checkmark="true" />-->
+    <!--</menupopup>-->
+    <!--</menu>-->
+    <!--</menupopup>-->
+    <!--</menu>-->
+    <!--<menuitem label="Block" image="/widgets/menu/context_menu/img/CasualUserMaleProhibition-16x16.png" />-->
+    <!--<menuitem label="Remove contant" image="/widgets/menu/context_menu/img/DeleteCross-16x16.png" />-->
+    <!--</menupopup>-->
+</hbox>
+        <!--</window>-->

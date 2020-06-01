@@ -1,0 +1,250 @@
+<!-- 活动分配单 表单 -->
+<!--<window title="活动分配单" border="normal" width="0" height="0" sizable="true"-->
+<!--style="padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"-->
+<!--onClose="spaceOwner.detach();" maximizable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.activity.ActivityDistributionFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClientInfo="@command('checkClientInfo',evt=event)">-->
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.activity.ActivityDistributionFormVM')" width="100%"
+                  height="100%">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin:0;padding:0">
+                        <columns>
+                            <column width="80px"></column>
+                            <column hflex="1"></column>
+                            <column width="80px"></column>
+                            <column hflex="1"></column>
+                            <column width="80px"></column>
+                            <column hflex="1"></column>
+                            <column width="80px"></column>
+                            <column hflex="1"></column>
+                        </columns>
+                        <rows>
+                            <row style="border:none;height:30px">
+                                <label value="单据编号"/>
+                                <textbox hflex="1" value="@bind(vm.activityDistributionRequest.docNo)" readonly="true"/>
+                                <label value="服务站编号"/>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@load(vm.activityDistributionRequest.dealerCode)"
+                                         buttonVisible="@load(vm.activityDistributionRequest.supplyNoticeId eq null?true:false)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchDealers',model=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="清除" sclass="btn-default"
+                                                        onClick="@command('clearSelectedDealer')"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="服务站编号"/>
+                                                    <column hflex="2" label="服务站名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectDealer',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="服务站名称"/>
+                                <textbox value="@load(vm.activityDistributionRequest.dealerName)" hflex="1"
+                                         readonly="true"/>
+                                <label value="状态"/>
+                                <textbox hflex="1"
+                                         value="@load(vm.getStatusName(vm.activityDistributionRequest.status))"
+                                         readonly="true"/>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="活动通知编号"/>
+                                <div>
+                                    <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                             value="@bind(vm.activityDistributionRequest.activityNotice.docNo)"
+                                             buttonVisible="@load(vm.activityDistributionRequest.supplyNoticeId eq null?true:false)">
+                                        <bandpopup width="300px" height="300px">
+                                            <vlayout hflex="1" vflex="1">
+                                                <hlayout>
+                                                    <textbox value="@bind(vm.keyword)" hflex="1"
+                                                             placeholder="输入关键字..按Enter键搜索"
+                                                             sclass="input-prepend"
+                                                             onOK="@command('searchActivityNotices')"
+                                                             style="margin-bottom:2px"/>
+                                                    <button label="清除" sclass="btn-default"
+                                                            onClick="@command('clearSelectedActivityNotice')"/>
+                                                </hlayout>
+                                                <grid style="border:none" vflex="1" model="@load(vm.noticeInfos)"
+                                                      emptyMessage="没有数据">
+                                                    <columns>
+                                                        <column hflex="1" label="通知编号"/>
+                                                        <column hflex="1" label="通知名称"/>
+                                                    </columns>
+                                                    <template name="model">
+                                                        <row onClick="@command('selectActivityNotice',model=each)">
+                                                            <label value="@load(each.docNo)"/>
+                                                            <label value="@load(each.title)"/>
+                                                        </row>
+                                                    </template>
+                                                </grid>
+                                            </vlayout>
+                                        </bandpopup>
+                                    </bandbox>
+                                    <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-success" label=""
+                                            visible="@load(vm.activityDistributionRequest.activityNoticeId eq null ? false:true)"
+                                            tooltiptext="查看活动通知单据详情"
+                                            onClick="@command('openActivityNoticeForm')"
+                                            style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                                </div>
+
+                                <label value="经办人"/>
+                                <textbox value="@bind(vm.activityDistributionRequest.submitterName) " hflex="1"
+                                         readonly="true"/>
+                                <label value="省份"/>
+                                <textbox hflex="1" value="@load(vm.activityDistributionRequest.provinceName)"
+                                         readonly="true"></textbox>
+
+                                <label value="申请时间"/>
+                                <datebox value="@load(vm.activityDistributionRequest.createdTime)" hflex="1"
+                                         format="medium" readonly="true"
+                                         buttonVisible="@load(!vm.readonly)"/>
+                                <!--<label value="总台辆 :"/>-->
+                                <!--<textbox hflex="1" value="@load(vm.aotalstation)" ></textbox>-->
+
+                                <!--<label value="申请时间:"/>-->
+                                <!--<datebox hflex="1" tabindex="1" readonly="true"></datebox>-->
+                                <!--<label value="服务站编码:"/>-->
+                                <!--<combobox hflex="1" tabindex="1" readonly="true">-->
+                                <!--<comboitem value=""></comboitem>-->
+                                <!--</combobox>-->
+                            </row>
+                            <row>
+                                <label value="备注"/>
+                                <cell colspan="7">
+                                    <textbox hflex="7" maxlength="200"
+                                             value="@bind(vm.activityDistributionRequest.comment)" rows="4"/>
+                                </cell>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <tabbox sclass="ntabbox" vflex="true" hflex="true">
+                    <tabs>
+                        <tab label="车辆信息"/>
+                        <tab label="配件信息"/>
+                    </tabs>
+                    <!--<toolbar sclass="nav_toolbar">-->
+                    <!--<toolbarbutton style="color: green;font-size:14px" tooltiptext="增加"-->
+                    <!--iconSclass="@load(iconVariable.icon_add)"-->
+                    <!--onClick="@command('addEntity')"/>-->
+                    <!--</toolbar>-->
+                    <tabpanels style="border-bottom:1px solid green">
+                        <tabpanel>
+                            <vlayout height="100%">
+                                <hlayout>
+                                    <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default c-button"
+                                            label="添加车辆"
+                                            onClick="@command('openSelectVehicleForm')"
+                                            visible="@load(vm.activityDistributionRequest.supplyNoticeId eq null?true:false)"
+                                            if="${vm.checkCanEdit()}"/>
+                                    <button iconSclass="@load(iconVariable.icon_import)" sclass="btn-default c-button"
+                                            label="导入车辆" tooltiptext="选择文件"
+                                            upload="true,maxsize=5120"
+                                            onUpload="@command('doUploadFile',event=event)"
+                                            visible="@load(vm.activityDistributionRequest.supplyNoticeId eq null?true:false)"
+                                            if="${vm.checkCanEdit()}"/>
+                                </hlayout>
+
+                                <!--<include vflex="1" src="/views/asm/activity_distribution_vehicle_list.zul" ids="${vm.ids}"/>-->
+                                <grid hflex="true" vflex="true" sclass="list-grid"
+                                      model="@load(vm.activityDistributionRequest.activityVehicleItems)">
+                                    <columns sizable="true">
+                                        <column width="30px" label="行号" align="center"/>
+                                        <column width="180px" label="VIN" align="center"/>
+                                        <column width="150px" label="VSN" align="center"/>
+                                        <column width="100px" label="车型型号" align="center"/>
+                                        <column hflex="1" label="经销商" align="center"/>
+                                        <column hflex="1" label="用户" align="center"/>
+                                        <column width="80px" label="电话" align="center"/>
+                                        <column hflex="1" label="用户地址" align="center"/>
+                                        <column width="72px" label="购车日期" align="center"/>
+                                        <column width="80px" label="行驶里程" align="center"/>
+                                        <column width="60px" label="维修状态" align="center"/>
+                                        <column width="40px" label="操作" align="center"/>
+                                    </columns>
+                                    <template name="model">
+                                        <!--<row onClick="@command('selectNoticeVehicleEntity',model=each)">-->
+                                        <row>
+                                            <label value="${forEachStatus.index + 1}" sclass="label-index"/>
+                                            <label value="@load(each.vin)"/>
+                                            <label value="@load(each.vsn)"/>
+                                            <label value="@load(each.vehicleModel)"/>
+                                            <label value="@load(each.seller)"/>
+                                            <label value="@load(each.ownerName)"
+                                                   tooltiptext="@load(each.ownerName)"/>
+                                            <label value="@load(each.mobile)"/>
+                                            <label value="@load(each.address)"
+                                                   tooltiptext="@load(each.address)"/>
+                                            <!--<datebox hflex="1" value="@load(each.purchaseDate)" format="medium" style="border:none"-->
+                                            <!--readonly="true" buttonVisible="false" tabindex="4"/>-->
+                                            <label hflex="1" value="@load(vm.dateToString(each.purchaseDate))"
+                                                   tooltiptext="@load(vm.dateToString(each.purchaseDate))"/>
+                                            <label value="@load(each.mileage)"/>
+                                            <label hflex="1" value="@load(each.repair eq true ? '已维修':'未维修' )"
+                                                   style="@load(each.repair eq true ? 'color:green':'color:red' )"/>
+                                            <button tooltiptext="删除" iconSclass="@load(iconVariable.icon_delete)"
+                                                    onClick="@command('deleteEntity',activityVehicle=each)"
+                                                    visible="@load(vm.activityDistributionRequest.supplyNoticeId eq null?true:false)"
+                                                    if="${vm.checkCanEdit()}"
+                                                    style="text-align:center;padding:3px 4.5px;font-weight:700;"
+                                                    sclass="btn-danger"></button>
+                                        </row>
+                                    </template>
+                                </grid>
+
+                            </vlayout>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid hflex="true" vflex="true" sclass="list-grid"
+                                  model="@load(vm.activityDistributionRequest.activityPartItems)">
+                                <columns sizable="true">
+                                    <column width="30px" label="行号" align="center"/>
+                                    <column hflex="1" label="配件件号" align="center"/>
+                                    <column hflex="2" label="配件名称" align="center"/>
+                                    <column width="80px" label="三包时间" align="center"/>
+                                    <column width="80px" label="三包里程" align="center"/>
+                                    <column width="80px" label="单位" align="center"/>
+                                    <column width="80px" label="需求数量" align="center"/>
+                                </columns>
+                                <template name="model">
+                                    <row>
+                                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                                        <label value="@bind(each.code)"/>
+                                        <label value="@bind(each.name)"/>
+                                        <label value="@bind(each.warrantyTime)"/>
+                                        <label value="@bind(each.warrantyMileage)"/>
+                                        <label value="@bind(each.unit)"/>
+                                        <label value="@bind(each.amount)"/>
+                                    </row>
+                                </template>
+                            </grid>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>

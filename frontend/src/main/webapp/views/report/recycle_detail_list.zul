@@ -1,0 +1,143 @@
+<!-- 故障件明细 列表 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.report.RecycleDetailVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="100px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="服务站编号"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@load(vm.recycleDetailItem.dealerCode)">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keyword)" hflex="1"
+                                                 placeholder="输入关键字..按Enter键搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                 style="margin-bottom:2px"/>
+                                        <button label="清除" sclass="btn-default"
+                                                onClick="@command('clearSelectedDealer')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                          emptyMessage="没有数据">
+                                        <columns>
+                                            <column hflex="1" label="服务站编号"/>
+                                            <column hflex="2" label="服务站名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectDealer',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="服务站名称"/>
+                        <textbox value="@bind(vm.recycleDetailItem.dealerName)" hflex="1" tabindex="1"
+                                 readonly="true"/>
+                        <label value="配件件号"/>
+                        <textbox value="@bind(vm.recycleDetailItem.partCode)" hflex="1"/>
+                        <label value="配件名称"/>
+                        <textbox value="@bind(vm.recycleDetailItem.partName)" hflex="1"/>
+                    </row>
+                    <row>
+                        <label value="通知单申请日期从"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.recycleDetailItem.startDate)"
+                                 readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.recycleDetailItem.endDate)" readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>
+            <grid hflex="true" vflex="true"
+                  sclass="list-grid"
+                  oddRowSclass="none"
+                  style="margin:0;padding:0"
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="80px" label="服务站编号" align="center"/>
+                    <column width="160px" label="服务站名称" align="center"/>
+                    <column width="160px" label="返回通知单单号" align="center"/>
+                    <column width="120px" label="通知单提交时间" align="center"/>
+                    <column width="160px" label="故障件返回单号" align="center"/>
+                    <column width="160px" label="返回单提交时间" align="center"/>
+                    <column width="160px" label="服务单号" align="center"/>
+                    <column width="80px" label="服务经理" align="center"/>
+                    <column width="120px" label="配件件号" align="center"/>
+                    <column width="120px" label="配件名称" align="center"/>
+                    <column width="120px" label="故障模式" align="center"/>
+                    <column width="120px" label="换件原因" align="center"/>
+                    <column width="50px" label="需返回数量" align="center"/>
+                    <column width="50px" label="已返回数量" align="center"/>
+                    <column width="50px" label="供货方式" align="center"/>
+                    <column width="120px" label="三包时间" align="center"/>
+                    <column width="120px" label="三包里程" align="center"/>
+                    <column width="120px" label="应返时间" align="center"/>
+                    <column width="120px" label="实返时间" align="center"/>
+                    <!--<column width="50px" label="应返数量" align="center"/>-->
+                    <!--<column width="50px" label="实返数量" align="center"/>-->
+                    <column width="120px" label="物流单号" align="center"/>
+                    <column width="120px" label="物流公司" align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.dealerCode)"/>
+                        <label value="@load(each.dealerName)"/>
+                        <label value="@load(each.docNo)"/>
+                        <label value="@load(each.createdTime)"/>
+                        <label value="@load(each.ardDocNo)"/>
+                        <label value="@load(each.ardCreateTime)"/>
+                        <label value="@load(each.srcDocNo)"/>
+                        <label value="@load(each.serviceManager)"/>
+                        <label value="@load(each.partCode)"/>
+                        <label value="@load(each.partName)"/>
+                        <label value="@load(each.pattern)"/>
+                        <label value="@load(each.reason)"/>
+                        <label value="@load(each.amount)"/>
+                        <label value="@load(each.backAmount)"/>
+                        <label value="@load(each.partSupplyType)"/>
+                        <label value="@load(each.warrantyTime)"/>
+                        <label value="@load(each.warrantyMileage)"/>
+                        <label value="@load(each.returnDate)"/>
+                        <label value="@load(each.arriveDate)"/>
+                        <!--<label value="@load(each.wait_amount)"/>-->
+                        <!--<label value="@load(each.back_amount)"/>-->
+                        <label value="@load(each.logisticsNum)"/>
+                        <label value="@load(each.logistics)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

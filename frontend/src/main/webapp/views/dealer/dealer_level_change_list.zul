@@ -1,0 +1,12 @@
+<!-- 等级变更申请列表 -->
+<zk>
+    <borderlayout width="100%" height="100%" apply="org.zkoss.bind.BindComposer"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.dealer.DealerLevelChangeListVM')">
+        <north sclass="c-north">
+            <include src="/views/commons/dealer/list_search_frame.zul"/>
+        </north>
+        <center sclass="c-center" hflex="true" vflex="true" autoscroll="true">
+            <include src="/views/commons/dealer/list_body_frame.zul"/>
+        </center>
+    </borderlayout>
+</zk>

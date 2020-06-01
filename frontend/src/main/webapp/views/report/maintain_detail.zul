@@ -1,0 +1,221 @@
+<!-- 服务单明细 列表 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.report.MaintainDetailVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="服务站编号"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@load(vm.maintainDetailItem.dealer_code)">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keyword)" hflex="1"
+                                                 placeholder="输入关键字..按Enter键搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                 style="margin-bottom:2px"/>
+                                        <button label="清除" sclass="btn-default"
+                                                onClick="@command('clearSelectedDealer')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                          emptyMessage="没有数据">
+                                        <columns>
+                                            <column hflex="1" label="服务站编号"/>
+                                            <column hflex="2" label="服务站名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectDealer',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="服务站名称"/>
+                        <textbox value="@bind(vm.maintainDetailItem.dealer_name)" hflex="1" tabindex="1"
+                                 readonly="true"/>
+                        <label value="服务类型"/>
+                        <listbox mold="select"
+                                 hflex="1"
+                                 selectedItem="@bind(vm.maintainDetailItem.doc_type)"
+                        >
+                            <listitem label="所有服务单" value="" selected="true"></listitem>
+                            <listitem label="三包服务单" value="三包服务单" selected="true"></listitem>
+                            <listitem label="活动服务单" value="活动服务单"></listitem>
+                            <listitem label="首保服务单" value="首保服务单"></listitem>
+                        </listbox>
+                    </row>
+                    <row>
+                        <label value="申请日期从"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.maintainDetailItem.start_date)"
+                                 readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.maintainDetailItem.end_date)"
+                                 readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>
+            <grid hflex="true" vflex="true" sclass="list-grid" model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="140px" label="单据编号" align="center"/>
+                    <column width="80px" label="服务站编号" align="center"/>
+                    <column width="160px" label="服务站名称" align="center"/>
+                    <column width="80px" label="经办人" align="center"/>
+                    <column width="80px" label="经办人电话" align="center"/>
+                    <column width="80px" label="省份" align="center"/>
+                    <column width="80px" label="服务经理" align="center"/>
+                    <column width="120px" label="申请时间 " align="center"/>
+                    <column width="120px" label="进站时间 " align="center"/>
+                    <column width="120px" label="出站时间" align="center"/>
+                    <column width="120px" label="服务站星级" align="center"/>
+                    <column width="120px" label="单据类型" align="center"/>
+                    <column width="120px" label="质量速报" align="center"/>
+                    <column width="120px" label="费用速报" align="center"/>
+                    <column width="120px" label="活动单" align="center"/>
+                    <column width="120px" label="夜间作业补贴" align="center"/>
+                    <column width="120px" label="首保费用标准" align="center"/>
+                    <column width="120px" label="工时单价" align="center"/>
+                    <column width="120px" label="项目工时费用" align="center"/>
+                    <column width="120px" label="外出工时补贴" align="center"/>
+                    <column width="120px" label="外出费用合计 " align="center"/>
+                    <column width="120px" label="其他费用 " align="center"/>
+                    <column width="120px" label="辅料费用合计 " align="center"/>
+                    <column width="120px" label="配件费用合计 " align="center"/>
+                    <column width="120px" label="费用合计 " align="center"/>
+                    <column width="120px" label="应结算辅料费 " align="center"/>
+                    <column width="120px" label="应结算配件费用 " align="center"/>
+                    <column width="120px" label="应结算费用 " align="center"/>
+                    <column width="120px" label="送修人 " align="center"/>
+                    <column width="120px" label="送修人电话 " align="center"/>
+                    <column width="120px" label="开工日期 " align="center"/>
+                    <column width="120px" label="完工日期" align="center"/>
+                    <column width="120px" label="主修人" align="center"/>
+                    <column width="120px" label="维修类别" align="center"/>
+                    <column width="140px" label="故障描述" align="center"/>
+                    <column width="120px" label="VIN" align="center"/>
+                    <column width="120px" label="VSN" align="center"/>
+                    <column width="120px" label="经销商" align="center"/>
+                    <column width="120px" label="车型型号" align="center"/>
+                    <column width="120px" label="生产日期" align="center"/>
+                    <column width="120px" label="购车日期" align="center"/>
+                    <column width="120px" label="发动机型号" align="center"/>
+                    <column width="120px" label="发动机/电动机号" align="center"/>
+                    <column width="120px" label="行驶里程" align="center"/>
+                    <column width="120px" label="车牌号" align="center"/>
+                    <column width="120px" label="车主" align="center"/>
+                    <column width="120px" label="服务里程" align="center"/>
+                    <column width="120px" label="电话" align="center"/>
+                    <column width="120px" label="详细地址" align="center"/>
+                    <column width="120px" label="外出地点" align="center"/>
+                    <column width="120px" label="单向里程" align="center"/>
+                    <column width="120px" label="交通费用" align="center"/>
+                    <column width="120px" label="拖车里程" align="center"/>
+                    <column width="120px" label="拖车费用" align="center"/>
+                    <column width="120px" label="外出人数" align="center"/>
+                    <column width="120px" label="外出天数" align="center"/>
+                    <column width="120px" label="人员补贴" align="center"/>
+                    <column width="120px" label="住宿补贴" align="center"/>
+                    <column width="120px" label="外出费用" align="center"/>
+                    <column width="120px" label="当前状态" align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.doc_no)"/>
+                        <label value="@load(each.dealer_code)"/>
+                        <label value="@load(each.dealer_name)"/>
+                        <label value="@load(each.submitter_name)"/>
+                        <label value="@load(each.submitter_phone)"/>
+                        <label value="@load(each.province_name)"/>
+                        <label value="@load(each.service_manager)"/>
+                        <label value="@load(each.createdTime)"/>
+                        <label value="@load(each.pull_in_date)"/>
+                        <label value="@load(each.pull_out_date)"/>
+                        <label value="@load(each.dealer_star)"/>
+                        <label value="@load(each.doc_type)"/>
+                        <label value="@load(each.quality_report_doc_no)"/>
+                        <label value="@load(each.expense_report_doc_no)"/>
+                        <label value="@load(each.activity_distribution_doc_no)"/>
+                        <label value="@load(each.night_expense)"/>
+                        <label value="@load(each.first_expense)"/>
+                        <label value="@load(each.hour_price)"/>
+                        <label value="@load(each.maintain_work_time_expense)"/>
+                        <label value="@load(each.out_work_time_expense)"/>
+                        <label value="@load(each.out_expense)"/>
+                        <label value="@load(each.other_expense)"/>
+                        <!--<label value="@load(each.other_expense)"/>-->
+                        <label value="@load(each.accessories_expense)"/>
+                        <label value="@load(each.part_expense)"/>
+                        <label value="@load(each.expense_Total)"/>
+                        <label value="@load(each.settlement_accesories_expense)"/>
+                        <label value="@load(each.settlement_part_expense)"/>
+                        <label value="@load(each.settlement_totle_expense)"/>
+                        <label value="@load(each.sender)"/>
+                        <label value="@load(each.sender_phone)"/>
+                        <label value="@load(each.start_date)"/>
+                        <label value="@load(each.end_date)"/>
+                        <label value="@load(each.repairer)"/>
+                        <label value="@load(each.repair_type)"/>
+                        <label value="@load(each.fault)"/>
+                        <label value="@load(each.vin)"/>
+                        <label value="@load(each.vsn)"/>
+                        <label value="@load(each.seller)"/>
+                        <label value="@load(each.vehicle_model)"/>
+                        <label value="@load(each.manufacture_date)"/>
+                        <label value="@load(each.purchase_date)"/>
+                        <label value="@load(each.engine_Model)"/>
+                        <label value="@load(each.engine_no)"/>
+                        <label value="@load(each.mileage)"/>
+                        <label value="@load(each.plate)"/>
+                        <label value="@load(each.owner_name)"/>
+                        <label value="@load(each.vmt)"/>
+                        <label value="@load(each.mobile)"/>
+                        <label value="@load(each.address)"/>
+                        <label value="@load(each.place)"/>
+                        <label value="@load(each.ago_mileage)"/>
+                        <label value="@load(each.tran_costs)"/>
+                        <label value="@load(each.trailer_mileage)"/>
+                        <label value="@load(each.trailer_cost)"/>
+                        <label value="@load(each.out_go_num)"/>
+                        <label value="@load(each.out_go_day)"/>
+                        <label value="@load(each.personnel_subsidy)"/>
+                        <label value="@load(each.night_subsidy)"/>
+                        <label value="@load(each.amount_cost)"/>
+                        <label value="@load(each.status)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

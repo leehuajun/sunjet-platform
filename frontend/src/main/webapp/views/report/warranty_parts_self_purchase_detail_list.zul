@@ -1,0 +1,166 @@
+<!-- 三包配件自购明细单  -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.report.WarrantyPartsSelfPurchaseDetailVM')">
+    <north sclass="c-north">
+        <vlayout>
+            <grid oddRowSclass="none" hflex="1" sclass="form-grid">
+                <columns>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                    <column width="70px"></column>
+                    <column hflex="1"></column>
+                </columns>
+                <rows>
+                    <row style="border:none;height:30px">
+                        <label value="服务站编号"/>
+                        <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                 value="@load(vm.warrantyPartsSelfPurchaseDetailItem.dealerCode)">
+                            <bandpopup width="300px" height="300px">
+                                <vlayout hflex="1" vflex="1">
+                                    <hlayout>
+                                        <textbox value="@bind(vm.keyword)" hflex="1"
+                                                 placeholder="输入关键字..按Enter键搜索"
+                                                 sclass="input-prepend"
+                                                 onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                 style="margin-bottom:2px"/>
+                                        <button label="清除" sclass="btn-default"
+                                                onClick="@command('clearSelectedDealer')"/>
+                                    </hlayout>
+                                    <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                          emptyMessage="没有数据">
+                                        <columns>
+                                            <column hflex="1" label="服务站编号"/>
+                                            <column hflex="2" label="服务站名称"/>
+                                        </columns>
+                                        <template name="model">
+                                            <row onClick="@command('selectDealer',model=each)">
+                                                <label value="@load(each.code)"/>
+                                                <label value="@load(each.name)"/>
+                                            </row>
+                                        </template>
+                                    </grid>
+                                </vlayout>
+                            </bandpopup>
+                        </bandbox>
+                        <label value="服务站名称"/>
+                        <textbox value="@bind(vm.warrantyPartsSelfPurchaseDetailItem.dealerName)" hflex="1" tabindex="1"
+                                 readonly="true"/>
+                        <label value="单据编号"></label>
+                        <textbox hflex="1" value="@bind(vm.warrantyPartsSelfPurchaseDetailItem.docNo)"></textbox>
+                        <label value="申请日期从"/>
+                        <datebox hflex="1" format="medium"
+                                 value="@bind(vm.warrantyPartsSelfPurchaseDetailItem.startDate)" readonly="true"/>
+                        <label value="至"/>
+                        <datebox hflex="1" format="medium" value="@bind(vm.warrantyPartsSelfPurchaseDetailItem.endDate)"
+                                 readonly="true"/>
+                    </row>
+                    <row>
+
+                    </row>
+                </rows>
+            </grid>
+        </vlayout>
+    </north>
+    <center sclass="c-center">
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/flow_list_toolbar.zul"/>
+            <grid hflex="true" vflex="true" sclass="list-grid"
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column width="150px" label="配件件号" align="center"/>
+                    <column width="150px" label="配件名称" align="center"/>
+                    <column width="60px" label="配件类型" align="center"/>
+                    <column width="120px" label="故障模式 " align="center"/>
+                    <column width="120px" label="换件原因" align="center"/>
+                    <column width="50px" label="数量" align="center"/>
+                    <column width="80px" label="单价 " align="center"/>
+                    <column width="80px" label="供货方式" align="center"/>
+                    <column width="80px" label="三包时间" align="center"/>
+                    <column width="80px" label="三包里程" align="center"/>
+                    <column width="150px" label="服务单号" align="center"/>
+                    <column width="150px" label="VIN" align="center"/>
+                    <column width="150px" label="VSN" align="center"/>
+                    <column width="150px" label="经销商" align="center"/>
+                    <column width="120px" label="车辆型号" align="center"/>
+                    <column width="120px" label="购买日期" align="center"/>
+                    <column width="100px" label="行驶里程" align="center"/>
+                    <column width="100px" label="发动机号" align="center"/>
+                    <column width="120px" label="车牌号" align="center"/>
+                    <column width="120px" label="车主姓名" align="center"/>
+                    <column width="120px" label="电话" align="center"/>
+                    <column width="120px" label="备注" align="center"/>
+                    <column width="80px" label="配件分类" align="center"/>
+                    <column width="50px" label="是否返回件" align="center"/>
+                    <column width="80px" label="单据类型" align="center"/>
+                    <column width="150px" label="服务站" align="center"/>
+                    <column width="100px" label="服务站联系人" align="center"/>
+                    <column width="120px" label="服务站联系电话" align="center"/>
+                    <column width="100px" label="服务经理" align="center"/>
+                    <column width="120px" label="质量速报单号" align="center"/>
+                    <column width="120px" label="费用速报单号" align="center"/>
+                    <column width="100px" label="省份" align="center"/>
+                    <column width="120px" label="申请时间" align="center"/>
+                    <column width="120px" label="进站时间" align="center"/>
+                    <column width="120px" label="服务站星级" align="center"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@load(each.partCode)"/>
+                        <label value="@load(each.partName)"/>
+                        <label value="@load(each.partType)"/>
+                        <label value="@load(each.pattern)"/>
+                        <label value="@load(each.reason)"/>
+                        <label value="@load(each.amount)"/>
+                        <label value="@load(each.price)"/>
+                        <label value="@load(each.partSupplyType)"/>
+                        <label value="@load(each.warrantyTime)"/>
+                        <label value="@load(each.warrantyMileage)"/>
+                        <label value="@load(each.docNo)"/>
+                        <label value="@load(each.vin)"/>
+                        <label value="@load(each.vsn)"/>
+                        <label value="@load(each.seller)"/>
+                        <label value="@load(each.vehicleModel)"/>
+                        <label value="@load(each.purchaseDate)"/>
+                        <label value="@load(each.mileage)"/>
+                        <label value="@load(each.engineNo)"/>
+                        <label value="@load(each.plate)"/>
+                        <label value="@load(each.ownerName)"/>
+                        <label value="@load(each.mobile)"/>
+                        <label value="@load(each.comment)"/>
+                        <label value="@load(each.partClassify)"/>
+                        <label value="@load(each.recycle)"/>
+                        <label value="@load(each.docType)"/>
+                        <label value="@load(each.dealerName)"/>
+                        <label value="@load(each.submitterName)"/>
+                        <label value="@load(each.dealerPhone)"/>
+                        <label value="@load(each.serviceManager)"/>
+                        <label value="@load(each.qualityReportDocNo)"/>
+                        <label value="@load(each.expenseReportDocNo)"/>
+                        <label value="@load(each.provinceName)"/>
+                        <label value="@load(each.createdTime)"/>
+                        <label value="@load(each.pullInDate)"/>
+                        <label value="@load(each.dealerStar)"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

@@ -1,0 +1,261 @@
+<!-- 故障件返回单 表单 -->
+<!--<window title="故障件返回单" border="normal" width="0px" height="0px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.asm.RecycleFormVM')"-->
+<!--validationMessages="@id('vmsgs')"-->
+<!--onClose="spaceOwner.detach();"-->
+<!--onClientInfo="@command('checkClientInfo',evt=event)"-->
+<!--&gt;-->
+<zk>
+    <borderlayout width="100%" height="100%"
+                  viewModel="@id('vm') @init('com.sunjet.frontend.vm.asm.RecycleFormVM')">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout width="100%" height="100%">
+                <div sclass="include">
+                    <include src="/views/commons/flow_form_toolbar.zul"/>
+                    <include sclass="include" src="/views/commons/handle_win.zul"/>
+                </div>
+                <groupbox>
+                    <grid oddRowSclass="none" sclass="form-grid" style="margin:0;padding:0">
+                        <!--<auxhead>-->
+                        <!--<auxheader label="基本信息" colspan="8" style="color:green"/>-->
+                        <!--</auxhead>-->
+                        <columns>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                            <column hflex="1"></column>
+                            <column hflex="2"></column>
+                        </columns>
+                        <rows>
+                            <row style="border:none;height:30px">
+                                <label value="单据编号"/>
+                                <textbox value="@bind(vm.recycleRequest.docNo)" hflex="1" readonly="true"/>
+                                <label value="状态"/>
+                                <textbox value="@bind(vm.getStatusName(vm.recycleRequest.status))" hflex="1"
+                                         tabindex="4"
+                                         readonly="true"/>
+                                <label value="经办人"/>
+                                <textbox value="@load(vm.recycleRequest.submitterName)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="创建日期"/>
+                                <datebox hflex="1" tabindex="1" value="@bind(vm.recycleRequest.createdTime)"
+                                         readonly="true" buttonVisible="@load(!vm.readonly)"></datebox>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="服务站编号"></label>
+                                <bandbox mold="rounded" autodrop="false" hflex="1" readonly="true"
+                                         value="@load(vm.recycleRequest.dealerCode)"
+                                         buttonVisible="@load(!vm.readonly)">
+                                    <bandpopup width="300px" height="300px">
+                                        <vlayout hflex="1" vflex="1">
+                                            <hlayout>
+                                                <textbox value="@bind(vm.keyword)" hflex="1"
+                                                         placeholder="输入关键字..按Enter键搜索"
+                                                         sclass="input-prepend"
+                                                         onOK="@command('searchDealers',keyword=vm.keyword)"
+                                                         style="margin-bottom:2px"/>
+                                                <button label="查询" sclass="btn-default"
+                                                        onClick="@command('searchDealers',keyword=vm.keyword)"/>
+                                                <button label="清除" sclass="btn-warn"
+                                                        onClick="@command('clearSelectedDealer')"/>
+                                            </hlayout>
+                                            <grid style="border:none" vflex="1" model="@load(vm.dealers)"
+                                                  emptyMessage="没有数据">
+                                                <columns>
+                                                    <column hflex="1" label="服务站编号"/>
+                                                    <column hflex="2" label="服务站名称"/>
+                                                </columns>
+                                                <template name="model">
+                                                    <row onClick="@command('selectDealer',model=each)">
+                                                        <label value="@load(each.code)"/>
+                                                        <label value="@load(each.name)"/>
+                                                    </row>
+                                                </template>
+                                            </grid>
+                                        </vlayout>
+                                    </bandpopup>
+                                </bandbox>
+                                <label value="服务站名称"></label>
+                                <textbox value="@bind(vm.recycleRequest.dealerName)" hflex="1" readonly="true"/>
+                                <label value="省份"/>
+                                <textbox value="@bind(vm.recycleRequest.provinceName)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="电话"/>
+                                <textbox value="@bind(vm.recycleRequest.operatorPhone)" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="服务经理"/>
+                                <textbox value="@bind(vm.recycleRequest.serviceManager)" hflex="1" tabindex="1"
+                                         readonly="true"/>
+                                <label value="物流名称"/>
+                                <textbox value="@bind(vm.recycleRequest.logistics)" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="物流单号"/>
+                                <textbox value="@bind(vm.recycleRequest.logisticsNum)"
+                                         onChange="@command('changeLogisticsNum')" hflex="1" tabindex="1"
+                                         readonly="@load(vm.readonly)"/>
+                                <label value="送达时间"/>
+                                <datebox hflex="1" tabindex="1" value="@bind(vm.recycleRequest.arriveDate)"
+                                         buttonVisible="@load(vm.readonly)"
+                                         readonly="true"></datebox>
+                            </row>
+                            <row style="border:none;height:30px">
+                                <label value="运输费用"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.recycleRequest.transportExpense)"
+                                            hflex="1" onChange="@command('changeExpense')"
+                                            readonly="@load(vm.readonly)"/>
+                                <label value="其他费用"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.recycleRequest.otherExpense)" hflex="1"
+                                            onChange="@command('changeExpense')" readonly="@load(vm.readonly)"/>
+                                <label value="费用合计"/>
+                                <decimalbox format="@load(vm.decimalFormat)"
+                                            value="@bind(vm.recycleRequest.expenseTotal)" hflex="1"
+                                            readonly="true"/>
+                            </row>
+                            <row>
+                                <label hflex="1" value="备注"></label>
+                                <cell colspan="7">
+                                    <textbox rows="3" hflex="7" maxlength="200"
+                                             value="@bind(vm.recycleRequest.comment)"></textbox>
+                                </cell>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <hbox hflex="1">
+                    <groupbox hflex="1">
+                        <label style="font-weight:600">故障件返回包装图片</label>
+                        <grid oddRowSclass="none" hflex="1" vflex="1" sclass="form-grid"
+                              style="margin:10px 0 0 0;">
+                            <rows style="line-height:30px">
+                                <row style="border:none;height:30px">
+                                    <div align="left">
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.recycleRequest.recyclefile))"
+                                           label="@load(vm.recycleRequest.recyclefileName)"
+                                           visible="@bind(not empty vm.recycleRequest.recyclefile)"/>
+                                        <button tooltiptext="上传文件"
+                                                iconSclass="@load(iconVariable.icon_search)"
+                                                sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                                onUpload="@command('doUploadFile',event=event,t='file01')"
+                                                disabled="@bind(vm.readonly)"/>
+
+                                        <button iconSclass="@load(iconVariable.icon_delete)"
+                                                sclass="btn-default inner-button" label=""
+                                                tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                onClick="@command('delUploadFile',t='file01')"
+                                                style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                    </div>
+                                </row>
+                            </rows>
+                        </grid>
+                    </groupbox>
+                    <groupbox hflex="1">
+                        <label style="font-weight:600;">物流凭证</label>
+                        <grid oddRowSclass="none" hflex="1" vflex="1" sclass="form-grid"
+                              style="margin: 10px 0 0 0;">
+                            <rows style="line-height:30px">
+                                <row style="border:none;height:30px">
+                                    <div align="left">
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.recycleRequest.logisticsfile))"
+                                           label="@load(vm.recycleRequest.logisticsfileName)"
+                                           visible="@bind(not empty vm.recycleRequest.logisticsfile)"/>
+                                        <button tooltiptext="上传文件"
+                                                iconSclass="@load(iconVariable.icon_search)"
+                                                sclass="btn-default inner-button" upload="true,maxsize=5120"
+                                                onUpload="@command('doUploadFile',event=event,t='file02')"
+                                                disabled="@bind(vm.readonly)"/>
+
+                                        <button iconSclass="@load(iconVariable.icon_delete)"
+                                                sclass="btn-default inner-button" label=""
+                                                tooltiptext="删除" visible="@load(!vm.readonly)"
+                                                onClick="@command('delUploadFile',t='file02')"
+                                                style="padding-left:5px;font-weight:700;font-size:14px;"/>
+                                    </div>
+                                </row>
+                            </rows>
+                        </grid>
+                    </groupbox>
+                </hbox>
+                <toolbar sclass="nav_toolbar" style="background:#fff;">
+                    <button sclass="btn-default c-button"
+                            label="添加物料" onClick="@command('addItemModel')"
+                            visible="@load(!vm.readonly)"
+                    />
+                    <button sclass="btn-default c-button" label="打印故障件标签"
+                            onClick="@command('printRecycleItemReport')"></button>
+                </toolbar>
+                <grid hflex="true" vflex="true" sclass="list-grid" oddRowSclass="none"
+                      style="margin:0;padding:0"
+                      model="@bind(vm.recycleRequest.recycleItemInfoList)">
+                    <columns sizable="true">
+                        <column width="30px" label="行号" align="center"/>
+                        <column hflex="1" label="配件件号" align="center"/>
+                        <column width="150px" label="配件名称" align="center"/>
+                        <column width="100px" label="来源类型" align="center"/>
+                        <column width="150px" label="来源单号" align="center"/>
+                        <column width="120px" label="物流单号" align="center"/>
+                        <column width="80px" label="三包时间" align="center"/>
+                        <column width="80px" label="三包里程" align="center"/>
+                        <column width="70px" label="应返数量" align="center"/>
+                        <!--<column width="80px" label="待返数量" align="center"/>-->
+                        <column width="80px" label="本次返回数量" align="center"/>
+                        <column width="70px" label="接收数量" align="center"/>
+                        <column width="90px" label="要求返回时间" align="center"/>
+                        <column width="80px" label="备注" align="center"/>
+                        <column width="60px" label="操作" align="center"/>
+                    </columns>
+                    <template name="model">
+                        <row>
+                            <label value="${(forEachStatus.index+1)*1}"/>
+                            <label value="@load(each.partCode)" tooltiptext="@load(each.partCode)"/>
+                            <label value="@load(each.partName)" tooltiptext="@load(each.partName)"/>
+                            <label hflex="1" value="@bind(each.srcDocType)" tooltiptext="@load(each.srcDocType)"/>
+                            <label hflex="1" value="@bind(each.srcDocNo)" tooltiptext="@load(each.srcDocNo)"/>
+                            <textbox hflex="1" value="@bind(each.logisticsNum)" tooltiptext="@load(each.logisticsNum)"
+                                     readonly="@load(vm.readonly)"/>
+                            <label hflex="1" value="@bind(each.warrantyTime)" tooltiptext="@load(each.warrantyTime)"/>
+                            <label hflex="1" value="@bind(each.warrantyMileage)"
+                                   tooltiptext="@load(each.warrantyMileage)"/>
+                            <decimalbox hflex="1" value="@load(each.waitAmount)" readonly="true"
+                                        tooltiptext="@load(each.waitAmount)"/>
+                            <decimalbox hflex="1" value="@bind(each.backAmount)" tooltiptext="@load(each.backAmount)"
+                                        readonly="@load(vm.readonly)"/>
+                            <decimalbox hflex="1" value="@bind(each.acceptAmount)"
+                                        tooltiptext="@load(each.acceptAmount)"
+                                        readonly="@load(!vm.readonly)"/>
+                            <datebox
+                                    value="@bind(each.returnDate)" tooltiptext="@load(each.returnDate)"
+                                    hflex="1" tabindex="1" buttonVisible="false" readonly="true"/>
+                            <textbox hflex="1" value="@bind(each.comment)" tooltiptext="@load(each.comment)"
+                                     readonly="@load(!vm.readonly)"/>
+                            <div>
+                                <button label="" onClick="@command('deleteItem',model=each)"
+                                        tooltiptext="删除"
+                                        iconSclass="@load(iconVariable.icon_delete)" sclass="btn-danger"
+                                        style="text-align:center;padding:3px 4.5px;font-weight:700;"
+                                        visible="@load(!vm.readonly)"></button>
+                                <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-success" label=""
+                                        visible="@load(each.srcDocNo eq null ? false:true)"
+                                        tooltiptext="查看来源单据详情"
+                                        onClick="@command('openSrcDocForm',entity=each)"
+                                        style="text-align:center;padding:3px 4.5px;font-weight:700;"/>
+                            </div>
+
+                        </row>
+                    </template>
+                </grid>
+            </vlayout>
+        </center>
+    </borderlayout>
+</zk>
+        <!--</window>-->

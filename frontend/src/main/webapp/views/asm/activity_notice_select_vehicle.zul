@@ -1,0 +1,153 @@
+<!-- 车辆编辑页面 -->
+<window title="选择车辆" border="normal" width="1000px" height="600px"
+        sizable="false"
+        style="margin:20px;padding-top:0px;padding-left:0px;" position="@load(vm.window_position)" closable="true"
+        onClose="spaceOwner.detach();"
+        viewModel="@id('vm') @init('com.sunjet.frontend.vm.activity.ActivityNoticeSelectVehicleListVM')"
+        validationMessages="@id('vmsgs')">
+    <borderlayout>
+        <north sclass="c-north">
+            <vlayout>
+
+                <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin-top:10px">
+                    <columns>
+                        <column width="70px"></column>
+                        <column hflex="1"></column>
+                        <column width="70px"></column>
+                        <column hflex="1"></column>
+                        <column width="70px"></column>
+                        <column hflex="1"></column>
+                        <column width="60px"></column>
+                        <column hflex="1"></column>
+                    </columns>
+                    <rows>
+                        <row style="border:none;height:30px">
+                            <label value="VIN"/>
+                            <textbox value="@bind(vm.vehicleInfo.vin)" hflex="1" tabindex="1"/>
+                            <label value="VSN"/>
+                            <textbox value="@bind(vm.vehicleInfo.vsn)" hflex="1" tabindex="1"/>
+                            <label value="车型型号"/>
+                            <textbox value="@bind(vm.vehicleInfo.vehicleModel)" hflex="1" tabindex="1"/>
+                            <label value="销售商"/>
+                            <textbox value="@bind(vm.vehicleInfo.seller)" hflex="1" tabindex="1"/>
+                        </row>
+                        <row>
+                            <label value="生产日期从"/>
+                            <datebox hflex="1" format="medium" value="@bind(vm.vehicleInfo.manufactureDateStart)"
+                                     readonly="true"/>
+                            <label value="至"/>
+                            <datebox hflex="1" format="medium" value="@bind(vm.vehicleInfo.manufactureDateEnd)"
+                                     readonly="true"/>
+                            <label value="购买日期从"/>
+                            <datebox hflex="1" format="medium" value="@bind(vm.vehicleInfo.purchaseDateStart)"
+                                     readonly="true"/>
+                            <label value="至"/>
+                            <datebox hflex="1" format="medium" value="@bind(vm.vehicleInfo.purchaseDateEnd)"
+                                     readonly="true"/>
+                        </row>
+                        <row>
+                            <label value="省份"/>
+                            <textbox value="@bind(vm.vehicleInfo.provinceName)" hflex="1" tabindex="1"></textbox>
+                        </row>
+                    </rows>
+                </grid>
+                <div>
+                    <div sclass="ctoolbar" style="float:right">
+                        <button iconSclass="@load(iconVariable.icon_search)" sclass="btn-default"
+                                label="查询"
+                                onClick="@command('refreshData')"></button>
+                        <button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default"
+                                label="重置"
+                                onClick="@command('reset')"></button>
+                    </div>
+                </div>
+            </vlayout>
+        </north>
+        <center sclass="c-center" style="border-bottom:1px solid #cccccc">
+            <vlayout height="100%">
+                <grid hflex="true" vflex="true" sclass="list-grid"
+                      model="@bind(vm.pageResult.rows)">
+                    <columns sizable="true">
+                        <column width="30px" label="行号" align="center"></column>
+                        <column width="30px" align="center">
+                            <checkbox onCheck="@command('checkAll',chk=self.checked)" checked="@load(vm.choice)"/>
+                        </column>
+                        <!--<column width="30px" label="选择" align="center"/>-->
+                        <column width="150px" label="VIN" align="center"></column>
+                        <column width="150px" label="VSN" align="center"></column>
+                        <column width="100px" label="车型型号" align="center"></column>
+                        <column width="100px" label="发动机号" align="center"></column>
+                        <column width="100px" label="车牌号" align="center"></column>
+                        <column width="100px" label="省份" align="center"></column>
+                        <column width="77px" label="生产日期" align="center"></column>
+                        <column width="77px" label="购车日期" align="center"></column>
+                        <column width="77px" label="首保日期" align="center"></column>
+                        <column width="100px" label="经销商" align="center"></column>
+                    </columns>
+                    <template name="model">
+                        <row>
+                            <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                            <checkbox
+                                    checked="@load(vm.originVins.contains(each.vin) or vm.selectedVehicleInfos.contains(each))"
+                                    disabled="@load(vm.originVins.contains(each.vin))"
+                                    onCheck="@command('selectVehicle',entity=each,check=self.checked)"/>
+                            <label value="@load(each.vin)"/>
+                            <label value="@load(each.vsn)"/>
+                            <label value="@load(each.vehicleModel)"/>
+                            <label value="@load(each.engineNo)"/>
+                            <label value="@load(each.plate)"/>
+                            <label value="@load(each.provinceName)"/>
+                            <label hflex="1" value="@load(vm.dateToString(each.manufactureDate))"/>
+                            <label hflex="1" value="@load(vm.dateToString(each.purchaseDate))"/>
+                            <label hflex="1" value="@load(vm.dateToString(each.fmDate))"/>
+                            <div align="left">
+                                <label value="@load(each.seller)"/>
+                            </div>
+                        </row>
+                    </template>
+                </grid>
+                <paging
+                        pageSize="@bind(vm.pageResult.pageSize)"
+                        totalSize="@bind(vm.pageResult.total)"
+                        pageIncrement="1"
+                        detailed="true"
+                        activePage="@bind(vm.pageResult.page)"
+                        onPaging="@command('gotoPageNo',e=event)"
+                        style="border:0px"
+                />
+            </vlayout>
+        </center>
+        <!--<east sclass="c-east" width="150px">-->
+        <!--<grid hflex="true" vflex="true" sclass="list-grid"-->
+        <!--model="@load(vm.selectedVehicleList)">-->
+        <!--<columns sizable="true">-->
+        <!--<column hflex="1" label="已选择车辆" align="left"></column>-->
+        <!--</columns>-->
+        <!--<template name="model">-->
+        <!--<row onDoubleClick="@command('unSelectVehicle',entity=each)">-->
+        <!--<label value="@load(each)"/>-->
+        <!--</row>-->
+        <!--</template>-->
+        <!--<foot>-->
+        <!--<footer>-->
+        <!--<hlayout>-->
+        <!--<label value="数量:"/>-->
+        <!--<label value="@load(vm.selectedVehicleList.size())"/>-->
+        <!--</hlayout>-->
+        <!--</footer>-->
+        <!--</foot>-->
+        <!--</grid>-->
+        <!--</east>-->
+        <south sclass="c-south" style="height:55px;">
+            <div align="center" style="margin-top:10px;margin-bottom:20px">
+                <hlayout spacing="10px">
+                    <button label="确定" iconSclass="@load(iconVariable.icon_save)" tabindex="10"
+                            sclass="btn-default "
+                            onClick="@command('submit')"/>
+                    <button label="关闭" iconSclass="@load(iconVariable.icon_close)" tabindex="11"
+                            sclass="btn-default " onClick="spaceOwner.detach();"/>
+                </hlayout>
+            </div>
+        </south>
+    </borderlayout>
+</window>

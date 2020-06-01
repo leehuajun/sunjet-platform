@@ -1,0 +1,54 @@
+<!-- 系统配置 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.OperationListVM')">
+    <center sclass="form-center">
+        <vlayout width="100%" height="100%">
+            <include sclass="include" src="/views/commons/list_toolbar.zul"/>
+            <grid hflex="true" vflex="true" sclass="list-grid"
+                  model="@bind(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"/>
+                    <column hflex="1" label="排序号" align="center"/>
+                    <column hflex="2" label="操作名称" align="center"/>
+                    <column hflex="2" label="操作编码" align="center"/>
+                    <column width="60px" label="操作" align="center"/>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)">
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <label value="@bind(each.seq)"/>
+                        <label value="@bind(each.optName)"/>
+                        <label value="@bind(each.optCode)"/>
+                        <!--<div align="center" width="100%">-->
+                        <!--<span style="color:green;font-size:16px" id="update_${each.objId}" class="z-icon-edit"-->
+                        <!--tooltiptext="编辑" onClick="@command('editEntity',model=each,action='save')"/>-->
+                        <!--</div>-->
+                        <!--<include src="/views/macros/grid_toolbar.zul"/>-->
+                        <include src="/views/commons/flow_grid_toolbar.zul"/>
+                        <!--<hlayout>-->
+                        <!--<button iconSclass="@load(iconVariable.icon_edit)"-->
+                        <!--sclass="btn-default inner-button"-->
+                        <!--label="" tooltiptext="修改"-->
+                        <!--onClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)"-->
+                        <!--style="padding-left:5px;font-weight:700;font-size:14px;"/>-->
+                        <!--<button iconSclass="@load(iconVariable.icon_delete)"-->
+                        <!--sclass="btn-default inner-button" label="" tooltiptext="删除"-->
+                        <!--onClick="@command('deleteEntity',objId=each.objId)"-->
+                        <!--style="padding-left:5px;font-weight:700;font-size:14px;"/>-->
+                        <!--</hlayout>-->
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

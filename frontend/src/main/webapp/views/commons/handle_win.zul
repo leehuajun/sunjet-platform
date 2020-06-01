@@ -1,0 +1,44 @@
+<!-- 流程审批对话框 -->
+<?component name="comments" macroURI="/views/commons/comments.zul" inline="true"?>
+<window title="任务处理" border="normal" width="700px" height="400px"
+        sizable="false" visible="@load(vm.handle)" mode="modal" closable="true"
+        onClose="self.visible = false;vm.handle = !vm.handle;event.stopPropagation();"
+        position="@load(vm.window_position)">
+    <borderlayout>
+        <north sclass="c-north" height="40px"
+               style="padding-top:5px;border-bottom:1px solid #cccccc;box-shadow:none !important">
+            <div sclass="ctoolbars" hflex="1">
+                <div sclass="ctoolbar">
+                    <button sclass="btn-default" style="margin-right:5px;"
+                            label="${each}"
+                            onClick="@command('commit',outcome=self.getAttribute(&quot;outcome&quot;))"
+                            forEach="${vm.outcomes}">
+                        <custom-attributes outcome="${each}"/>
+                    </button>
+
+                </div>
+                <!--<div sclass="ctoolbar" style="float:right">-->
+                <!--<button sclass="btn-danger" iconSclass="z-icon-times"-->
+                <!--onClick="@command('showHandleForm')"/>-->
+                <!--</div>-->
+            </div>
+        </north>
+        <center sclass="c-center" hflex="1" vflex="1" style="padding:5px">
+            <vlayout hflex="1" vflex="1">
+                <grid oddRowSclass="none" hflex="1" sclass="form-grid" style="margin-top:10px">
+                    <columns>
+                        <column width="80px"></column>
+                        <column hflex="1"></column>
+                    </columns>
+                    <rows>
+                        <row style="border:none;height:50px">
+                            <label value="意见"/>
+                            <textbox hflex="1" value="@bind(vm.comment)"/>
+                        </row>
+                    </rows>
+                </grid>
+                <comments data="@load(vm.comments)"/>
+            </vlayout>
+        </center>
+    </borderlayout>
+</window>

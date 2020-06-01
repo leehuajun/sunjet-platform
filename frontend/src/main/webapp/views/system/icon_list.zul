@@ -1,0 +1,81 @@
+<!-- 图标列表 -->
+<borderlayout width="100%" height="100%" autag=""
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.IconListVM')">
+    <center sclass="form-center" autoscroll="true">
+        <!--<vlayout width="100%">-->
+        <!--<div sclass="include">-->
+        <!--<div sclass="ctoolbar">-->
+        <!--&lt;!&ndash;<button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default" label="新增"&ndash;&gt;-->
+        <!--&lt;!&ndash;onClick="@command('openForm',objId=null,url=vm.formUrl,title=vm.title)"/>&ndash;&gt;-->
+        <!--<button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default" label="刷新"-->
+        <!--onClick="@command('refreshData')"/>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div sclass="ctoolbar">-->
+        <!--<button iconSclass="@load(iconVariable.icon_refresh)" sclass="btn-default" label="刷新"-->
+        <!--onClick="@command('refreshData')"/>-->
+        <!--<div sclass="nav-search">-->
+        <!--<bandbox placeholder="输入关键字..回车搜索" sclass="input-prepend"-->
+        <!--value="@bind(vm.keyword)" onOK="@command('refreshData')"/>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div sclass="gallery">
+            <!--<forEach begin="1" end="12">-->
+            <div sclass="imageDiv" forEach="${vm.infos}">
+                <grid oddRowSclass="none">
+                    <rows>
+                        <row height="68px">
+                            <cell align="center">
+                                <span class="${each.name}"
+                                      style="color:#1c999f;font-weight:700;font-size:40px;margin:5px"/>
+                            </cell>
+                        </row>
+                        <row height="24px">
+                            <cell align="center">
+                                <label value="${each.name}"></label>
+                            </cell>
+                        </row>
+                    </rows>
+                </grid>
+            </div>
+            <!--</forEach>-->
+        </div>
+
+        <!--<grid id="gridIcon" hflex="true" vflex="true" sclass="list-grid"-->
+        <!--model="@bind(vm.pageResult.rows)">-->
+        <!--<columns sizable="true">-->
+        <!--&lt;!&ndash;<column hflex="1" label="选择"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<column hflex="3" label="标识"/>&ndash;&gt;-->
+        <!--<column width="30px" label="行号" align="center"/>-->
+        <!--<column hflex="5" label="图标名称" align="left"/>-->
+        <!--<column hflex="4" label="图标" align="left"/>-->
+        <!--&lt;!&ndash;<column width="60px" label="操作" align="center"/>&ndash;&gt;-->
+        <!--</columns>-->
+        <!--<template name="model">-->
+        <!--<row>-->
+        <!--&lt;!&ndash;<checkbox id="${each.objId}" checked="false" onCheck="@command('checkList',objId=each.objId)"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<label value="${each.objId}"/>&ndash;&gt;-->
+        <!--<label value="${forEachStatus.index+1}" sclass="label-index"/>-->
+        <!--<label value="${each.name}" style="color:rgb(78,116,149);font-weight:700"/>-->
+        <!--<span class="${each.name}" style="color:rgb(78,116,149);font-weight:700;font-size:16px"/>-->
+        <!--&lt;!&ndash;<include src="/views/macros/grid_toolbar.zul"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a style="color:green" id="update_${each.objId}" iconSclass="z-icon-edit" tooltiptext="编辑" href="#" onClick='alert(self.iconSclass)'/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a style="color:red" id="delete_${each.objId}" iconSclass="z-icon-trash-o" tooltiptext="删除" href="#" onClick='alert(self.id)'/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<image src="images/toolbar/${vm.themeName}/edit.png" onClick='alert(self.src)'/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<image src="images/toolbar/${vm.themeName}/delete.png" onClick='alert(self.src)'/>&ndash;&gt;-->
+        <!--</row>-->
+        <!--</template>-->
+        <!--</grid>-->
+        <!--<paging-->
+        <!--pageSize="@bind(vm.pageResult.pageSize)"-->
+        <!--totalSize="@bind(vm.pageResult.total)"-->
+        <!--pageIncrement="1"-->
+        <!--detailed="true"-->
+        <!--activePage="@bind(vm.pageResult.page)"-->
+        <!--onPaging="@command('gotoPageNo',e=event)"-->
+        <!--style="border:0px"-->
+        <!--/>-->
+        <!--</vlayout>-->
+    </center>
+</borderlayout>

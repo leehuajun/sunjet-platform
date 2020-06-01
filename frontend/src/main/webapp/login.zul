@@ -1,0 +1,122 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<?page title="系统登录界面" contentType="text/html;charset=UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+
+<?link href="resource/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
+<!-- Google Open Sans font -->
+<!-- Load fonts from local -->
+<?link href="resource/css/fonts.css" rel="stylesheet" type="text/css"?>
+<?link rel="shortcut icon" type="image/x-icon" href="resource/images/favicon.ico"?>
+
+<!-- Unmark if we want to use fonts from google server
+<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
+-->
+<?link href="resource/style/style.css" rel="stylesheet" type="text/css"?>
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.LoginVM')"
+              style="padding:0px;">
+
+    <center border="none" style="background:url(resource/images/login_bg.jpg);  ">
+        <vlayout>
+            <!--<window title="登陆失败" border="normal" width="300px" height="150px"-->
+            <!--sizable="false" visible="${not empty requestScope.loginFailure}" mode="modal" closable="true"-->
+            <!--onClose="requestScope.setLoginFailure(null);event.stopPropagation();"-->
+            <!--position="center,center">-->
+            <!--<borderlayout>-->
+            <!--<center sclass="c-center" hflex="1" vflex="1" style="padding:5px">-->
+            <!--<label value="登陆失败，请检查用户和密码或与系统管理员联系!" style="font-size:16px;color:red"></label>-->
+            <!--</center>-->
+            <!--</borderlayout>-->
+            <!--</window>-->
+            <hlayout>
+                <div align="left" style="padding-left: 0px; padding-top: 10px;font-size: 25px;">
+                    <image src="resource/images/logo.png" style="padding-left:20px;"/>
+                    <!--<label value="@load(vm.app_name)" sclass="login-title" style="font-size:40px"/>-->
+                </div>
+            </hlayout>
+
+            <div sclass="login">
+                <h:form action="login.zul" method="post" id="f" name="loginform" xmlns:h="native">
+                    <div sclass="logo"></div>
+                    <div sclass="login_form">
+                        <div sclass="user">
+
+                            <textbox sclass="text_value" name="username" placeholder="用户名" value=""/>
+                            <textbox sclass="text_value" name="password" placeholder="密码" type="password" value=""/>
+                        </div>
+                        <button sclass="button" id="submit" type="submit">登录</button>
+                    </div>
+
+                    <!--<div width="800px" align="center" if="${not empty requestScope.loginFailure}">-->
+                    <!--&lt;!&ndash;<div align="center" style="">&ndash;&gt;-->
+                    <!--<label value="登陆失败，请检查用户和密码或与系统管理员联系!" style="font-size:16px;color:yellow"></label>-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</div>-->
+                    <div sclass="tip" if="${not empty requestScope.loginFailure}">
+                        <!--<label value="@load(requestScope.loginFailure)" style="font-size:16px;color:yellow"></label>-->
+                        <label value="登陆失败，请检查用户和密码或与系统管理员联系!" style="font-size:16px;color:yellow"></label>
+                    </div>
+                    <div sclass="foot">
+                        <label value="@load(vm.technicalSupportandversion)"></label>
+                    </div>
+                </h:form>
+            </div>
+
+            <!--<div align="center" style="margin-top:15%;margin-left:60%;">-->
+            <!--<div style="width:280px;height:300px;background-color:rgba(127, 153, 190,0.5);">-->
+            <!--<separator spacing="5px"/>-->
+            <!--<div style="width:290px;height:40px;background-color:rgba(12, 15, 190,0.3);margin-left:-10px" align="center" >-->
+            <!--<label value="企业信息管理系统" sclass="login-title" style="font-size:24px"/>-->
+            <!--</div>-->
+            <!--<h:form id="f" name="loginform" action="login.zul" method="POST"-->
+            <!--xmlns:h="native">-->
+
+            <!--<separator spacing="35px"/>-->
+            <!--<div class="input-group" style="border-radius:0px" width="260px">-->
+            <!--<span class="input-group-addon"-->
+            <!--style="width:40px;background-image:url('resource/images/login_user.png');background-repeat:no-repeat;background-position:center"></span>-->
+            <!--<textbox name="username" class="form-control" placeholder="用户名" value="admin"/>-->
+            <!--</div>-->
+            <!--<separator spacing="30px"/>-->
+            <!--<div class="input-group" width="260px">-->
+            <!--<span class="input-group-addon"-->
+            <!--style="width:40px;background-image:url('resource/images/login_password.png');background-repeat:no-repeat;background-position:center"></span>-->
+            <!--<textbox name="password" class="form-control" placeholder="密码" value="111111" type="password"/>-->
+            <!--</div>-->
+            <!--<separator spacing="10px"/>-->
+            <!--<div class="input-group" width="260px" align="center"-->
+            <!--if="${not empty requestScope.loginFailure}" style="color:#f00">-->
+            <!--<label style="width:40px;"></label>-->
+            <!--<label style="background:#F9E7E7;margin:0 auto;">用户名或密码错误，请重新输入用户和密码!</label>-->
+
+            <!--</div>-->
+            <!--<div  style="align:center;width:400px;height:20px;">-->
+            <!--<div if="${not empty requestScope.loginFailure}"-->
+            <!--style="color:#f00;align:center;width:400px;height:50px;">-->
+            <!--&lt;!&ndash;<h:center>${requestScope.loginFailure}</h:center>&ndash;&gt;-->
+            <!--&lt;!&ndash;<h:center>登录失败，请重新输入用户和密码!</h:center>&ndash;&gt;-->
+            <!--<div align="left" style="">-->
+            <!--<label style="background:#F9E7E7;margin:0 auto;">用户名或密码错误，请重新输入用户和密码!</label>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<separator spacing="10px"/>-->
+            <!--<button   type="submit" width="280px" height="35px" label="登  录"-->
+            <!--style="font-size:22px;" sclass="btn-default" />-->
+
+            <!--</h:form>-->
+            <!--</div>-->
+
+            <!--</div>-->
+        </vlayout>
+    </center>
+    <!--<south border="none" height="30px" style="background-color:rgba( 210,224,242, 0.98);padding-bottom:5px">-->
+    <!--<div align="center" style="padding-top:5px;">-->
+    <!--<label value="@load(vm.technicalSupport)" style="font-size:14px">-->
+    <!--</label>-->
+    <!--<label value="@load(vm.app_version)" style="padding-left: 50px"></label>-->
+    <!--</div>-->
+
+    <!--</south>-->
+</borderlayout>

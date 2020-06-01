@@ -1,0 +1,10 @@
+<?page title="report" contentType="text/html;charset=UTF-8"?>
+<zk>
+    <window border="none" width="100%" height="100%" closable="true"
+            apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('com.sunjet.frontend.vm.report.printPage.asm.SupplyPrintPageVM')"
+            onClose="spaceOwner.detach();">
+        <iframe id="iframe" src="@load(vm.reportUrl)" hflex="1" vflex="1" scrolling="auto"/>
+        <!--<include src="@load(vm.reportUrl)" hflex="1" vflex="1"/>-->
+    </window>
+</zk>

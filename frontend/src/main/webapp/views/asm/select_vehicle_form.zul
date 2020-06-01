@@ -1,0 +1,76 @@
+<!-- 车辆编辑页面 -->
+<window title="请选择车辆" border="normal" width="1000px" height="550px" sclass="c-dialog"
+        sizable="false" visible="@load(vm.showSelectVehicleWin)" mode="modal" closable="true"
+        onClose="self.visible = false;vm.showSelectVehicleWin = !vm.showSelectWin;event.stopPropagation();"
+        position="@load(vm.window_position)">
+    <borderlayout>
+        <north sclass="c-north">
+            <label value="选择修改内容" style="font-weight:700"/>
+        </north>
+        <center sclass="c-center" style="border-bottom:1px solid #cccccc">
+            <vlayout hflex="1" vflex="1">
+                <textbox value="@bind(vm.keyword)" hflex="1" placeholder="输入关键字..回车搜索" sclass="input-prepend"
+                         onOK="@command('searchVehicle')"/>
+                <listbox tabindex="6" style="width:180px;border:none"
+                         model="@load(vm.vehicleEntities)"
+                         multiple="true"
+                         checkmark="true"
+                         hflex="1"
+                         vflex="1"
+                         selectedItems="@bind(vm.selectedVehicleList)"
+                >
+                    <listhead sizable="true">
+                        <!--<listheader hflex="1" label="行号" align="left"/>-->
+                        <listheader hflex="2" label="VIN" align="left"/>
+                        <listheader hflex="2" label="VSN" align="left"/>
+                        <listheader hflex="1" label="车型型号" align="left"/>
+                        <listheader hflex="2" label="车主" align="left"/>
+                        <listheader hflex="1" label="手机" align="left"/>
+                        <listheader hflex="3" label="地址" align="left"/>
+                        <!--<listheader hflex="1" label="用户地址" align="right"/>-->
+                        <listheader hflex="1" label="购车日期" align="right"/>
+                        <!--<listheader hflex="1" label="行驶里程" align="right"/>-->
+                        <!--<listheader hflex="1" label="报修日期" align="right"/>-->
+                        <!--<listheader hflex="1" label="其他" align="right"/>-->
+                    </listhead>
+                    <template name="model">
+                        <listitem label="@load(each.vin)"
+                                  value="@load(each)">
+                            <!--<listcell label=""></listcell>-->
+                            <listcell label="@load(each.vin)"></listcell>
+                            <listcell label="@load(each.vsn)"></listcell>
+                            <listcell label="@load(each.vehicleModel)"></listcell>
+                            <!--<listcell label="@load(each.engineModel)"></listcell>-->
+                            <listcell label="@load(each.ownerName)"></listcell>
+                            <listcell label="@load(each.mobile)"></listcell>
+                            <listcell label="@load(each.address)"></listcell>
+                            <!--<listcell label="@load(vm.mapOwners.get(each.vehicle.customer_id).phone)"></listcell>-->
+                            <!--<listcell label="@load(each.)"></listcell>-->
+                            <!--<listcell label=""></listcell>-->
+                            <listcell label="@load(vm.getDate(each.purchaseDate))">
+
+                            </listcell>
+
+                            <!--<listcell label="@load(each.mileage)"></listcell>-->
+                            <!--<listcell label="@load(each.vmt)"></listcell>-->
+                            <!--<listcell  label="@load(each.comment)"></listcell>-->
+
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </vlayout>
+        </center>
+        <south sclass="c-south" style="height:55px;">
+            <div align="center" style="margin-top:10px;margin-bottom:20px">
+                <hlayout spacing="10px">
+                    <button label="确定" iconSclass="@load(iconVariable.icon_save)" tabindex="7"
+                            sclass="btn-default"
+                            onClick="@command('updateSelectedVehicleList',vehicle=vm.selectedVehicleList)"/>
+                    <button label="关闭" iconSclass="@load(iconVariable.icon_close)" tabindex="9"
+                            sclass="btn-default" onClick="spaceOwner.detach();"/>
+                </hlayout>
+            </div>
+        </south>
+    </borderlayout>
+</window>

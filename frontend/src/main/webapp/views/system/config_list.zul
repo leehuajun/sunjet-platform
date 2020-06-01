@@ -1,0 +1,52 @@
+<!-- 系统配置 -->
+<borderlayout width="100%" height="100%"
+              apply="org.zkoss.bind.BindComposer"
+              viewModel="@id('vm') @init('com.sunjet.frontend.vm.system.ConfigListVM')">
+    <center sclass="form-center">
+        <vlayout width="100%" height="100%">
+            <div sclass="include">
+                <include src="/views/commons/list_toolbar.zul"/>
+                <div sclass="nav-search">
+                    <bandbox placeholder="输入关键字..回车搜索" sclass="input-prepend"
+                             value="@bind(vm.configInfo.configKey)" onOK="@command('refreshData')"/>
+                </div>
+            </div>
+            <grid hflex="true" vflex="true" sclass="list-grid"
+                  model="@load(vm.pageResult.rows)">
+                <columns sizable="true">
+                    <column width="30px" label="行号" align="center"></column>
+                    <!--<column hflex="3" label="标识" align="left" visible="false"/>-->
+                    <column width="150px" label="参数名称" align="left"/>
+                    <column width="250px" label="当前值" align="left"/>
+                    <!--<column hflex="2" label="默认值" align="left"/>-->
+                    <column hflex="1" label="描述" align="left"/>
+                    <column width="60px" label="操作" align="center"/>
+                </columns>
+                <template name="model">
+                    <row onDoubleClick="@command('openForm',objId=each.objId,url=vm.formUrl,title=vm.title)">
+                        <label value="${forEachStatus.index+1}" sclass="label-index"/>
+                        <!--<label value="${each.objId}"/>-->
+                        <label value="@bind(each.configKey)"/>
+                        <label value="@bind(each.configValue)"/>
+                        <!--<label value="@bind(each.configDefaultValue)"/>-->
+                        <label value="@bind(each.comment)"/>
+                        <!--<div align="center" width="100%">-->
+                        <!--<span style="color:green;font-size:16px" id="update_${each.objId}" class="z-icon-edit"-->
+                        <!--tooltiptext="编辑" onClick="@command('editEntity',model=each,action='save')"/>-->
+                        <!--</div>-->
+                        <include src="/views/commons/flow_grid_toolbar.zul"/>
+                    </row>
+                </template>
+            </grid>
+            <paging
+                    pageSize="@bind(vm.pageResult.pageSize)"
+                    totalSize="@bind(vm.pageResult.total)"
+                    pageIncrement="1"
+                    detailed="true"
+                    activePage="@bind(vm.pageResult.page)"
+                    onPaging="@command('gotoPageNo',e=event)"
+                    style="border:0px"
+            />
+        </vlayout>
+    </center>
+</borderlayout>

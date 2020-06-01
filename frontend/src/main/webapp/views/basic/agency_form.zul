@@ -1,0 +1,566 @@
+<!--
+基础管理 >>配件合作商 表单
+-->
+<!--<window title="合作商信息" border="normal" width="1000px" height="600px"-->
+<!--sizable="true" style="padding-top:0px;padding-left:0px;" position="center,center" closable="true"-->
+<!--viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.AgencyFormVM')"-->
+<!--onClose="spaceOwner.detach();">-->
+<zk>
+    <borderlayout viewModel="@id('vm') @init('com.sunjet.frontend.vm.basic.AgencyFormVM')" width="100%" height="100%">
+        <center sclass="form-center" hflex="true" vflex="true" autoscroll="true">
+            <vlayout height="100%">
+                <div sclass="include">
+                    <button iconSclass="@load(iconVariable.icon_add)" sclass="btn-default " label="保存"
+                            if="${vm.canModify}"
+                            onClick="@command('saveAgency')"/>
+                </div>
+                <groupbox>
+                    <grid hflex="true" sclass="form-grid" oddRowSclass="none" style="margin-bottom:10px">
+                        <columns>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="80px"/>
+                            <column hflex="1"/>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                            <column width="70px"/>
+                            <column hflex="1"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="合作商编号"></label>
+                                <textbox hflex="1" value="@bind(vm.agencyInfo.code)"
+                                         readonly="true"/>
+                                <label value="合作商名称"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.name)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="电话"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.phone)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="传真"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.fax)"
+                                         readonly="@bind(vm.readonly)"/>
+                            </row>
+                            <row>
+                                <label value="地址"></label>
+                                <!--<cell colspan="3">-->
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.address)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <!--</cell>-->
+                                <label value="所在省"></label>
+                                <textbox visible="@bind(vm.readonly)" hflex="1" readonly="true" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.provinceName)"/>
+                                <label value="市"></label>
+                                <textbox visible="@bind(vm.readonly)" hflex="1" readonly="true" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.cityName)"/>
+                                <label value="县/区"></label>
+                                <textbox visible="@bind(vm.readonly)" hflex="1" readonly="true"
+                                         value="@bind(vm.agencyInfo.countyName)"/>
+                            </row>
+                            <row>
+                                <label value="营业执照号"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.businessLicenseCode)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="纳税人识别号"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.taxpayerCode)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="开户行"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.bank)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="银行帐号"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.bankAccount)"
+                                         readonly="@bind(vm.readonly)"/>
+                            </row>
+                            <row>
+                                <label value="组织机构代码"></label>
+                                <textbox hflex="1" sclass="no_empty"
+                                         value="@bind(vm.agencyInfo.orgCode)"
+                                         readonly="@bind(vm.readonly)"/>
+                                <label value="税率"></label>
+                                <textbox value="@bind(vm.agencyInfo.taxRate)" hflex="1" sclass="no_empty"
+                                         readonly="true"></textbox>
+                                <label value="是否启用:"/>
+                                <div>
+                                    <combobox width="160px" value="@load(vm.selectEnabled eq true ? '启用':'禁用')"
+                                              readonly="true"
+                                              model="@load(vm.enableds )" selectedItem="@bind(vm.selectEnabled )">
+                                        <template name="model">
+                                            <comboitem label="@load(each eq true ? '启用':'禁用')" value="@load(each)"/>
+                                        </template>
+                                    </combobox>
+                                    <!--<listbox mold="select"-->
+                                    <!--model="@load(vm.enableds)"-->
+                                    <!--hflex="1"-->
+                                    <!--selectedItem="@bind(vm.selectEnabled)">-->
+                                    <!--<template name="model">-->
+                                    <!--<listitem label="@load(each)"-->
+                                    <!--value="@load(each)"-->
+                                    <!--&gt;</listitem>-->
+                                    <!--</template>-->
+                                    <!--</listbox>-->
+                                    <!--<textbox hflex="1" value="@bind(vm.dealer.serviceManager.name)"/>-->
+                                </div>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <tabbox sclass="ntabbox" hflex="true" vflex="true">
+                    <tabs>
+                        <tab label="人员信息"/>
+                        <tab label="场地信息(平方米)"/>
+                        <tab label="资质信息"/>
+                        <tab label="图片信息(附件)"/>
+                    </tabs>
+                    <tabpanels style="border-bottom:1px solid green">
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="true" sclass="form-grid" style="margin:5px;padding:5px">
+                                <columns>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="80px"></column>
+                                    <column hflex="1"></column>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="法人代表"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.legalPerson)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="法人电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.legalPersonPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="店长"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.shopManager)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="店长电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.shopManagerPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+
+                                    </row>
+                                    <row>
+                                        <label value="技术主管"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.technicalDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="技术主管电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.technicalDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="计划主管"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.planDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="计划主管电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.planDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+
+                                    </row>
+                                    <row>
+                                        <label value="配件主管"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.partDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="配件主管电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.partDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="财务经理"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.financeDirector)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="财务经理电话"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.financeDirectorPhone)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row>
+                                        <label value="员工总数(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.employeeCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="接待员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.receptionistCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="物流员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.logisticsClerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="库管员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.storeKeeperCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row>
+                                        <label value="开票制单员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.invoiceClerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="结算员(名)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.clerkCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="true" sclass="form-grid" style="margin:5px;padding:5px;">
+                                <columns>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                    <column width="100px"></column>
+                                    <column hflex="1"></column>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="办公室面积(m2)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.officeArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="配件库房面积(m2)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.storageArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="接待室面积(m2)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.receptionArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="液压叉车(台)"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.forkliftCount)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row>
+                                        <label value="料架数量"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.shelfArea)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                        <label value="库房结构"></label>
+                                        <textbox hflex="1" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.buildingStructure)"
+                                                 readonly="@bind(vm.readonly)"/>
+                                    </row>
+                                    <row>
+                                        <cell colspan="1">
+                                            <label value="拟供应我公司产品系列*"></label>
+                                        </cell>
+                                        <cell colspan="3">
+                                            <textbox hflex="1"
+                                                     readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                     value="@bind(vm.agencyInfo.productsOfSupply)"/>
+                                        </cell>
+                                        <cell colspan="1">
+                                            <label value="还兼做哪些品牌的配件"></label>
+                                        </cell>
+                                        <cell colspan="3">
+                                            <textbox hflex="1"
+                                                     readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                     value="@bind(vm.agencyInfo.otherBrand)"/>
+                                        </cell>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <columns>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="100px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="100px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="100px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="名称" align="left"/>
+                                    <column width="100px" label="图片" align="center"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="1" sclass="label-index"/>
+                                        <label value="维修资质"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileQualification))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileQualification)"/>
+
+                                        <label value="4" sclass="label-index"/>
+                                        <label value="企业组织架构及设置书"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileOrgChart))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileOrgChart)"/>
+                                        <label value="7" sclass="label-index"/>
+                                        <label value="营业执照"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileBusinessLicense))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileBusinessLicense)"/>
+                                        <label value="10" sclass="label-index"/>
+                                        <label value="合作商全貌图片"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileGlobal))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileGlobal)"/>
+
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="2" sclass="label-index"/>
+                                        <label value="税务登记证"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileTaxCertificate))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileTaxCertificate)"/>
+
+                                        <label value="5" sclass="label-index"/>
+                                        <label value="办公区图片"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileOffice))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileOffice)"/>
+
+                                        <label value="8" sclass="label-index"/>
+                                        <label value="银行开户许可证"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileBankAccountOpeningPermit))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileBankAccountOpeningPermit)"/>
+
+                                        <label value="11" sclass="label-index"/>
+                                        <label value="接待室图片"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileReceptionOffice))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileReceptionOffice)"/>
+
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="3" sclass="label-index"/>
+                                        <label value="开票信息"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileInvoiceInfo))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileInvoiceInfo)"/>
+
+                                        <label value="6" sclass="label-index"/>
+                                        <label value="配件库房图片"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.filePartStoreage))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.filePartStoreage)"/>
+
+                                        <label value="9" sclass="label-index"/>
+                                        <label value="人员登记证书"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.filePersonnelCertificate))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.filePersonnelCertificate)"/>
+
+                                        <label value="12" sclass="label-index"/>
+                                        <label value="地图位置"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileMap))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileMap)"/>
+
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                        <tabpanel>
+                            <grid oddRowSclass="none" hflex="1" sclass="list-grid">
+                                <columns>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="设备名称" align="left"/>
+                                    <column width="60px" label="要求数量" align="center"/>
+                                    <column width="60px" label="实际数量" align="center"/>
+                                    <column width="60px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="设备名称" align="left"/>
+                                    <column width="60px" label="要求数量" align="center"/>
+                                    <column width="60px" label="实际数量" align="center"/>
+                                    <column width="60px" label="图片" align="center"/>
+                                    <column width="30px" label="序号" align="center"/>
+                                    <column hflex="1" label="设备名称" align="left"/>
+                                    <column width="60px" label="要求数量" align="center"/>
+                                    <column width="60px" label="实际数量" align="center"/>
+                                    <column width="60px" label="图片" align="center"/>
+                                </columns>
+                                <rows>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="1" sclass="label-index"/>
+                                        <label value="标准货架(1700*800*200)"/>
+                                        <label value="10" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.shelfCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileShelf))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileShelf)"/>
+
+                                        <label value="6" sclass="label-index"/>
+                                        <label value="定制货柜"/>
+                                        <label value="3" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.containerCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileContainer))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileContainer)"/>
+
+                                        <label value="10" sclass="label-index"/>
+                                        <label value="电脑(有网络)"/>
+                                        <label value="2" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.computerCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileComputer))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileComputer)"/>
+
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="2" sclass="label-index"/>
+                                        <label value="登高车(1200*600*1500)"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.ladderTruckCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileLadderTruck))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileLadderTruck)"/>
+
+                                        <label value="7" sclass="label-index"/>
+                                        <label value="堆高车"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.forkTruckCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileForkTruck))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileForkTruck)"/>
+
+                                        <label value="11" sclass="label-index"/>
+                                        <label value="电话"/>
+                                        <label value="2" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.telephoneCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileTelephone))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileTelephone)"/>
+
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="3" sclass="label-index"/>
+                                        <label value="小件容器(300*200*150)"/>
+                                        <label value="10" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.littleContainerCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileLittleContainer))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileLittleContainer)"/>
+
+                                        <label value="8" sclass="label-index"/>
+                                        <label value="零件铭牌"/>
+                                        <label value="400" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.partNameplateCount)"/>
+                                        <div></div>
+
+                                        <label value="12" sclass="label-index"/>
+                                        <label value="传真"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.faxCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileFax))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileFax)"/>
+
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+                                        <label value="4" sclass="label-index"/>
+                                        <label value="手动打包机"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.packerCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.filePacker))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.filePacker)"/>
+
+                                        <label value="9" sclass="label-index"/>
+                                        <label value="货物标签卡"/>
+                                        <label value="1000" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.tagCardCount)"/>
+                                        <div align="left">
+                                        </div>
+                                        <label value="13" sclass="label-index"/>
+                                        <label value="数码相机"/>
+                                        <label value="1" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.cameraCount)"/>
+                                        <a target="_blank"
+                                           href="@load(vm.getFilePath(vm.agencyInfo.fileCamera))"
+                                           label="查看"
+                                           visible="@bind(not empty vm.agencyInfo.fileCamera)"/>
+
+                                    </row>
+                                    <row style="border-bottom:1px solid rgb(240,240,240)">
+
+                                        <label value="5" sclass="label-index"/>
+                                        <label value="库房灯光"/>
+                                        <label value="6" sclass="label-require"/>
+                                        <textbox hflex="1" readonly="@bind(vm.readonly)" sclass="no_empty"
+                                                 value="@bind(vm.agencyInfo.storeLampCount)"/>
+                                        <div align="left">
+                                        </div>
+                                        <label value="" sclass="label-index"/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                        <label value=""/>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </vlayout>
+        </center>
+    </borderlayout>
+    <!--</window>-->
+</zk>
